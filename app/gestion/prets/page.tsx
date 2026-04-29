@@ -29,7 +29,7 @@ export default async function Page() {
     }),
   ]);
 
-  const pretsFormatted = prets.map((p) => ({
+  const pretsFormatted = prets.map((p: (typeof prets)[number]) => ({
     id: p.id,
     emprunteur: p.emprunteur,
     dateDebut: p.dateDebut.toISOString(),
