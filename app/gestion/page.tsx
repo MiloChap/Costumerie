@@ -1,7 +1,7 @@
-import { auth } from "@/auth"
-import { prisma } from "@/lib/db"
-import { redirect } from "next/navigation"
-import GestionPage from "@/app/components/GestionPage"
+import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
+import { redirect } from "next/navigation";
+import GestionPage from "@/app/components/GestionPage";
 
 const EPOQUE_LABELS: Record<string, string> = {
   AVANT_1900: "Avant 1900",
@@ -18,7 +18,7 @@ const EPOQUE_LABELS: Record<string, string> = {
   E2000_2010: "2000 – 2010",
   E2010_2020: "2010 – 2020",
   E2020_PRESENT: "2020 – présent",
-}
+};
 
 const ETAT_LABELS: Record<string, string> = {
   NEUF: "NEUF",
@@ -26,11 +26,11 @@ const ETAT_LABELS: Record<string, string> = {
   USE: "USÉ",
   A_REPARER: "À RÉPARER",
   A_NETTOYER: "À NETTOYER",
-}
+};
 
 export default async function Page() {
-  const session = await auth()
-  if (!session) redirect("/login")
+  const session = await auth();
+  if (!session) redirect("/login");
 
   const [costumes, proprietaires, stats] = await Promise.all([
     prisma.costume.findMany({
@@ -43,12 +43,12 @@ export default async function Page() {
       prisma.costume.aggregate({ _sum: { quantiteDispo: true } }),
       prisma.pret.count({ where: { statut: "EN_COURS" } }),
     ]),
-  ])
+  ]);
 
-  const [totalCostumes, dispoAgg, pretsEnCours] = stats
-  const totalDispo = dispoAgg._sum.quantiteDispo ?? 0
+  const [totalCostumes, dispoAgg, pretsEnCours] = stats;
+  const totalDispo = dispoAgg._sum.quantiteDispo ?? 0;
 
-  const costumesFormatted = costumes.map((c) => ({
+  const costumesFormatted = costumes.map((c: (typeof costumes)[number]) => ({
     id: c.id,
     nom: c.nom,
     epoque: EPOQUE_LABELS[c.epoque] ?? c.epoque,
@@ -61,7 +61,7 @@ export default async function Page() {
     proprietaire: c.proprietaire.nom,
     proprietaireId: c.proprietaire.id,
     emplacement: c.emplacement ?? undefined,
-  }))
+  }));
 
   return (
     <GestionPage
@@ -73,5 +73,5 @@ export default async function Page() {
       utilisateurNom={session.user?.name ?? "Utilisateur"}
       estAdmin={session.user?.role === "ADMIN"}
     />
-  )
+  );
 }
