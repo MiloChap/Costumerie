@@ -17,6 +17,7 @@ export async function PATCH(
     data: {
       nom: body.nom,
       epoque: body.epoque,
+      description: body.description || null,
       taille: body.taille,
       couleur: body.couleur,
       etat: body.etat,

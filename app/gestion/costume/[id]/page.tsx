@@ -33,6 +33,7 @@ export default async function Page({
     quantiteTotal: costume.quantiteTotal,
     quantiteDispo: costume.quantiteDispo,
     emplacement: costume.emplacement ?? undefined,
+    description: costume.description ?? undefined,
     imageUrl: costume.imageUrl ?? undefined,
     proprietaireId: costume.proprietaireId,
   };
