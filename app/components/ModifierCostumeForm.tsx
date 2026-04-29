@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { useState, type ChangeEvent, type FormEvent } from "react"
+import { useRouter } from "next/navigation";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 
 const EPOQUES = [
   { value: "AVANT_1900", label: "Avant 1900" },
@@ -18,7 +18,7 @@ const EPOQUES = [
   { value: "E2000_2010", label: "2000 – 2010" },
   { value: "E2010_2020", label: "2010 – 2020" },
   { value: "E2020_PRESENT", label: "2020 – aujourd'hui" },
-] as const
+] as const;
 
 const ETATS = [
   { value: "NEUF", label: "Neuf" },
@@ -26,108 +26,124 @@ const ETATS = [
   { value: "USE", label: "Usé" },
   { value: "A_REPARER", label: "À réparer" },
   { value: "HORS_SERVICE", label: "Hors service" },
-] as const
+] as const;
 
 export interface ModifierCostumeFormProps {
   costume: {
-    id: string
-    nom: string
-    epoque: string
-    taille: string
-    couleur: string
-    etat: string
-    quantiteTotal: number
-    quantiteDispo: number
-    emplacement?: string
-    description?: string
-    imageUrl?: string
-    proprietaireId: string
-  }
-  proprietaires: { id: string; nom: string }[]
+    id: string;
+    nom: string;
+    epoque: string;
+    taille: string;
+    couleur: string;
+    etat: string;
+    quantiteTotal: number;
+    quantiteDispo: number;
+    emplacement?: string;
+    description?: string;
+    imageUrl?: string;
+    proprietaireId: string;
+  };
+  proprietaires: { id: string; nom: string }[];
 }
 
 export default function ModifierCostumeForm({
   costume,
   proprietaires,
 }: ModifierCostumeFormProps) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [nom, setNom] = useState<string>(costume.nom)
-  const [epoque, setEpoque] = useState<string>(costume.epoque)
-  const [taille, setTaille] = useState<string>(costume.taille)
-  const [couleur, setCouleur] = useState<string>(costume.couleur)
-  const [etat, setEtat] = useState<string>(costume.etat)
-  const [quantiteTotal, setQuantiteTotal] = useState<number>(costume.quantiteTotal)
-  const [quantiteDispo, setQuantiteDispo] = useState<number>(costume.quantiteDispo)
-  const [emplacement, setEmplacement] = useState<string>(costume.emplacement ?? "")
-  const [description, setDescription] = useState<string>(costume.description ?? "")
-  const [proprietaireId, setProprietaireId] = useState<string>(costume.proprietaireId)
+  const [nom, setNom] = useState<string>(costume.nom);
+  const [epoque, setEpoque] = useState<string>(costume.epoque);
+  const [taille, setTaille] = useState<string>(costume.taille);
+  const [couleur, setCouleur] = useState<string>(costume.couleur);
+  const [etat, setEtat] = useState<string>(costume.etat);
+  const [quantiteTotal, setQuantiteTotal] = useState<number>(
+    costume.quantiteTotal,
+  );
+  const [quantiteDispo, setQuantiteDispo] = useState<number>(
+    costume.quantiteDispo,
+  );
+  const [emplacement, setEmplacement] = useState<string>(
+    costume.emplacement ?? "",
+  );
+  const [description, setDescription] = useState<string>(
+    costume.description ?? "",
+  );
+  const [proprietaireId, setProprietaireId] = useState<string>(
+    costume.proprietaireId,
+  );
 
-  const [photoSupprimee, setPhotoSupprimee] = useState<boolean>(false)
-  const [nouvelleImageFile, setNouvelleImageFile] = useState<File | null>(null)
-  const [nouvelleImagePreview, setNouvelleImagePreview] = useState<string | null>(null)
+  const [photoSupprimee, setPhotoSupprimee] = useState<boolean>(false);
+  const [nouvelleImageFile, setNouvelleImageFile] = useState<File | null>(null);
+  const [nouvelleImagePreview, setNouvelleImagePreview] = useState<
+    string | null
+  >(null);
 
-  const [submitting, setSubmitting] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const photoActuelleVisible =
-    !!costume.imageUrl && !photoSupprimee && !nouvelleImagePreview
+    !!costume.imageUrl && !photoSupprimee && !nouvelleImagePreview;
 
   const handleQuantiteTotalChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const v = Math.max(1, Number(e.target.value) || 1)
-    setQuantiteTotal(v)
-    if (quantiteDispo > v) setQuantiteDispo(v)
-  }
+    const v = Math.max(1, Number(e.target.value) || 1);
+    setQuantiteTotal(v);
+    if (quantiteDispo > v) setQuantiteDispo(v);
+  };
 
   const handleQuantiteDispoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const v = Math.max(0, Number(e.target.value) || 0)
-    setQuantiteDispo(Math.min(v, quantiteTotal))
-  }
+    const v = Math.max(0, Number(e.target.value) || 0);
+    setQuantiteDispo(Math.min(v, quantiteTotal));
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null
-    setNouvelleImageFile(file)
-    if (nouvelleImagePreview) URL.revokeObjectURL(nouvelleImagePreview)
-    setNouvelleImagePreview(file ? URL.createObjectURL(file) : null)
-    if (file) setPhotoSupprimee(false)
-  }
+    const file = e.target.files?.[0] ?? null;
+    setNouvelleImageFile(file);
+    if (nouvelleImagePreview) URL.revokeObjectURL(nouvelleImagePreview);
+    setNouvelleImagePreview(file ? URL.createObjectURL(file) : null);
+    if (file) setPhotoSupprimee(false);
+  };
 
   const handleSupprimerPhotoActuelle = () => {
-    setPhotoSupprimee(true)
-  }
+    setPhotoSupprimee(true);
+  };
 
   const handleAnnulerNouvellePhoto = () => {
-    setNouvelleImageFile(null)
-    if (nouvelleImagePreview) URL.revokeObjectURL(nouvelleImagePreview)
-    setNouvelleImagePreview(null)
-  }
+    setNouvelleImageFile(null);
+    if (nouvelleImagePreview) URL.revokeObjectURL(nouvelleImagePreview);
+    setNouvelleImagePreview(null);
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
     if (quantiteDispo > quantiteTotal) {
-      setError("La quantité disponible ne peut pas dépasser la quantité totale.")
-      return
+      setError(
+        "La quantité disponible ne peut pas dépasser la quantité totale.",
+      );
+      return;
     }
 
-    setSubmitting(true)
+    setSubmitting(true);
     try {
-      let nouvelleImageUrl: string | null | undefined = undefined
+      let nouvelleImageUrl: string | null | undefined = undefined;
 
       if (nouvelleImageFile) {
-        const formData = new FormData()
-        formData.append("file", nouvelleImageFile)
+        const formData = new FormData();
+        formData.append("file", nouvelleImageFile);
         const uploadRes = await fetch("/api/upload", {
           method: "POST",
           body: formData,
-        })
+        });
         if (!uploadRes.ok) {
-          const data = (await uploadRes.json().catch(() => ({}))) as { error?: string }
-          throw new Error(data.error ?? "Échec de l'upload de la photo.")
+          const data = (await uploadRes.json().catch(() => ({}))) as {
+            error?: string;
+          };
+          throw new Error(data.error ?? "Échec de l'upload de la photo.");
         }
-        const data = (await uploadRes.json()) as { url: string }
-        nouvelleImageUrl = data.url
+        const data = (await uploadRes.json()) as { url: string };
+        nouvelleImageUrl = data.url;
       }
 
       const imageUrlPayload =
@@ -135,7 +151,7 @@ export default function ModifierCostumeForm({
           ? nouvelleImageUrl
           : photoSupprimee
             ? null
-            : undefined
+            : undefined;
 
       const res = await fetch(`/api/costumes/${costume.id}`, {
         method: "PATCH",
@@ -153,24 +169,24 @@ export default function ModifierCostumeForm({
           description: description || undefined,
           imageUrl: imageUrlPayload,
         }),
-      })
+      });
 
       if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as { error?: string }
-        throw new Error(data.error ?? "Échec de la modification du costume.")
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(data.error ?? "Échec de la modification du costume.");
       }
 
-      router.push("/gestion")
+      router.push("/gestion");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue.")
+      setError(err instanceof Error ? err.message : "Une erreur est survenue.");
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const handleAnnuler = () => {
-    router.push("/gestion")
-  }
+    router.push("/gestion");
+  };
 
   return (
     <form
@@ -182,7 +198,8 @@ export default function ModifierCostumeForm({
           Modifier le costume
         </h1>
         <p className="text-sm text-slate-500">
-          Mettez à jour les informations du costume puis enregistrez les modifications.
+          Mettez à jour les informations du costume puis enregistrez les
+          modifications.
         </p>
       </header>
 
@@ -197,7 +214,10 @@ export default function ModifierCostumeForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label htmlFor="nom" className="mb-1 block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="nom"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
             Nom <span className="text-red-500">*</span>
           </label>
           <input
@@ -211,7 +231,10 @@ export default function ModifierCostumeForm({
         </div>
 
         <div>
-          <label htmlFor="epoque" className="mb-1 block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="epoque"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
             Époque <span className="text-red-500">*</span>
           </label>
           <select
@@ -230,7 +253,10 @@ export default function ModifierCostumeForm({
         </div>
 
         <div>
-          <label htmlFor="etat" className="mb-1 block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="etat"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
             État <span className="text-red-500">*</span>
           </label>
           <select
@@ -249,7 +275,10 @@ export default function ModifierCostumeForm({
         </div>
 
         <div>
-          <label htmlFor="taille" className="mb-1 block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="taille"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
             Taille <span className="text-red-500">*</span>
           </label>
           <input
@@ -263,7 +292,10 @@ export default function ModifierCostumeForm({
         </div>
 
         <div>
-          <label htmlFor="couleur" className="mb-1 block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="couleur"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
             Couleur <span className="text-red-500">*</span>
           </label>
           <input
@@ -373,7 +405,9 @@ export default function ModifierCostumeForm({
         </div>
 
         <div className="sm:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-slate-700">Photo</span>
+          <span className="mb-2 block text-sm font-medium text-slate-700">
+            Photo
+          </span>
 
           {photoActuelleVisible && costume.imageUrl && (
             <div className="mb-3 flex items-start gap-4">
@@ -394,7 +428,7 @@ export default function ModifierCostumeForm({
 
           {photoSupprimee && !nouvelleImagePreview && (
             <p className="mb-3 text-sm text-amber-700">
-              La photo actuelle sera supprimée à l'enregistrement.{" "}
+              La photo actuelle sera supprimée à l&apos;enregistrement.{" "}
               <button
                 type="button"
                 onClick={() => setPhotoSupprimee(false)}
@@ -453,5 +487,5 @@ export default function ModifierCostumeForm({
         </button>
       </div>
     </form>
-  )
+  );
 }
