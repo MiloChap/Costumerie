@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import { NextResponse } from "next/server"
-import { Epoque, Etat } from "@prisma/client"
+// Supprimer l'import Epoque, Etat
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -12,10 +12,10 @@ export async function POST(req: Request) {
   const costume = await prisma.costume.create({
     data: {
       nom: body.nom,
-      epoque: body.epoque as Epoque,
+      epoque: body.epoque,
       taille: body.taille,
       couleur: body.couleur,
-      etat: body.etat as Etat,
+      etat: body.etat,
       quantiteTotal: Number(body.quantiteTotal),
       quantiteDispo: Number(body.quantiteTotal),
       emplacement: body.emplacement || null,

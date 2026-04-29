@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import { NextResponse } from "next/server"
-import { Epoque, Etat } from "@prisma/client"
+// Supprimer l'import Epoque, Etat
 
 export async function PATCH(
   req: Request,
@@ -17,10 +17,10 @@ export async function PATCH(
     where: { id },
     data: {
       nom: body.nom,
-      epoque: body.epoque as Epoque,
+      epoque: body.epoque,
       taille: body.taille,
       couleur: body.couleur,
-      etat: body.etat as Etat,
+      etat: body.etat,
       quantiteTotal: Number(body.quantiteTotal),
       emplacement: body.emplacement || null,
       imageUrl: body.imageUrl !== undefined ? body.imageUrl : undefined,
