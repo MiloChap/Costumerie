@@ -1,25 +1,27 @@
-import { auth } from "@/auth"
-import { prisma } from "@/lib/db"
-import { redirect, notFound } from "next/navigation"
-import ModifierCostumeForm from "@/app/components/ModifierCostumeForm"
+import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
+import { redirect, notFound } from "next/navigation";
+import ModifierCostumeForm from "@/app/components/ModifierCostumeForm";
 
 export default async function Page({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>;
 }) {
-  const session = await auth()
-  if (!session) redirect("/login")
+  const session = await auth();
+  if (!session) redirect("/login");
+
+  const { id } = await params;
 
   const [costume, proprietaires] = await Promise.all([
     prisma.costume.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { proprietaire: true },
     }),
     prisma.proprietaire.findMany({ orderBy: { nom: "asc" } }),
-  ])
+  ]);
 
-  if (!costume) notFound()
+  if (!costume) notFound();
 
   const costumeFormatted = {
     id: costume.id,
@@ -33,14 +35,14 @@ export default async function Page({
     emplacement: costume.emplacement ?? undefined,
     imageUrl: costume.imageUrl ?? undefined,
     proprietaireId: costume.proprietaireId,
-  }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="border-b border-slate-200 bg-white px-6 py-4">
         <div className="mx-auto flex max-w-3xl items-center gap-4">
-          
-            <a href="/gestion"
+          <a
+            href="/gestion"
             className="text-sm text-slate-500 hover:text-slate-700"
           >
             ← Retour au stock
@@ -58,5 +60,5 @@ export default async function Page({
         />
       </main>
     </div>
-  )
+  );
 }

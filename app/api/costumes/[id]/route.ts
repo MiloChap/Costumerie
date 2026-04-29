@@ -5,15 +5,16 @@ import { Epoque, Etat } from "@prisma/client"
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
+  const { id } = await params
   const body = await req.json()
 
   const costume = await prisma.costume.update({
-    where: { id: params.id },
+    where: { id },
     data: {
       nom: body.nom,
       epoque: body.epoque as Epoque,
@@ -32,7 +33,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
@@ -40,8 +41,10 @@ export async function DELETE(
     return NextResponse.json({ error: "Interdit" }, { status: 403 })
   }
 
+  const { id } = await params
+
   const pretsEnCours = await prisma.pret.count({
-    where: { costumeId: params.id, statut: "EN_COURS" },
+    where: { costumeId: id, statut: "EN_COURS" },
   })
 
   if (pretsEnCours > 0) {
@@ -51,6 +54,6 @@ export async function DELETE(
     )
   }
 
-  await prisma.costume.delete({ where: { id: params.id } })
+  await prisma.costume.delete({ where: { id } })
   return NextResponse.json({ success: true })
 }

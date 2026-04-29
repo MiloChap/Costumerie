@@ -5,13 +5,15 @@ import { NextResponse } from "next/server"
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
+  const { id } = await params
+
   const costume = await prisma.costume.findUnique({
-    where: { id: params.id },
+    where: { id },
     select: { imageUrl: true },
   })
 

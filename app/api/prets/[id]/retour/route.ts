@@ -4,13 +4,15 @@ import { NextResponse } from "next/server"
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
+  const { id } = await params
+  
   const pret = await prisma.pret.findUnique({
-    where: { id: params.id },
+    where: { id },
   })
 
   if (!pret) return NextResponse.json({ error: "Prêt introuvable" }, { status: 404 })
@@ -18,7 +20,7 @@ export async function PATCH(
 
   const pretMisAJour = await prisma.$transaction(async (tx) => {
     const updated = await tx.pret.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         statut: "RENDU",
         dateRetourReelle: new Date(),
