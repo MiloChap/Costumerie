@@ -1,0 +1,3 @@
+ETAT : ajouter "à nettoyer" en plus des autres / supprimer "hors-service" FAIT
+responsive telephone (fiche produit qui se decale en dessous du bloc filtre) (pas necessaire pour l instant)
+soucis dans le decompte des produits, j en vois 9 de disponible alors que j ai 5 articles / c'est normal (décompte produit unique total costumes/ total doublons)
