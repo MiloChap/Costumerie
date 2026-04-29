@@ -19,7 +19,8 @@ export async function DELETE(
 
   if (pret.statut === "EN_COURS") {
     // Réincrémenter la dispo si le prêt était en cours
-    await prisma.$transaction(async (tx) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await prisma.$transaction(async (tx: any) => {
       await tx.pret.delete({ where: { id } })
       await tx.costume.update({
         where: { id: pret.costumeId },
