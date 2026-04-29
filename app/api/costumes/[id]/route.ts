@@ -22,6 +22,7 @@ export async function PATCH(
       couleur: body.couleur,
       etat: body.etat,
       quantiteTotal: Number(body.quantiteTotal),
+      quantiteDispo: Number(body.quantiteDispo),
       emplacement: body.emplacement || null,
       imageUrl: body.imageUrl !== undefined ? body.imageUrl : undefined,
       proprietaireId: body.proprietaireId,
