@@ -1,34 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData(e.currentTarget);
 
     const result = await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: false,
-    })
+    });
 
-    console.log("result:", result) // ← ici
+    console.log("result:", result); // ← ici
 
     if (result?.error) {
-      setError("Email ou mot de passe incorrect")
-      setLoading(false)
+      setError("Email ou mot de passe incorrect");
+      setLoading(false);
     } else {
-      router.push("/gestion")
+      router.push("/gestion");
     }
   }
 
@@ -48,7 +48,7 @@ export default function LoginPage() {
               name="email"
               type="email"
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
             />
           </div>
 
@@ -60,13 +60,11 @@ export default function LoginPage() {
               name="password"
               type="password"
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
             />
           </div>
 
-          {error && (
-            <p className="text-red-500 text-sm text-center">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
           <button
             type="submit"
@@ -78,5 +76,5 @@ export default function LoginPage() {
         </form>
       </div>
     </main>
-  )
+  );
 }
