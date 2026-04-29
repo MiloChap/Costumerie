@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client"
-import { Epoque, Etat } from "@prisma/client"
+import { PrismaClient } from "../generated/prisma"
+import { Epoque, Etat } from "../generated/prisma"
 import { PrismaNeon } from "@prisma/adapter-neon"
 import bcrypt from "bcryptjs"
 
