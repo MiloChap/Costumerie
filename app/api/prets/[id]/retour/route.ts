@@ -10,7 +10,7 @@ export async function PATCH(
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const { id } = await params
-  
+
   const pret = await prisma.pret.findUnique({
     where: { id },
   })
@@ -18,7 +18,8 @@ export async function PATCH(
   if (!pret) return NextResponse.json({ error: "Prêt introuvable" }, { status: 404 })
   if (pret.statut === "RENDU") return NextResponse.json({ error: "Déjà rendu" }, { status: 409 })
 
-  const pretMisAJour = await prisma.$transaction(async (tx) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pretMisAJour = await prisma.$transaction(async (tx: any) => {
     const updated = await tx.pret.update({
       where: { id },
       data: {

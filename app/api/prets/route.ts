@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Aucune unité disponible" }, { status: 409 })
   }
 
-  const pret = await prisma.$transaction(async (tx) => {
+  const pret = await prisma.$transaction(async (tx: any) => {
     const nouveauPret = await tx.pret.create({
       data: {
         costumeId: body.costumeId,
