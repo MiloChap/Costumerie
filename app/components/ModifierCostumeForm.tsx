@@ -44,6 +44,8 @@ interface NouvellePhoto {
 }
 
 export interface ModifierCostumeFormProps {
+  onSuccess?: () => void;
+  onCancel?: () => void;
   costume: {
     id: string;
     nom: string;
@@ -65,6 +67,8 @@ export interface ModifierCostumeFormProps {
 export default function ModifierCostumeForm({
   costume,
   proprietaires,
+  onSuccess,
+  onCancel,
 }: ModifierCostumeFormProps) {
   const router = useRouter();
 
@@ -180,7 +184,7 @@ export default function ModifierCostumeForm({
       }
 
       nouvellesPhotos.forEach((p) => URL.revokeObjectURL(p.previewUrl));
-      router.push("/gestion");
+      if (onSuccess) onSuccess(); else router.push("/gestion");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
     } finally {
@@ -366,7 +370,7 @@ export default function ModifierCostumeForm({
       <div className="flex flex-col-reverse gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:justify-end">
         <button
           type="button"
-          onClick={() => router.push("/gestion")}
+          onClick={() => onCancel ? onCancel() : router.push("/gestion")}
           disabled={submitting}
           className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
         >

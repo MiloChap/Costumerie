@@ -252,6 +252,15 @@ export default function CataloguePage() {
         />
       )}
 
+      {/* Footer */}
+      <footer className="mt-10 border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+        <a href="/mentions-legales" className="hover:text-[#e21713] transition">
+          Mentions légales & Politique de confidentialité
+        </a>
+        {" · "}
+        <span>© {new Date().getFullYear()} L&apos;Équipe Costumes</span>
+      </footer>
+
       {/* Modal réservation */}
       {reserverCostume && (
         <ReservationModal

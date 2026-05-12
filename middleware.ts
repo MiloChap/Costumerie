@@ -6,7 +6,7 @@ export default auth((req) => {
   console.log("middleware auth:", req.auth)
 
   const isLoggedIn = !!req.auth
-  const publicPaths = ["/login", "/forgot-password", "/reset-password", "/catalogue"]
+  const publicPaths = ["/login", "/forgot-password", "/reset-password", "/catalogue", "/mentions-legales"]
   const publicApiPrefixes = ["/api/catalogue", "/api/reservation", "/api/images"]
 
   const isPublicPage = publicPaths.some(

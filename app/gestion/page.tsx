@@ -62,12 +62,15 @@ export default async function Page() {
     etat: ETAT_LABELS[c.etat] ?? c.etat,
     imageUrl: c.images[0]?.url ?? undefined,
     imageIds: c.images.map((img) => img.id),
+    images: c.images.map((img) => ({ id: img.id, url: img.url, ordre: img.ordre })),
     description: c.description ?? undefined,
     quantiteDispo: c.quantiteDispo,
     quantiteTotal: c.quantiteTotal,
     proprietaire: c.proprietaire.nom,
     proprietaireId: c.proprietaire.id,
     emplacement: c.emplacement ?? undefined,
+    epoqueEnum: c.epoque as string,
+    etatEnum: c.etat as string,
   }));
 
   return (

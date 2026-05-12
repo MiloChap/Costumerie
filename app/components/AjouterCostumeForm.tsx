@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 
 interface AjouterCostumeFormProps {
   proprietaires: { id: string; nom: string }[];
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
 type Epoque =
@@ -83,6 +85,8 @@ const sectionTitleClass =
 
 export default function AjouterCostumeForm({
   proprietaires,
+  onSuccess,
+  onCancel,
 }: AjouterCostumeFormProps) {
   const [nom, setNom] = useState("");
   const [epoque, setEpoque] = useState<Epoque | "">("");
@@ -193,7 +197,7 @@ export default function AjouterCostumeForm({
       }
 
       photos.forEach((p) => URL.revokeObjectURL(p.previewUrl));
-      router.push("/gestion");
+      if (onSuccess) onSuccess(); else router.push("/gestion");
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Une erreur est survenue";
@@ -472,7 +476,7 @@ export default function AjouterCostumeForm({
       <div className="flex items-center justify-end gap-3 border-t border-slate-200 pt-6">
         <button
           type="button"
-          onClick={() => router.push("/gestion")}
+          onClick={() => onCancel ? onCancel() : router.push("/gestion")}
           disabled={loading}
           className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
         >

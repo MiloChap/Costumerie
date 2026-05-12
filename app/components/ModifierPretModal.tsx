@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Pret } from "@/app/components/PretsPage";
 
@@ -21,6 +21,10 @@ export default function ModifierPretModal({
   const [notes, setNotes] = useState<string>(pret.notes ?? "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  const handleClose = () => { setVisible(false); setTimeout(onFermer, 150) };
+  useEffect(() => { requestAnimationFrame(() => setVisible(true)) }, []);
 
   const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault();
@@ -61,8 +65,8 @@ export default function ModifierPretModal({
 
   const content = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-      onClick={onFermer}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 transition-opacity duration-150 ${visible ? "opacity-100" : "opacity-0"}`}
+      onClick={handleClose}
     >
       <div
         className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
@@ -77,7 +81,7 @@ export default function ModifierPretModal({
           </div>
           <button
             type="button"
-            onClick={onFermer}
+            onClick={handleClose}
             className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 text-lg"
             aria-label="Fermer"
           >
@@ -124,7 +128,7 @@ export default function ModifierPretModal({
           <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
             <button
               type="button"
-              onClick={onFermer}
+              onClick={handleClose}
               disabled={loading}
               className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50"
             >

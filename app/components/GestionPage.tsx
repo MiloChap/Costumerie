@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CostumeCard, { type CostumeCardProps } from "./CostumeCard";
 import CostumePopup from "./CostumePopup";
 import FiltresSidebar, { type Filtres } from "./FiltresSidebar";
 import StatCard from "./StatCard";
 import LogoutButton from "./LogoutButton";
+import FormulaireModal from "./FormulaireModal";
+import AjouterCostumeForm from "./AjouterCostumeForm";
+import ModifierCostumeForm, { type ModifierCostumeFormProps } from "./ModifierCostumeForm";
 import { useRouter } from "next/navigation";
 
 type Costume = Omit<
@@ -13,6 +16,9 @@ type Costume = Omit<
   "onModifier" | "onGererPret" | "onSupprimer" | "onOpenPopup"
 > & {
   proprietaireId: string;
+  epoqueEnum: string;
+  etatEnum: string;
+  images: { id: string; url: string; ordre: number }[];
 };
 
 interface GestionPageProps {
@@ -38,7 +44,33 @@ export default function GestionPage({
   const [costumesLocaux, setCostumesLocaux] = useState(costumes);
   const [supprimantId, setSupprimantId] = useState<string | null>(null);
   const [popupId, setPopupId] = useState<string | null>(null);
+  const [showAjouter, setShowAjouter] = useState(false);
+  const [modifierCostumeId, setModifierCostumeId] = useState<string | null>(null);
+  const [modifierCostumeData, setModifierCostumeData] = useState<ModifierCostumeFormProps["costume"] | null>(null);
   const router = useRouter();
+
+  useEffect(() => { setCostumesLocaux(costumes) }, [costumes]);
+
+  useEffect(() => {
+    if (!modifierCostumeId) { setModifierCostumeData(null); return }
+    const c = costumesLocaux.find((c) => c.id === modifierCostumeId)
+    if (!c) return
+    setModifierCostumeData({
+      id: c.id,
+      nom: c.nom,
+      epoque: c.epoqueEnum,
+      taille: c.taille,
+      couleur: c.couleur,
+      matiere: c.matiere,
+      etat: c.etatEnum,
+      quantiteTotal: c.quantiteTotal,
+      quantiteDispo: c.quantiteDispo,
+      emplacement: c.emplacement,
+      description: c.description,
+      images: c.images,
+      proprietaireId: c.proprietaireId,
+    })
+  }, [modifierCostumeId, costumesLocaux]);
 
   const costumesFiltres = useMemo(() => {
     return costumesLocaux.filter((c) => {
@@ -71,7 +103,7 @@ export default function GestionPage({
 
   const handleModifier = (id: string) => {
     setPopupId(null);
-    router.push(`/gestion/costume/${id}`);
+    setModifierCostumeId(id);
   };
 
   const handleGererPret = (id: string) => {
@@ -142,7 +174,7 @@ export default function GestionPage({
             </button>
             <button
               type="button"
-              onClick={() => router.push("/gestion/ajouter")}
+              onClick={() => setShowAjouter(true)}
               className="inline-flex items-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800"
             >
               + Ajouter un costume
@@ -182,6 +214,35 @@ export default function GestionPage({
           </div>
         </section>
       </main>
+
+      {/* Modal ajout */}
+      {showAjouter && (
+        <FormulaireModal onClose={() => setShowAjouter(false)}>
+          <AjouterCostumeForm
+            proprietaires={proprietaires}
+            onSuccess={() => { setShowAjouter(false); router.refresh() }}
+            onCancel={() => setShowAjouter(false)}
+          />
+        </FormulaireModal>
+      )}
+
+      {/* Modal modification */}
+      {modifierCostumeId && (
+        <FormulaireModal onClose={() => setModifierCostumeId(null)}>
+          {modifierCostumeData ? (
+            <ModifierCostumeForm
+              costume={modifierCostumeData}
+              proprietaires={proprietaires}
+              onSuccess={() => { setModifierCostumeId(null); router.refresh() }}
+              onCancel={() => setModifierCostumeId(null)}
+            />
+          ) : (
+            <div className="flex items-center justify-center rounded-xl bg-white p-12 text-slate-500">
+              Chargement…
+            </div>
+          )}
+        </FormulaireModal>
+      )}
 
       {/* Popup centralisé — rendu hors stacking context via Portal dans CostumePopup */}
       {popupCostume && (

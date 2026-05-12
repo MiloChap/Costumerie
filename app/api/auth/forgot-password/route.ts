@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
-import { Resend } from "resend"
+import nodemailer from "nodemailer"
 import crypto from "crypto"
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: Request) {
   try {
@@ -28,8 +26,16 @@ export async function POST(req: Request) {
 
     const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`
 
-    await resend.emails.send({
-      from: "Costumerie <onboarding@resend.dev>",
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    })
+
+    await transporter.sendMail({
+      from: `"L'équipe costumes" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: "Réinitialisation de votre mot de passe",
       html: `

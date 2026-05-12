@@ -2,6 +2,23 @@ import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import { NextResponse } from "next/server"
 
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await auth()
+  if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
+
+  const { id } = await params
+  const costume = await prisma.costume.findUnique({
+    where: { id },
+    include: { images: { orderBy: { ordre: "asc" } } },
+  })
+
+  if (!costume) return NextResponse.json({ error: "Introuvable" }, { status: 404 })
+  return NextResponse.json(costume)
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> }

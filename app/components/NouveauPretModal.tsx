@@ -22,6 +22,9 @@ export default function NouveauPretModal({
   const [notes, setNotes] = useState<string>("");
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [visible, setVisible] = useState<boolean>(false);
+
+  const handleClose = () => { setVisible(false); setTimeout(onFermer, 150); };
 
   const costumesFiltres = costumesDisponibles.filter((c) =>
     `${c.nom} ${c.taille} ${c.couleur}`
@@ -34,16 +37,21 @@ export default function NouveauPretModal({
   );
 
   useEffect(() => {
+    requestAnimationFrame(() => setVisible(true));
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
     const onKey = (e: KeyboardEvent): void => {
-      if (e.key === "Escape") onFermer();
+      if (e.key === "Escape") handleClose();
     };
     window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
-  }, [onFermer]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
@@ -84,8 +92,8 @@ export default function NouveauPretModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6"
-      onClick={onFermer}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6 transition-opacity duration-150 ${visible ? "opacity-100" : "opacity-0"}`}
+      onClick={handleClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="nouveau-pret-titre"
@@ -211,7 +219,7 @@ export default function NouveauPretModal({
           <div className="flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
             <button
               type="button"
-              onClick={onFermer}
+              onClick={handleClose}
               disabled={submitting}
               className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50"
             >

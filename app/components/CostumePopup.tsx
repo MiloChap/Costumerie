@@ -75,6 +75,12 @@ export default function CostumePopup({
 }: CostumePopupProps) {
   const [imgIndex, setImgIndex] = useState(0)
   const [imgErrors, setImgErrors] = useState<boolean[]>([])
+  const [visible, setVisible] = useState(false)
+
+  const handleClose = () => {
+    setVisible(false)
+    setTimeout(onClose, 150)
+  }
 
   const disponible = quantiteDispo > 0
   const etatKey = etat.toUpperCase()
@@ -84,22 +90,25 @@ export default function CostumePopup({
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setImgIndex(0); setImgErrors([]) }, [id])
 
-  // Fermer avec Escape, naviguer avec flèches clavier
+  // Fade in + Escape + flèches clavier + scroll lock
   useEffect(() => {
+    requestAnimationFrame(() => setVisible(true))
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+    document.body.style.overflow = "hidden"
+    document.body.style.paddingRight = `${scrollbarWidth}px`
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
+      if (e.key === "Escape") handleClose()
       if (e.key === "ArrowLeft") onPrecedent?.()
       if (e.key === "ArrowRight") onSuivant?.()
     }
     window.addEventListener("keydown", handler)
-    return () => window.removeEventListener("keydown", handler)
-  }, [onClose, onPrecedent, onSuivant])
-
-  // Bloquer le scroll du body
-  useEffect(() => {
-    document.body.style.overflow = "hidden"
-    return () => { document.body.style.overflow = "" }
-  }, [])
+    return () => {
+      document.body.style.overflow = ""
+      document.body.style.paddingRight = ""
+      window.removeEventListener("keydown", handler)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onPrecedent, onSuivant])
 
   const handleImgError = (i: number) =>
     setImgErrors((prev) => { const next = [...prev]; next[i] = true; return next })
@@ -108,8 +117,8 @@ export default function CostumePopup({
 
   const content = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-      onClick={onClose}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 transition-opacity duration-150 ${visible ? "opacity-100" : "opacity-0"}`}
+      onClick={handleClose}
     >
       <div
         className="relative flex w-full max-w-2xl flex-col rounded-2xl bg-white shadow-2xl"
@@ -141,7 +150,7 @@ export default function CostumePopup({
         {/* Bouton fermer */}
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white hover:bg-black/50 text-lg leading-none"
           aria-label="Fermer"
         >

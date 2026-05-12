@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 
 interface ReservationModalProps {
@@ -16,6 +16,15 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
+  const [consentement, setConsentement] = useState(false)
+  const [visible, setVisible] = useState(false)
+
+  const handleClose = () => {
+    setVisible(false)
+    setTimeout(onClose, 150)
+  }
+
+  useEffect(() => { requestAnimationFrame(() => setVisible(true)) }, [])
 
   const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault()
@@ -41,8 +50,8 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
 
   const content = (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4"
-      onClick={onClose}
+      className={`fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 transition-opacity duration-150 ${visible ? "opacity-100" : "opacity-0"}`}
+      onClick={handleClose}
     >
       <div
         className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
@@ -50,7 +59,7 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
       >
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/10 text-slate-600 hover:bg-black/20 text-lg leading-none"
           aria-label="Fermer"
         >
@@ -66,7 +75,7 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
             </p>
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="mt-5 w-full rounded-md bg-[#e21713] px-4 py-2 text-sm font-medium text-white hover:bg-[#f04d46]"
             >
               Fermer
@@ -127,13 +136,29 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
               />
             </div>
 
+            <label className="flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                required
+                checked={consentement}
+                onChange={(e) => setConsentement(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 accent-[#e21713]"
+              />
+              <span className="text-xs text-slate-500">
+                J&apos;accepte que mes données soient utilisées pour traiter ma demande.{" "}
+                <a href="/mentions-legales" target="_blank" className="text-[#e21713] hover:underline">
+                  Mentions légales
+                </a>
+              </span>
+            </label>
+
             {error && (
               <p className="text-sm text-rose-600">{error}</p>
             )}
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !consentement}
               className="w-full rounded-md bg-[#e21713] px-4 py-2 text-sm font-medium text-white hover:bg-[#f04d46] disabled:opacity-60"
             >
               {loading ? "Envoi en cours…" : "Envoyer la demande"}
