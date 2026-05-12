@@ -18,6 +18,7 @@ export async function PATCH(
   const updated = await prisma.pret.update({
     where: { id },
     data: {
+      dateDebut: body.dateDebut ? new Date(body.dateDebut) : undefined,
       dateRetourPrevue: body.dateRetourPrevue !== undefined
         ? (body.dateRetourPrevue ? new Date(body.dateRetourPrevue) : null)
         : undefined,

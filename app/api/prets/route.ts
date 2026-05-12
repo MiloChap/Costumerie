@@ -34,6 +34,7 @@ export async function POST(req: Request) {
       data: {
         costumeId: body.costumeId,
         emprunteur: body.emprunteur,
+        dateDebut: body.dateDebut ? new Date(body.dateDebut) : new Date(),
         dateRetourPrevue: body.dateRetourPrevue ? new Date(body.dateRetourPrevue) : null,
         notes: body.notes || null,
       },

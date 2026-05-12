@@ -15,6 +15,7 @@ export default function ModifierPretModal({
   onSuccess,
   onFermer,
 }: ModifierPretModalProps) {
+  const [dateDebut, setDateDebut] = useState<string>(pret.dateDebut.slice(0, 10));
   const [dateRetourPrevue, setDateRetourPrevue] = useState<string>(
     pret.dateRetourPrevue ? pret.dateRetourPrevue.slice(0, 10) : ""
   );
@@ -36,6 +37,7 @@ export default function ModifierPretModal({
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          dateDebut: dateDebut || undefined,
           dateRetourPrevue: dateRetourPrevue || null,
           notes: notes || null,
         }),
@@ -48,6 +50,7 @@ export default function ModifierPretModal({
 
       onSuccess({
         ...pret,
+        dateDebut: dateDebut ? new Date(dateDebut).toISOString() : pret.dateDebut,
         dateRetourPrevue: dateRetourPrevue
           ? new Date(dateRetourPrevue).toISOString()
           : undefined,
@@ -96,6 +99,20 @@ export default function ModifierPretModal({
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="dateDebut" className="mb-1.5 block text-sm font-medium text-slate-700">
+              Date de début
+            </label>
+            <input
+              id="dateDebut"
+              type="date"
+              value={dateDebut}
+              onChange={(e) => setDateDebut(e.target.value)}
+              disabled={loading}
+              className={inputClass}
+            />
+          </div>
+
           <div>
             <label htmlFor="dateRetourPrevue" className="mb-1.5 block text-sm font-medium text-slate-700">
               Date de retour prévue

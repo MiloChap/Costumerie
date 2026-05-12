@@ -18,6 +18,7 @@ export default function NouveauPretModal({
   const [rechercheCostume, setRechercheCostume] = useState<string>("");
   const [menuOuvert, setMenuOuvert] = useState<boolean>(false);
   const [emprunteur, setEmprunteur] = useState<string>("");
+  const [dateDebut, setDateDebut] = useState<string>(new Date().toISOString().slice(0, 10));
   const [dateRetourPrevue, setDateRetourPrevue] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -70,6 +71,7 @@ export default function NouveauPretModal({
         body: JSON.stringify({
           costumeId,
           emprunteur: emprunteur.trim(),
+          dateDebut: dateDebut || undefined,
           dateRetourPrevue: dateRetourPrevue || undefined,
           notes: notes.trim() || undefined,
         }),
@@ -174,6 +176,22 @@ export default function NouveauPretModal({
               onChange={(e) => setEmprunteur(e.target.value)}
               placeholder="Nom de l'emprunteur"
               className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="dateDebut"
+              className="mb-1 block text-sm font-medium text-gray-700"
+            >
+              Date de début
+            </label>
+            <input
+              id="dateDebut"
+              type="date"
+              value={dateDebut}
+              onChange={(e) => setDateDebut(e.target.value)}
+              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
             />
           </div>
 
