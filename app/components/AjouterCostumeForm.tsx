@@ -440,6 +440,7 @@ export default function AjouterCostumeForm({
               <div className="mt-3 flex flex-wrap gap-3">
                 {photos.map((photo, i) => (
                   <div key={i} className="relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={photo.previewUrl}
                       alt={`Photo ${i + 1}`}

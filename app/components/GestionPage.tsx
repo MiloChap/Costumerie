@@ -103,6 +103,7 @@ export default function GestionPage({
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
           <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.jpg" alt="L'équipe costumes" className="h-16 w-auto" />
           </div>
           <div className="flex items-center gap-4">

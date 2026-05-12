@@ -76,12 +76,15 @@ export default function CostumeCard({
         {imageUrl && !imgError ? (
             <>
               {/* Fond flouté pour uniformiser les formats */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/api/costumes/${id}/image`}
+                alt=""
                 aria-hidden="true"
                 className="absolute inset-0 h-full w-full scale-110 object-cover blur-md opacity-40"
               />
               {/* Photo principale sans rognage */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/api/costumes/${id}/image`}
                 alt={nom}

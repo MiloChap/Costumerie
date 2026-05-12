@@ -46,6 +46,7 @@ export default async function Page({
     <div className="min-h-screen bg-slate-50">
       <div className="border-b border-slate-200 bg-white px-6 py-4">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.jpg" alt="L'équipe costumes" className="h-8 w-auto" />
           <a href="/gestion" className="text-sm text-slate-500 hover:text-[#e21713] transition">
             ← Retour au stock

@@ -146,6 +146,7 @@ export default function CostumePopup({
         {/* Zone photo */}
         <div className="relative w-full shrink-0 overflow-hidden rounded-t-2xl bg-slate-100">
           {showImage ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               key={`${id}-${imgIndex}`}
               src={`/api/images/${imageIds[imgIndex]}`}

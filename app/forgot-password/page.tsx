@@ -38,6 +38,7 @@ export default function ForgotPasswordPage() {
     <main className="min-h-screen flex items-center justify-center bg-[#fbb9b6]">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
         <div className="flex justify-center mb-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.jpg" alt="L'équipe costumes" className="h-24 w-auto" />
         </div>
         <p className="text-sm text-slate-500 text-center mb-6">Réinitialisation du mot de passe</p>

@@ -308,6 +308,7 @@ export default function ModifierCostumeForm({
             <div className="mb-3 flex flex-wrap gap-3">
               {imagesExistantes.map((img) => (
                 <div key={img.id} className="relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`/api/images/${img.id}`}
                     alt="Photo existante"
@@ -331,6 +332,7 @@ export default function ModifierCostumeForm({
             <div className="mb-3 flex flex-wrap gap-3">
               {nouvellesPhotos.map((photo, i) => (
                 <div key={i} className="relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={photo.previewUrl}
                     alt={`Nouvelle photo ${i + 1}`}
