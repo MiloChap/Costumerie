@@ -77,6 +77,7 @@ export default function CostumePopup({
   const etatClass = etatStyles[etatKey] ?? "bg-slate-100 text-slate-700 ring-slate-600/20"
 
   // Réinitialiser l'index photo quand on change de costume
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setImgIndex(0); setImgErrors([]) }, [id])
 
   // Fermer avec Escape, naviguer avec flèches clavier
