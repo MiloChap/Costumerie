@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
     await transporter.sendMail({
       from: `"L'équipe costumes" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
+      to: process.env.GMAIL_TO,
       replyTo: email,
       subject: `Demande de réservation — ${costumeName}`,
       html: `
