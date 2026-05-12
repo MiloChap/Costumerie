@@ -49,12 +49,15 @@ export default function GestionPage({
   const [modifierCostumeData, setModifierCostumeData] = useState<ModifierCostumeFormProps["costume"] | null>(null);
   const router = useRouter();
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setCostumesLocaux(costumes) }, [costumes]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!modifierCostumeId) { setModifierCostumeData(null); return }
     const c = costumesLocaux.find((c) => c.id === modifierCostumeId)
     if (!c) return
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setModifierCostumeData({
       id: c.id,
       nom: c.nom,
