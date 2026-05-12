@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState, type ChangeEvent, type FormEvent } from "react"
-import { useRouter } from "next/navigation"
+import { useState, type ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
 
 interface AjouterCostumeFormProps {
-  proprietaires: { id: string; nom: string }[]
+  proprietaires: { id: string; nom: string }[];
 }
 
 type Epoque =
@@ -21,9 +21,9 @@ type Epoque =
   | "E1990_2000"
   | "E2000_2010"
   | "E2010_2020"
-  | "E2020_PRESENT"
+  | "E2020_PRESENT";
 
-type Etat = "NEUF" | "BON" | "USE" | "A_REPARER" | "A_NETTOYER"
+type Etat = "NEUF" | "BON" | "USE" | "A_REPARER" | "A_NETTOYER" | "A_FABRIQUER";
 
 const EPOQUES: { value: Epoque; label: string }[] = [
   { value: "AVANT_1900", label: "Avant 1900" },
@@ -40,7 +40,7 @@ const EPOQUES: { value: Epoque; label: string }[] = [
   { value: "E2000_2010", label: "2000 – 2010" },
   { value: "E2010_2020", label: "2010 – 2020" },
   { value: "E2020_PRESENT", label: "2020 – présent" },
-]
+];
 
 const ETATS: { value: Etat; label: string }[] = [
   { value: "NEUF", label: "Neuf" },
@@ -48,119 +48,125 @@ const ETATS: { value: Etat; label: string }[] = [
   { value: "USE", label: "Usé" },
   { value: "A_REPARER", label: "À réparer" },
   { value: "A_NETTOYER", label: "À nettoyer" },
-]
+  { value: "A_FABRIQUER", label: "À fabriquer" },
+];
 
-const MAX_PHOTO_SIZE = 5 * 1024 * 1024
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+interface PhotoEntry {
+  file: File;
+  previewUrl: string;
+}
 
 type FieldErrors = Partial<{
-  nom: string
-  epoque: string
-  taille: string
-  couleur: string
-  etat: string
-  quantite: string
-  proprietaireId: string
-  photo: string
-  submit: string
-}>
+  nom: string;
+  epoque: string;
+  taille: string;
+  couleur: string;
+  etat: string;
+  quantite: string;
+  proprietaireId: string;
+  photo: string;
+  submit: string;
+}>;
 
 const inputClass =
-  "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
+  "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50";
 
-const labelClass = "block text-sm font-medium text-slate-700 mb-1.5"
+const labelClass = "block text-sm font-medium text-slate-700 mb-1.5";
 
-const errorClass = "mt-1 text-xs text-red-600"
+const errorClass = "mt-1 text-xs text-red-600";
 
 const sectionTitleClass =
-  "text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-slate-200"
+  "text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-slate-200";
 
 export default function AjouterCostumeForm({
   proprietaires,
 }: AjouterCostumeFormProps) {
-  const [nom, setNom] = useState("")
-  const [epoque, setEpoque] = useState<Epoque | "">("")
-  const [taille, setTaille] = useState("")
-  const [couleur, setCouleur] = useState("")
-  const [etat, setEtat] = useState<Etat | "">("")
-  const [quantite, setQuantite] = useState<number>(1)
-  const [proprietaireId, setProprietaireId] = useState("")
-  const [emplacement, setEmplacement] = useState("")
-  const [description, setDescription] = useState("")
-  const [fichierPhoto, setFichierPhoto] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [nom, setNom] = useState("");
+  const [epoque, setEpoque] = useState<Epoque | "">("");
+  const [taille, setTaille] = useState("");
+  const [couleur, setCouleur] = useState("");
+  const [matiere, setMatiere] = useState("");
+  const [etat, setEtat] = useState<Etat | "">("");
+  const [quantite, setQuantite] = useState<number>(1);
+  const [proprietaireId, setProprietaireId] = useState("");
+  const [emplacement, setEmplacement] = useState("");
+  const [description, setDescription] = useState("");
+  const [photos, setPhotos] = useState<PhotoEntry[]>([]);
 
-  const router = useRouter()
-  const [errors, setErrors] = useState<FieldErrors>({})
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [loading, setLoading] = useState(false);
 
-  const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null
-    setErrors((prev) => ({ ...prev, photo: undefined }))
+  const handlePhotosChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+    setErrors((prev) => ({ ...prev, photo: undefined }));
 
-    if (!file) {
-      setFichierPhoto(null)
-      setPreviewUrl(null)
-      return
+    const invalides = files.filter(
+      (f) => !ALLOWED_TYPES.includes(f.type) || f.size > MAX_PHOTO_SIZE
+    );
+
+    if (invalides.length > 0) {
+      setErrors((prev) => ({
+        ...prev,
+        photo: "Certains fichiers sont invalides (format JPG/PNG/WebP, max 5 Mo)",
+      }));
+      return;
     }
 
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      setErrors((prev) => ({ ...prev, photo: "Format non supporté (JPG, PNG, WebP)" }))
-      return
-    }
-    if (file.size > MAX_PHOTO_SIZE) {
-      setErrors((prev) => ({ ...prev, photo: "Fichier trop lourd (max 5 Mo)" }))
-      return
-    }
+    const nouvelles: PhotoEntry[] = files.map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
+    setPhotos((prev) => [...prev, ...nouvelles]);
+  };
 
-    setFichierPhoto(file)
-    if (previewUrl) URL.revokeObjectURL(previewUrl)
-    setPreviewUrl(URL.createObjectURL(file))
-  }
-
-  const supprimerPhoto = () => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl)
-    setFichierPhoto(null)
-    setPreviewUrl(null)
-    setErrors((prev) => ({ ...prev, photo: undefined }))
-  }
+  const supprimerPhoto = (index: number) => {
+    setPhotos((prev) => {
+      URL.revokeObjectURL(prev[index].previewUrl);
+      return prev.filter((_, i) => i !== index);
+    });
+  };
 
   const validate = (): FieldErrors => {
-    const e: FieldErrors = {}
-    if (!nom.trim()) e.nom = "Le nom est obligatoire"
-    if (!epoque) e.epoque = "L'époque est obligatoire"
-    if (!taille.trim()) e.taille = "La taille est obligatoire"
-    if (!couleur.trim()) e.couleur = "La couleur est obligatoire"
-    if (!etat) e.etat = "L'état est obligatoire"
+    const e: FieldErrors = {};
+    if (!nom.trim()) e.nom = "Le nom est obligatoire";
+    if (!epoque) e.epoque = "L'époque est obligatoire";
+    if (!taille.trim()) e.taille = "La taille est obligatoire";
+    if (!couleur.trim()) e.couleur = "La couleur est obligatoire";
+    if (!etat) e.etat = "L'état est obligatoire";
     if (!Number.isFinite(quantite) || quantite < 1)
-      e.quantite = "La quantité doit être au moins 1"
-    if (!proprietaireId) e.proprietaireId = "Le propriétaire est obligatoire"
-    return e
-  }
+      e.quantite = "La quantité doit être au moins 1";
+    if (!proprietaireId) e.proprietaireId = "Le propriétaire est obligatoire";
+    return e;
+  };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const fieldErrors = validate()
+  const handleSubmit = async (e: { preventDefault(): void }) => {
+    e.preventDefault();
+    const fieldErrors = validate();
     if (Object.keys(fieldErrors).length > 0) {
-      setErrors(fieldErrors)
-      return
+      setErrors(fieldErrors);
+      return;
     }
-    setErrors({})
-    setLoading(true)
+    setErrors({});
+    setLoading(true);
 
     try {
-      let imageUrl: string | undefined
+      const imageUrls: string[] = [];
 
-      if (fichierPhoto) {
-        const formData = new FormData()
-        formData.append("file", fichierPhoto)
-        const res = await fetch("/api/upload", { method: "POST", body: formData })
+      for (const photo of photos) {
+        const formData = new FormData();
+        formData.append("file", photo.file);
+        const res = await fetch("/api/upload", { method: "POST", body: formData });
         if (!res.ok) {
-          const data = (await res.json().catch(() => ({}))) as { error?: string }
-          throw new Error(data.error ?? "Échec de l'upload de la photo")
+          const data = (await res.json().catch(() => ({}))) as { error?: string };
+          throw new Error(data.error ?? "Échec de l'upload de la photo");
         }
-        const data = (await res.json()) as { url: string }
-        imageUrl = data.url
+        const data = (await res.json()) as { url: string };
+        imageUrls.push(data.url);
       }
 
       const res = await fetch("/api/costumes", {
@@ -171,30 +177,31 @@ export default function AjouterCostumeForm({
           epoque,
           taille: taille.trim(),
           couleur: couleur.trim(),
+          matiere: matiere.trim() || undefined,
           etat,
           quantiteTotal: quantite,
-          quantiteDispo: quantite,
           proprietaireId,
           emplacement: emplacement.trim() || undefined,
           description: description.trim() || undefined,
-          imageUrl,
+          imageUrls,
         }),
-      })
+      });
 
       if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as { error?: string }
-        throw new Error(data.error ?? "Échec de la création du costume")
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(data.error ?? "Échec de la création du costume");
       }
 
-      if (previewUrl) URL.revokeObjectURL(previewUrl)
-      router.push("/gestion")
+      photos.forEach((p) => URL.revokeObjectURL(p.previewUrl));
+      router.push("/gestion");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Une erreur est survenue"
-      setErrors({ submit: message })
+      const message =
+        err instanceof Error ? err.message : "Une erreur est survenue";
+      setErrors({ submit: message });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <form
@@ -203,7 +210,9 @@ export default function AjouterCostumeForm({
       className="mx-auto w-full max-w-[680px] rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8"
     >
       <header className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-900">Ajouter un costume</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">
+          Ajouter un costume
+        </h1>
         <p className="mt-1 text-sm text-slate-500">
           Renseigne les informations du costume à ajouter au stock.
         </p>
@@ -306,6 +315,21 @@ export default function AjouterCostumeForm({
               />
               {errors.couleur && <p className={errorClass}>{errors.couleur}</p>}
             </div>
+
+            <div>
+              <label htmlFor="matiere" className={labelClass}>
+                Matière
+              </label>
+              <input
+                id="matiere"
+                type="text"
+                value={matiere}
+                onChange={(e) => setMatiere(e.target.value)}
+                placeholder="ex: Soie, Coton, Velours…"
+                disabled={loading}
+                className={inputClass}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -324,7 +348,9 @@ export default function AjouterCostumeForm({
               type="number"
               min={1}
               value={quantite}
-              onChange={(e) => setQuantite(Number.parseInt(e.target.value, 10) || 0)}
+              onChange={(e) =>
+                setQuantite(Number.parseInt(e.target.value, 10) || 0)
+              }
               disabled={loading}
               className={inputClass}
             />
@@ -352,7 +378,9 @@ export default function AjouterCostumeForm({
                 </option>
               ))}
             </select>
-            {errors.proprietaireId && <p className={errorClass}>{errors.proprietaireId}</p>}
+            {errors.proprietaireId && (
+              <p className={errorClass}>{errors.proprietaireId}</p>
+            )}
           </div>
 
           <div>
@@ -393,35 +421,41 @@ export default function AjouterCostumeForm({
           </div>
 
           <div>
-            <label htmlFor="photo" className={labelClass}>
-              Photo
-            </label>
+            <label className={labelClass}>Photos</label>
             <input
-              id="photo"
+              id="photos"
               type="file"
-              accept="image/*"
-              onChange={handlePhotoChange}
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              onChange={handlePhotosChange}
               disabled={loading}
               className="block w-full text-sm text-slate-700 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200 disabled:cursor-not-allowed"
             />
-            <p className="mt-1 text-xs text-slate-500">JPG, PNG, WebP — max 5 Mo</p>
+            <p className="mt-1 text-xs text-slate-500">
+              JPG, PNG, WebP — max 5 Mo par photo — plusieurs photos acceptées
+            </p>
             {errors.photo && <p className={errorClass}>{errors.photo}</p>}
 
-            {previewUrl && (
-              <div className="mt-3 flex items-start gap-3 rounded-md border border-slate-200 bg-slate-50 p-3">
-                <img
-                  src={previewUrl}
-                  alt="Aperçu de la photo sélectionnée"
-                  className="max-h-[200px] rounded-md object-contain"
-                />
-                <button
-                  type="button"
-                  onClick={supprimerPhoto}
-                  disabled={loading}
-                  className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Supprimer la photo
-                </button>
+            {photos.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-3">
+                {photos.map((photo, i) => (
+                  <div key={i} className="relative">
+                    <img
+                      src={photo.previewUrl}
+                      alt={`Photo ${i + 1}`}
+                      className="h-24 w-24 rounded-md border border-slate-200 object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => supprimerPhoto(i)}
+                      disabled={loading}
+                      className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-rose-600 text-white shadow hover:bg-rose-700 disabled:opacity-50"
+                      aria-label="Supprimer cette photo"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -452,5 +486,5 @@ export default function AjouterCostumeForm({
         </button>
       </div>
     </form>
-  )
+  );
 }

@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Costume = $Result.DefaultSelection<Prisma.$CostumePayload>
 /**
+ * Model CostumeImage
+ * 
+ */
+export type CostumeImage = $Result.DefaultSelection<Prisma.$CostumeImagePayload>
+/**
  * Model Proprietaire
  * 
  */
@@ -33,6 +38,11 @@ export type Pret = $Result.DefaultSelection<Prisma.$PretPayload>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = $Result.DefaultSelection<Prisma.$PasswordResetTokenPayload>
 
 /**
  * Enums
@@ -63,7 +73,8 @@ export const Etat: {
   BON: 'BON',
   USE: 'USE',
   A_REPARER: 'A_REPARER',
-  A_NETTOYER: 'A_NETTOYER'
+  A_NETTOYER: 'A_NETTOYER',
+  A_FABRIQUER: 'A_FABRIQUER'
 };
 
 export type Etat = (typeof Etat)[keyof typeof Etat]
@@ -235,6 +246,16 @@ export class PrismaClient<
   get costume(): Prisma.CostumeDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.costumeImage`: Exposes CRUD operations for the **CostumeImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CostumeImages
+    * const costumeImages = await prisma.costumeImage.findMany()
+    * ```
+    */
+  get costumeImage(): Prisma.CostumeImageDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.proprietaire`: Exposes CRUD operations for the **Proprietaire** model.
     * Example usage:
     * ```ts
@@ -263,6 +284,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.passwordResetToken`: Exposes CRUD operations for the **PasswordResetToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordResetTokens
+    * const passwordResetTokens = await prisma.passwordResetToken.findMany()
+    * ```
+    */
+  get passwordResetToken(): Prisma.PasswordResetTokenDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -698,9 +729,11 @@ export namespace Prisma {
 
   export const ModelName: {
     Costume: 'Costume',
+    CostumeImage: 'CostumeImage',
     Proprietaire: 'Proprietaire',
     Pret: 'Pret',
-    User: 'User'
+    User: 'User',
+    PasswordResetToken: 'PasswordResetToken'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -716,7 +749,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "costume" | "proprietaire" | "pret" | "user"
+      modelProps: "costume" | "costumeImage" | "proprietaire" | "pret" | "user" | "passwordResetToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -791,6 +824,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CostumeCountArgs<ExtArgs>
             result: $Utils.Optional<CostumeCountAggregateOutputType> | number
+          }
+        }
+      }
+      CostumeImage: {
+        payload: Prisma.$CostumeImagePayload<ExtArgs>
+        fields: Prisma.CostumeImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CostumeImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CostumeImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>
+          }
+          findFirst: {
+            args: Prisma.CostumeImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CostumeImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>
+          }
+          findMany: {
+            args: Prisma.CostumeImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>[]
+          }
+          create: {
+            args: Prisma.CostumeImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>
+          }
+          createMany: {
+            args: Prisma.CostumeImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CostumeImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>[]
+          }
+          delete: {
+            args: Prisma.CostumeImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>
+          }
+          update: {
+            args: Prisma.CostumeImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.CostumeImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CostumeImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CostumeImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.CostumeImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostumeImagePayload>
+          }
+          aggregate: {
+            args: Prisma.CostumeImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCostumeImage>
+          }
+          groupBy: {
+            args: Prisma.CostumeImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CostumeImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CostumeImageCountArgs<ExtArgs>
+            result: $Utils.Optional<CostumeImageCountAggregateOutputType> | number
           }
         }
       }
@@ -1016,6 +1123,80 @@ export namespace Prisma {
           }
         }
       }
+      PasswordResetToken: {
+        payload: Prisma.$PasswordResetTokenPayload<ExtArgs>
+        fields: Prisma.PasswordResetTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PasswordResetTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PasswordResetTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.PasswordResetTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PasswordResetTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          findMany: {
+            args: Prisma.PasswordResetTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+          }
+          create: {
+            args: Prisma.PasswordResetTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          createMany: {
+            args: Prisma.PasswordResetTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PasswordResetTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.PasswordResetTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          update: {
+            args: Prisma.PasswordResetTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.PasswordResetTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PasswordResetTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PasswordResetTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.PasswordResetTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.PasswordResetTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordResetToken>
+          }
+          groupBy: {
+            args: Prisma.PasswordResetTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PasswordResetTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetTokenCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1125,9 +1306,11 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     costume?: CostumeOmit
+    costumeImage?: CostumeImageOmit
     proprietaire?: ProprietaireOmit
     pret?: PretOmit
     user?: UserOmit
+    passwordResetToken?: PasswordResetTokenOmit
   }
 
   /* Types for Logging */
@@ -1209,10 +1392,12 @@ export namespace Prisma {
 
   export type CostumeCountOutputType = {
     prets: number
+    images: number
   }
 
   export type CostumeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     prets?: boolean | CostumeCountOutputTypeCountPretsArgs
+    images?: boolean | CostumeCountOutputTypeCountImagesArgs
   }
 
   // Custom InputTypes
@@ -1231,6 +1416,13 @@ export namespace Prisma {
    */
   export type CostumeCountOutputTypeCountPretsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PretWhereInput
+  }
+
+  /**
+   * CostumeCountOutputType without action
+   */
+  export type CostumeCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CostumeImageWhereInput
   }
 
 
@@ -1298,11 +1490,11 @@ export namespace Prisma {
     description: string | null
     taille: string | null
     couleur: string | null
+    matiere: string | null
     etat: $Enums.Etat | null
     quantiteTotal: number | null
     quantiteDispo: number | null
     emplacement: string | null
-    imageUrl: string | null
     proprietaireId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1315,11 +1507,11 @@ export namespace Prisma {
     description: string | null
     taille: string | null
     couleur: string | null
+    matiere: string | null
     etat: $Enums.Etat | null
     quantiteTotal: number | null
     quantiteDispo: number | null
     emplacement: string | null
-    imageUrl: string | null
     proprietaireId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1332,11 +1524,11 @@ export namespace Prisma {
     description: number
     taille: number
     couleur: number
+    matiere: number
     etat: number
     quantiteTotal: number
     quantiteDispo: number
     emplacement: number
-    imageUrl: number
     proprietaireId: number
     createdAt: number
     updatedAt: number
@@ -1361,11 +1553,11 @@ export namespace Prisma {
     description?: true
     taille?: true
     couleur?: true
+    matiere?: true
     etat?: true
     quantiteTotal?: true
     quantiteDispo?: true
     emplacement?: true
-    imageUrl?: true
     proprietaireId?: true
     createdAt?: true
     updatedAt?: true
@@ -1378,11 +1570,11 @@ export namespace Prisma {
     description?: true
     taille?: true
     couleur?: true
+    matiere?: true
     etat?: true
     quantiteTotal?: true
     quantiteDispo?: true
     emplacement?: true
-    imageUrl?: true
     proprietaireId?: true
     createdAt?: true
     updatedAt?: true
@@ -1395,11 +1587,11 @@ export namespace Prisma {
     description?: true
     taille?: true
     couleur?: true
+    matiere?: true
     etat?: true
     quantiteTotal?: true
     quantiteDispo?: true
     emplacement?: true
-    imageUrl?: true
     proprietaireId?: true
     createdAt?: true
     updatedAt?: true
@@ -1499,11 +1691,11 @@ export namespace Prisma {
     description: string | null
     taille: string
     couleur: string
+    matiere: string | null
     etat: $Enums.Etat
     quantiteTotal: number
     quantiteDispo: number
     emplacement: string | null
-    imageUrl: string | null
     proprietaireId: string
     createdAt: Date
     updatedAt: Date
@@ -1535,16 +1727,17 @@ export namespace Prisma {
     description?: boolean
     taille?: boolean
     couleur?: boolean
+    matiere?: boolean
     etat?: boolean
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    imageUrl?: boolean
     proprietaireId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
     prets?: boolean | Costume$pretsArgs<ExtArgs>
+    images?: boolean | Costume$imagesArgs<ExtArgs>
     _count?: boolean | CostumeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["costume"]>
 
@@ -1555,11 +1748,11 @@ export namespace Prisma {
     description?: boolean
     taille?: boolean
     couleur?: boolean
+    matiere?: boolean
     etat?: boolean
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    imageUrl?: boolean
     proprietaireId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1573,11 +1766,11 @@ export namespace Prisma {
     description?: boolean
     taille?: boolean
     couleur?: boolean
+    matiere?: boolean
     etat?: boolean
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    imageUrl?: boolean
     proprietaireId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1591,20 +1784,21 @@ export namespace Prisma {
     description?: boolean
     taille?: boolean
     couleur?: boolean
+    matiere?: boolean
     etat?: boolean
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    imageUrl?: boolean
     proprietaireId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CostumeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nom" | "epoque" | "description" | "taille" | "couleur" | "etat" | "quantiteTotal" | "quantiteDispo" | "emplacement" | "imageUrl" | "proprietaireId" | "createdAt" | "updatedAt", ExtArgs["result"]["costume"]>
+  export type CostumeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nom" | "epoque" | "description" | "taille" | "couleur" | "matiere" | "etat" | "quantiteTotal" | "quantiteDispo" | "emplacement" | "proprietaireId" | "createdAt" | "updatedAt", ExtArgs["result"]["costume"]>
   export type CostumeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
     prets?: boolean | Costume$pretsArgs<ExtArgs>
+    images?: boolean | Costume$imagesArgs<ExtArgs>
     _count?: boolean | CostumeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CostumeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1619,6 +1813,7 @@ export namespace Prisma {
     objects: {
       proprietaire: Prisma.$ProprietairePayload<ExtArgs>
       prets: Prisma.$PretPayload<ExtArgs>[]
+      images: Prisma.$CostumeImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1627,11 +1822,11 @@ export namespace Prisma {
       description: string | null
       taille: string
       couleur: string
+      matiere: string | null
       etat: $Enums.Etat
       quantiteTotal: number
       quantiteDispo: number
       emplacement: string | null
-      imageUrl: string | null
       proprietaireId: string
       createdAt: Date
       updatedAt: Date
@@ -2031,6 +2226,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     proprietaire<T extends ProprietaireDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProprietaireDefaultArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     prets<T extends Costume$pretsArgs<ExtArgs> = {}>(args?: Subset<T, Costume$pretsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PretPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    images<T extends Costume$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Costume$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2066,11 +2262,11 @@ export namespace Prisma {
     readonly description: FieldRef<"Costume", 'String'>
     readonly taille: FieldRef<"Costume", 'String'>
     readonly couleur: FieldRef<"Costume", 'String'>
+    readonly matiere: FieldRef<"Costume", 'String'>
     readonly etat: FieldRef<"Costume", 'Etat'>
     readonly quantiteTotal: FieldRef<"Costume", 'Int'>
     readonly quantiteDispo: FieldRef<"Costume", 'Int'>
     readonly emplacement: FieldRef<"Costume", 'String'>
-    readonly imageUrl: FieldRef<"Costume", 'String'>
     readonly proprietaireId: FieldRef<"Costume", 'String'>
     readonly createdAt: FieldRef<"Costume", 'DateTime'>
     readonly updatedAt: FieldRef<"Costume", 'DateTime'>
@@ -2499,6 +2695,30 @@ export namespace Prisma {
   }
 
   /**
+   * Costume.images
+   */
+  export type Costume$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    where?: CostumeImageWhereInput
+    orderBy?: CostumeImageOrderByWithRelationInput | CostumeImageOrderByWithRelationInput[]
+    cursor?: CostumeImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CostumeImageScalarFieldEnum | CostumeImageScalarFieldEnum[]
+  }
+
+  /**
    * Costume without action
    */
   export type CostumeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2514,6 +2734,1103 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CostumeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CostumeImage
+   */
+
+  export type AggregateCostumeImage = {
+    _count: CostumeImageCountAggregateOutputType | null
+    _avg: CostumeImageAvgAggregateOutputType | null
+    _sum: CostumeImageSumAggregateOutputType | null
+    _min: CostumeImageMinAggregateOutputType | null
+    _max: CostumeImageMaxAggregateOutputType | null
+  }
+
+  export type CostumeImageAvgAggregateOutputType = {
+    ordre: number | null
+  }
+
+  export type CostumeImageSumAggregateOutputType = {
+    ordre: number | null
+  }
+
+  export type CostumeImageMinAggregateOutputType = {
+    id: string | null
+    costumeId: string | null
+    url: string | null
+    ordre: number | null
+    createdAt: Date | null
+  }
+
+  export type CostumeImageMaxAggregateOutputType = {
+    id: string | null
+    costumeId: string | null
+    url: string | null
+    ordre: number | null
+    createdAt: Date | null
+  }
+
+  export type CostumeImageCountAggregateOutputType = {
+    id: number
+    costumeId: number
+    url: number
+    ordre: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CostumeImageAvgAggregateInputType = {
+    ordre?: true
+  }
+
+  export type CostumeImageSumAggregateInputType = {
+    ordre?: true
+  }
+
+  export type CostumeImageMinAggregateInputType = {
+    id?: true
+    costumeId?: true
+    url?: true
+    ordre?: true
+    createdAt?: true
+  }
+
+  export type CostumeImageMaxAggregateInputType = {
+    id?: true
+    costumeId?: true
+    url?: true
+    ordre?: true
+    createdAt?: true
+  }
+
+  export type CostumeImageCountAggregateInputType = {
+    id?: true
+    costumeId?: true
+    url?: true
+    ordre?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CostumeImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CostumeImage to aggregate.
+     */
+    where?: CostumeImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostumeImages to fetch.
+     */
+    orderBy?: CostumeImageOrderByWithRelationInput | CostumeImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CostumeImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostumeImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostumeImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CostumeImages
+    **/
+    _count?: true | CostumeImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CostumeImageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CostumeImageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CostumeImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CostumeImageMaxAggregateInputType
+  }
+
+  export type GetCostumeImageAggregateType<T extends CostumeImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateCostumeImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCostumeImage[P]>
+      : GetScalarType<T[P], AggregateCostumeImage[P]>
+  }
+
+
+
+
+  export type CostumeImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CostumeImageWhereInput
+    orderBy?: CostumeImageOrderByWithAggregationInput | CostumeImageOrderByWithAggregationInput[]
+    by: CostumeImageScalarFieldEnum[] | CostumeImageScalarFieldEnum
+    having?: CostumeImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CostumeImageCountAggregateInputType | true
+    _avg?: CostumeImageAvgAggregateInputType
+    _sum?: CostumeImageSumAggregateInputType
+    _min?: CostumeImageMinAggregateInputType
+    _max?: CostumeImageMaxAggregateInputType
+  }
+
+  export type CostumeImageGroupByOutputType = {
+    id: string
+    costumeId: string
+    url: string
+    ordre: number
+    createdAt: Date
+    _count: CostumeImageCountAggregateOutputType | null
+    _avg: CostumeImageAvgAggregateOutputType | null
+    _sum: CostumeImageSumAggregateOutputType | null
+    _min: CostumeImageMinAggregateOutputType | null
+    _max: CostumeImageMaxAggregateOutputType | null
+  }
+
+  type GetCostumeImageGroupByPayload<T extends CostumeImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CostumeImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CostumeImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CostumeImageGroupByOutputType[P]>
+            : GetScalarType<T[P], CostumeImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CostumeImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    costumeId?: boolean
+    url?: boolean
+    ordre?: boolean
+    createdAt?: boolean
+    costume?: boolean | CostumeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["costumeImage"]>
+
+  export type CostumeImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    costumeId?: boolean
+    url?: boolean
+    ordre?: boolean
+    createdAt?: boolean
+    costume?: boolean | CostumeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["costumeImage"]>
+
+  export type CostumeImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    costumeId?: boolean
+    url?: boolean
+    ordre?: boolean
+    createdAt?: boolean
+    costume?: boolean | CostumeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["costumeImage"]>
+
+  export type CostumeImageSelectScalar = {
+    id?: boolean
+    costumeId?: boolean
+    url?: boolean
+    ordre?: boolean
+    createdAt?: boolean
+  }
+
+  export type CostumeImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "costumeId" | "url" | "ordre" | "createdAt", ExtArgs["result"]["costumeImage"]>
+  export type CostumeImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    costume?: boolean | CostumeDefaultArgs<ExtArgs>
+  }
+  export type CostumeImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    costume?: boolean | CostumeDefaultArgs<ExtArgs>
+  }
+  export type CostumeImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    costume?: boolean | CostumeDefaultArgs<ExtArgs>
+  }
+
+  export type $CostumeImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CostumeImage"
+    objects: {
+      costume: Prisma.$CostumePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      costumeId: string
+      url: string
+      ordre: number
+      createdAt: Date
+    }, ExtArgs["result"]["costumeImage"]>
+    composites: {}
+  }
+
+  type CostumeImageGetPayload<S extends boolean | null | undefined | CostumeImageDefaultArgs> = $Result.GetResult<Prisma.$CostumeImagePayload, S>
+
+  type CostumeImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CostumeImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CostumeImageCountAggregateInputType | true
+    }
+
+  export interface CostumeImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CostumeImage'], meta: { name: 'CostumeImage' } }
+    /**
+     * Find zero or one CostumeImage that matches the filter.
+     * @param {CostumeImageFindUniqueArgs} args - Arguments to find a CostumeImage
+     * @example
+     * // Get one CostumeImage
+     * const costumeImage = await prisma.costumeImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CostumeImageFindUniqueArgs>(args: SelectSubset<T, CostumeImageFindUniqueArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CostumeImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CostumeImageFindUniqueOrThrowArgs} args - Arguments to find a CostumeImage
+     * @example
+     * // Get one CostumeImage
+     * const costumeImage = await prisma.costumeImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CostumeImageFindUniqueOrThrowArgs>(args: SelectSubset<T, CostumeImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CostumeImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostumeImageFindFirstArgs} args - Arguments to find a CostumeImage
+     * @example
+     * // Get one CostumeImage
+     * const costumeImage = await prisma.costumeImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CostumeImageFindFirstArgs>(args?: SelectSubset<T, CostumeImageFindFirstArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CostumeImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostumeImageFindFirstOrThrowArgs} args - Arguments to find a CostumeImage
+     * @example
+     * // Get one CostumeImage
+     * const costumeImage = await prisma.costumeImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CostumeImageFindFirstOrThrowArgs>(args?: SelectSubset<T, CostumeImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CostumeImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostumeImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CostumeImages
+     * const costumeImages = await prisma.costumeImage.findMany()
+     * 
+     * // Get first 10 CostumeImages
+     * const costumeImages = await prisma.costumeImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const costumeImageWithIdOnly = await prisma.costumeImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CostumeImageFindManyArgs>(args?: SelectSubset<T, CostumeImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CostumeImage.
+     * @param {CostumeImageCreateArgs} args - Arguments to create a CostumeImage.
+     * @example
+     * // Create one CostumeImage
+     * const CostumeImage = await prisma.costumeImage.create({
+     *   data: {
+     *     // ... data to create a CostumeImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends CostumeImageCreateArgs>(args: SelectSubset<T, CostumeImageCreateArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CostumeImages.
+     * @param {CostumeImageCreateManyArgs} args - Arguments to create many CostumeImages.
+     * @example
+     * // Create many CostumeImages
+     * const costumeImage = await prisma.costumeImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CostumeImageCreateManyArgs>(args?: SelectSubset<T, CostumeImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CostumeImages and returns the data saved in the database.
+     * @param {CostumeImageCreateManyAndReturnArgs} args - Arguments to create many CostumeImages.
+     * @example
+     * // Create many CostumeImages
+     * const costumeImage = await prisma.costumeImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CostumeImages and only return the `id`
+     * const costumeImageWithIdOnly = await prisma.costumeImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CostumeImageCreateManyAndReturnArgs>(args?: SelectSubset<T, CostumeImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CostumeImage.
+     * @param {CostumeImageDeleteArgs} args - Arguments to delete one CostumeImage.
+     * @example
+     * // Delete one CostumeImage
+     * const CostumeImage = await prisma.costumeImage.delete({
+     *   where: {
+     *     // ... filter to delete one CostumeImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CostumeImageDeleteArgs>(args: SelectSubset<T, CostumeImageDeleteArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CostumeImage.
+     * @param {CostumeImageUpdateArgs} args - Arguments to update one CostumeImage.
+     * @example
+     * // Update one CostumeImage
+     * const costumeImage = await prisma.costumeImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CostumeImageUpdateArgs>(args: SelectSubset<T, CostumeImageUpdateArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CostumeImages.
+     * @param {CostumeImageDeleteManyArgs} args - Arguments to filter CostumeImages to delete.
+     * @example
+     * // Delete a few CostumeImages
+     * const { count } = await prisma.costumeImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CostumeImageDeleteManyArgs>(args?: SelectSubset<T, CostumeImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CostumeImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostumeImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CostumeImages
+     * const costumeImage = await prisma.costumeImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CostumeImageUpdateManyArgs>(args: SelectSubset<T, CostumeImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CostumeImages and returns the data updated in the database.
+     * @param {CostumeImageUpdateManyAndReturnArgs} args - Arguments to update many CostumeImages.
+     * @example
+     * // Update many CostumeImages
+     * const costumeImage = await prisma.costumeImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CostumeImages and only return the `id`
+     * const costumeImageWithIdOnly = await prisma.costumeImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CostumeImageUpdateManyAndReturnArgs>(args: SelectSubset<T, CostumeImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CostumeImage.
+     * @param {CostumeImageUpsertArgs} args - Arguments to update or create a CostumeImage.
+     * @example
+     * // Update or create a CostumeImage
+     * const costumeImage = await prisma.costumeImage.upsert({
+     *   create: {
+     *     // ... data to create a CostumeImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CostumeImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CostumeImageUpsertArgs>(args: SelectSubset<T, CostumeImageUpsertArgs<ExtArgs>>): Prisma__CostumeImageClient<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CostumeImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostumeImageCountArgs} args - Arguments to filter CostumeImages to count.
+     * @example
+     * // Count the number of CostumeImages
+     * const count = await prisma.costumeImage.count({
+     *   where: {
+     *     // ... the filter for the CostumeImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends CostumeImageCountArgs>(
+      args?: Subset<T, CostumeImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CostumeImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CostumeImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostumeImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CostumeImageAggregateArgs>(args: Subset<T, CostumeImageAggregateArgs>): Prisma.PrismaPromise<GetCostumeImageAggregateType<T>>
+
+    /**
+     * Group by CostumeImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostumeImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CostumeImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CostumeImageGroupByArgs['orderBy'] }
+        : { orderBy?: CostumeImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CostumeImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCostumeImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CostumeImage model
+   */
+  readonly fields: CostumeImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CostumeImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CostumeImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    costume<T extends CostumeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CostumeDefaultArgs<ExtArgs>>): Prisma__CostumeClient<$Result.GetResult<Prisma.$CostumePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CostumeImage model
+   */
+  interface CostumeImageFieldRefs {
+    readonly id: FieldRef<"CostumeImage", 'String'>
+    readonly costumeId: FieldRef<"CostumeImage", 'String'>
+    readonly url: FieldRef<"CostumeImage", 'String'>
+    readonly ordre: FieldRef<"CostumeImage", 'Int'>
+    readonly createdAt: FieldRef<"CostumeImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CostumeImage findUnique
+   */
+  export type CostumeImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CostumeImage to fetch.
+     */
+    where: CostumeImageWhereUniqueInput
+  }
+
+  /**
+   * CostumeImage findUniqueOrThrow
+   */
+  export type CostumeImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CostumeImage to fetch.
+     */
+    where: CostumeImageWhereUniqueInput
+  }
+
+  /**
+   * CostumeImage findFirst
+   */
+  export type CostumeImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CostumeImage to fetch.
+     */
+    where?: CostumeImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostumeImages to fetch.
+     */
+    orderBy?: CostumeImageOrderByWithRelationInput | CostumeImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CostumeImages.
+     */
+    cursor?: CostumeImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostumeImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostumeImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostumeImages.
+     */
+    distinct?: CostumeImageScalarFieldEnum | CostumeImageScalarFieldEnum[]
+  }
+
+  /**
+   * CostumeImage findFirstOrThrow
+   */
+  export type CostumeImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CostumeImage to fetch.
+     */
+    where?: CostumeImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostumeImages to fetch.
+     */
+    orderBy?: CostumeImageOrderByWithRelationInput | CostumeImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CostumeImages.
+     */
+    cursor?: CostumeImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostumeImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostumeImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostumeImages.
+     */
+    distinct?: CostumeImageScalarFieldEnum | CostumeImageScalarFieldEnum[]
+  }
+
+  /**
+   * CostumeImage findMany
+   */
+  export type CostumeImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CostumeImages to fetch.
+     */
+    where?: CostumeImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostumeImages to fetch.
+     */
+    orderBy?: CostumeImageOrderByWithRelationInput | CostumeImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CostumeImages.
+     */
+    cursor?: CostumeImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostumeImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostumeImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostumeImages.
+     */
+    distinct?: CostumeImageScalarFieldEnum | CostumeImageScalarFieldEnum[]
+  }
+
+  /**
+   * CostumeImage create
+   */
+  export type CostumeImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CostumeImage.
+     */
+    data: XOR<CostumeImageCreateInput, CostumeImageUncheckedCreateInput>
+  }
+
+  /**
+   * CostumeImage createMany
+   */
+  export type CostumeImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CostumeImages.
+     */
+    data: CostumeImageCreateManyInput | CostumeImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CostumeImage createManyAndReturn
+   */
+  export type CostumeImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many CostumeImages.
+     */
+    data: CostumeImageCreateManyInput | CostumeImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CostumeImage update
+   */
+  export type CostumeImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CostumeImage.
+     */
+    data: XOR<CostumeImageUpdateInput, CostumeImageUncheckedUpdateInput>
+    /**
+     * Choose, which CostumeImage to update.
+     */
+    where: CostumeImageWhereUniqueInput
+  }
+
+  /**
+   * CostumeImage updateMany
+   */
+  export type CostumeImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CostumeImages.
+     */
+    data: XOR<CostumeImageUpdateManyMutationInput, CostumeImageUncheckedUpdateManyInput>
+    /**
+     * Filter which CostumeImages to update
+     */
+    where?: CostumeImageWhereInput
+    /**
+     * Limit how many CostumeImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CostumeImage updateManyAndReturn
+   */
+  export type CostumeImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * The data used to update CostumeImages.
+     */
+    data: XOR<CostumeImageUpdateManyMutationInput, CostumeImageUncheckedUpdateManyInput>
+    /**
+     * Filter which CostumeImages to update
+     */
+    where?: CostumeImageWhereInput
+    /**
+     * Limit how many CostumeImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CostumeImage upsert
+   */
+  export type CostumeImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CostumeImage to update in case it exists.
+     */
+    where: CostumeImageWhereUniqueInput
+    /**
+     * In case the CostumeImage found by the `where` argument doesn't exist, create a new CostumeImage with this data.
+     */
+    create: XOR<CostumeImageCreateInput, CostumeImageUncheckedCreateInput>
+    /**
+     * In case the CostumeImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CostumeImageUpdateInput, CostumeImageUncheckedUpdateInput>
+  }
+
+  /**
+   * CostumeImage delete
+   */
+  export type CostumeImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
+    /**
+     * Filter which CostumeImage to delete.
+     */
+    where: CostumeImageWhereUniqueInput
+  }
+
+  /**
+   * CostumeImage deleteMany
+   */
+  export type CostumeImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CostumeImages to delete
+     */
+    where?: CostumeImageWhereInput
+    /**
+     * Limit how many CostumeImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CostumeImage without action
+   */
+  export type CostumeImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostumeImage
+     */
+    select?: CostumeImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostumeImage
+     */
+    omit?: CostumeImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostumeImageInclude<ExtArgs> | null
   }
 
 
@@ -5682,6 +6999,1006 @@ export namespace Prisma {
 
 
   /**
+   * Model PasswordResetToken
+   */
+
+  export type AggregatePasswordResetToken = {
+    _count: PasswordResetTokenCountAggregateOutputType | null
+    _min: PasswordResetTokenMinAggregateOutputType | null
+    _max: PasswordResetTokenMaxAggregateOutputType | null
+  }
+
+  export type PasswordResetTokenMinAggregateOutputType = {
+    id: string | null
+    email: string | null
+    token: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetTokenMaxAggregateOutputType = {
+    id: string | null
+    email: string | null
+    token: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetTokenCountAggregateOutputType = {
+    id: number
+    email: number
+    token: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PasswordResetTokenMinAggregateInputType = {
+    id?: true
+    email?: true
+    token?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetTokenMaxAggregateInputType = {
+    id?: true
+    email?: true
+    token?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetTokenCountAggregateInputType = {
+    id?: true
+    email?: true
+    token?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PasswordResetTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordResetToken to aggregate.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordResetTokens
+    **/
+    _count?: true | PasswordResetTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordResetTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordResetTokenMaxAggregateInputType
+  }
+
+  export type GetPasswordResetTokenAggregateType<T extends PasswordResetTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordResetToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordResetToken[P]>
+      : GetScalarType<T[P], AggregatePasswordResetToken[P]>
+  }
+
+
+
+
+  export type PasswordResetTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordResetTokenWhereInput
+    orderBy?: PasswordResetTokenOrderByWithAggregationInput | PasswordResetTokenOrderByWithAggregationInput[]
+    by: PasswordResetTokenScalarFieldEnum[] | PasswordResetTokenScalarFieldEnum
+    having?: PasswordResetTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PasswordResetTokenCountAggregateInputType | true
+    _min?: PasswordResetTokenMinAggregateInputType
+    _max?: PasswordResetTokenMaxAggregateInputType
+  }
+
+  export type PasswordResetTokenGroupByOutputType = {
+    id: string
+    email: string
+    token: string
+    expiresAt: Date
+    createdAt: Date
+    _count: PasswordResetTokenCountAggregateOutputType | null
+    _min: PasswordResetTokenMinAggregateOutputType | null
+    _max: PasswordResetTokenMaxAggregateOutputType | null
+  }
+
+  type GetPasswordResetTokenGroupByPayload<T extends PasswordResetTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordResetTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordResetTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordResetTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordResetTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordResetTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["passwordResetToken"]>
+
+  export type PasswordResetTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["passwordResetToken"]>
+
+  export type PasswordResetTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["passwordResetToken"]>
+
+  export type PasswordResetTokenSelectScalar = {
+    id?: boolean
+    email?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type PasswordResetTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "token" | "expiresAt" | "createdAt", ExtArgs["result"]["passwordResetToken"]>
+
+  export type $PasswordResetTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordResetToken"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      email: string
+      token: string
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["passwordResetToken"]>
+    composites: {}
+  }
+
+  type PasswordResetTokenGetPayload<S extends boolean | null | undefined | PasswordResetTokenDefaultArgs> = $Result.GetResult<Prisma.$PasswordResetTokenPayload, S>
+
+  type PasswordResetTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordResetTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordResetTokenCountAggregateInputType | true
+    }
+
+  export interface PasswordResetTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordResetToken'], meta: { name: 'PasswordResetToken' } }
+    /**
+     * Find zero or one PasswordResetToken that matches the filter.
+     * @param {PasswordResetTokenFindUniqueArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordResetTokenFindUniqueArgs>(args: SelectSubset<T, PasswordResetTokenFindUniqueArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordResetToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordResetTokenFindUniqueOrThrowArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordResetTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordResetTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordResetToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenFindFirstArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordResetTokenFindFirstArgs>(args?: SelectSubset<T, PasswordResetTokenFindFirstArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordResetToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenFindFirstOrThrowArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordResetTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordResetTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordResetTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordResetTokens
+     * const passwordResetTokens = await prisma.passwordResetToken.findMany()
+     * 
+     * // Get first 10 PasswordResetTokens
+     * const passwordResetTokens = await prisma.passwordResetToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordResetTokenWithIdOnly = await prisma.passwordResetToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordResetTokenFindManyArgs>(args?: SelectSubset<T, PasswordResetTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordResetToken.
+     * @param {PasswordResetTokenCreateArgs} args - Arguments to create a PasswordResetToken.
+     * @example
+     * // Create one PasswordResetToken
+     * const PasswordResetToken = await prisma.passwordResetToken.create({
+     *   data: {
+     *     // ... data to create a PasswordResetToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordResetTokenCreateArgs>(args: SelectSubset<T, PasswordResetTokenCreateArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordResetTokens.
+     * @param {PasswordResetTokenCreateManyArgs} args - Arguments to create many PasswordResetTokens.
+     * @example
+     * // Create many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordResetTokenCreateManyArgs>(args?: SelectSubset<T, PasswordResetTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordResetTokens and returns the data saved in the database.
+     * @param {PasswordResetTokenCreateManyAndReturnArgs} args - Arguments to create many PasswordResetTokens.
+     * @example
+     * // Create many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordResetTokens and only return the `id`
+     * const passwordResetTokenWithIdOnly = await prisma.passwordResetToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordResetTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordResetTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordResetToken.
+     * @param {PasswordResetTokenDeleteArgs} args - Arguments to delete one PasswordResetToken.
+     * @example
+     * // Delete one PasswordResetToken
+     * const PasswordResetToken = await prisma.passwordResetToken.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordResetToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordResetTokenDeleteArgs>(args: SelectSubset<T, PasswordResetTokenDeleteArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordResetToken.
+     * @param {PasswordResetTokenUpdateArgs} args - Arguments to update one PasswordResetToken.
+     * @example
+     * // Update one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordResetTokenUpdateArgs>(args: SelectSubset<T, PasswordResetTokenUpdateArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordResetTokens.
+     * @param {PasswordResetTokenDeleteManyArgs} args - Arguments to filter PasswordResetTokens to delete.
+     * @example
+     * // Delete a few PasswordResetTokens
+     * const { count } = await prisma.passwordResetToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordResetTokenDeleteManyArgs>(args?: SelectSubset<T, PasswordResetTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResetTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordResetTokenUpdateManyArgs>(args: SelectSubset<T, PasswordResetTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResetTokens and returns the data updated in the database.
+     * @param {PasswordResetTokenUpdateManyAndReturnArgs} args - Arguments to update many PasswordResetTokens.
+     * @example
+     * // Update many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordResetTokens and only return the `id`
+     * const passwordResetTokenWithIdOnly = await prisma.passwordResetToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordResetTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordResetTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordResetToken.
+     * @param {PasswordResetTokenUpsertArgs} args - Arguments to update or create a PasswordResetToken.
+     * @example
+     * // Update or create a PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.upsert({
+     *   create: {
+     *     // ... data to create a PasswordResetToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordResetToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordResetTokenUpsertArgs>(args: SelectSubset<T, PasswordResetTokenUpsertArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordResetTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenCountArgs} args - Arguments to filter PasswordResetTokens to count.
+     * @example
+     * // Count the number of PasswordResetTokens
+     * const count = await prisma.passwordResetToken.count({
+     *   where: {
+     *     // ... the filter for the PasswordResetTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordResetTokenCountArgs>(
+      args?: Subset<T, PasswordResetTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordResetTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordResetToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordResetTokenAggregateArgs>(args: Subset<T, PasswordResetTokenAggregateArgs>): Prisma.PrismaPromise<GetPasswordResetTokenAggregateType<T>>
+
+    /**
+     * Group by PasswordResetToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordResetTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordResetTokenGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordResetTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordResetTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordResetTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordResetToken model
+   */
+  readonly fields: PasswordResetTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PasswordResetToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PasswordResetTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordResetToken model
+   */
+  interface PasswordResetTokenFieldRefs {
+    readonly id: FieldRef<"PasswordResetToken", 'String'>
+    readonly email: FieldRef<"PasswordResetToken", 'String'>
+    readonly token: FieldRef<"PasswordResetToken", 'String'>
+    readonly expiresAt: FieldRef<"PasswordResetToken", 'DateTime'>
+    readonly createdAt: FieldRef<"PasswordResetToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordResetToken findUnique
+   */
+  export type PasswordResetTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken findUniqueOrThrow
+   */
+  export type PasswordResetTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken findFirst
+   */
+  export type PasswordResetTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResetTokens.
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResetTokens.
+     */
+    distinct?: PasswordResetTokenScalarFieldEnum | PasswordResetTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetToken findFirstOrThrow
+   */
+  export type PasswordResetTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResetTokens.
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResetTokens.
+     */
+    distinct?: PasswordResetTokenScalarFieldEnum | PasswordResetTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetToken findMany
+   */
+  export type PasswordResetTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetTokens to fetch.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordResetTokens.
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResetTokens.
+     */
+    distinct?: PasswordResetTokenScalarFieldEnum | PasswordResetTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetToken create
+   */
+  export type PasswordResetTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordResetToken.
+     */
+    data: XOR<PasswordResetTokenCreateInput, PasswordResetTokenUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordResetToken createMany
+   */
+  export type PasswordResetTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordResetTokens.
+     */
+    data: PasswordResetTokenCreateManyInput | PasswordResetTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordResetToken createManyAndReturn
+   */
+  export type PasswordResetTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordResetTokens.
+     */
+    data: PasswordResetTokenCreateManyInput | PasswordResetTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordResetToken update
+   */
+  export type PasswordResetTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordResetToken.
+     */
+    data: XOR<PasswordResetTokenUpdateInput, PasswordResetTokenUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordResetToken to update.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken updateMany
+   */
+  export type PasswordResetTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordResetTokens.
+     */
+    data: XOR<PasswordResetTokenUpdateManyMutationInput, PasswordResetTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResetTokens to update
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * Limit how many PasswordResetTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordResetToken updateManyAndReturn
+   */
+  export type PasswordResetTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordResetTokens.
+     */
+    data: XOR<PasswordResetTokenUpdateManyMutationInput, PasswordResetTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResetTokens to update
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * Limit how many PasswordResetTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordResetToken upsert
+   */
+  export type PasswordResetTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordResetToken to update in case it exists.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+    /**
+     * In case the PasswordResetToken found by the `where` argument doesn't exist, create a new PasswordResetToken with this data.
+     */
+    create: XOR<PasswordResetTokenCreateInput, PasswordResetTokenUncheckedCreateInput>
+    /**
+     * In case the PasswordResetToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordResetTokenUpdateInput, PasswordResetTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordResetToken delete
+   */
+  export type PasswordResetTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Filter which PasswordResetToken to delete.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken deleteMany
+   */
+  export type PasswordResetTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordResetTokens to delete
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * Limit how many PasswordResetTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordResetToken without action
+   */
+  export type PasswordResetTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5702,17 +8019,28 @@ export namespace Prisma {
     description: 'description',
     taille: 'taille',
     couleur: 'couleur',
+    matiere: 'matiere',
     etat: 'etat',
     quantiteTotal: 'quantiteTotal',
     quantiteDispo: 'quantiteDispo',
     emplacement: 'emplacement',
-    imageUrl: 'imageUrl',
     proprietaireId: 'proprietaireId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type CostumeScalarFieldEnum = (typeof CostumeScalarFieldEnum)[keyof typeof CostumeScalarFieldEnum]
+
+
+  export const CostumeImageScalarFieldEnum: {
+    id: 'id',
+    costumeId: 'costumeId',
+    url: 'url',
+    ordre: 'ordre',
+    createdAt: 'createdAt'
+  };
+
+  export type CostumeImageScalarFieldEnum = (typeof CostumeImageScalarFieldEnum)[keyof typeof CostumeImageScalarFieldEnum]
 
 
   export const ProprietaireScalarFieldEnum: {
@@ -5748,6 +8076,17 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const PasswordResetTokenScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    token: 'token',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5904,16 +8243,17 @@ export namespace Prisma {
     description?: StringNullableFilter<"Costume"> | string | null
     taille?: StringFilter<"Costume"> | string
     couleur?: StringFilter<"Costume"> | string
+    matiere?: StringNullableFilter<"Costume"> | string | null
     etat?: EnumEtatFilter<"Costume"> | $Enums.Etat
     quantiteTotal?: IntFilter<"Costume"> | number
     quantiteDispo?: IntFilter<"Costume"> | number
     emplacement?: StringNullableFilter<"Costume"> | string | null
-    imageUrl?: StringNullableFilter<"Costume"> | string | null
     proprietaireId?: StringFilter<"Costume"> | string
     createdAt?: DateTimeFilter<"Costume"> | Date | string
     updatedAt?: DateTimeFilter<"Costume"> | Date | string
     proprietaire?: XOR<ProprietaireScalarRelationFilter, ProprietaireWhereInput>
     prets?: PretListRelationFilter
+    images?: CostumeImageListRelationFilter
   }
 
   export type CostumeOrderByWithRelationInput = {
@@ -5923,16 +8263,17 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     taille?: SortOrder
     couleur?: SortOrder
+    matiere?: SortOrderInput | SortOrder
     etat?: SortOrder
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrderInput | SortOrder
-    imageUrl?: SortOrderInput | SortOrder
     proprietaireId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     proprietaire?: ProprietaireOrderByWithRelationInput
     prets?: PretOrderByRelationAggregateInput
+    images?: CostumeImageOrderByRelationAggregateInput
   }
 
   export type CostumeWhereUniqueInput = Prisma.AtLeast<{
@@ -5945,16 +8286,17 @@ export namespace Prisma {
     description?: StringNullableFilter<"Costume"> | string | null
     taille?: StringFilter<"Costume"> | string
     couleur?: StringFilter<"Costume"> | string
+    matiere?: StringNullableFilter<"Costume"> | string | null
     etat?: EnumEtatFilter<"Costume"> | $Enums.Etat
     quantiteTotal?: IntFilter<"Costume"> | number
     quantiteDispo?: IntFilter<"Costume"> | number
     emplacement?: StringNullableFilter<"Costume"> | string | null
-    imageUrl?: StringNullableFilter<"Costume"> | string | null
     proprietaireId?: StringFilter<"Costume"> | string
     createdAt?: DateTimeFilter<"Costume"> | Date | string
     updatedAt?: DateTimeFilter<"Costume"> | Date | string
     proprietaire?: XOR<ProprietaireScalarRelationFilter, ProprietaireWhereInput>
     prets?: PretListRelationFilter
+    images?: CostumeImageListRelationFilter
   }, "id">
 
   export type CostumeOrderByWithAggregationInput = {
@@ -5964,11 +8306,11 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     taille?: SortOrder
     couleur?: SortOrder
+    matiere?: SortOrderInput | SortOrder
     etat?: SortOrder
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrderInput | SortOrder
-    imageUrl?: SortOrderInput | SortOrder
     proprietaireId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5989,14 +8331,71 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Costume"> | string | null
     taille?: StringWithAggregatesFilter<"Costume"> | string
     couleur?: StringWithAggregatesFilter<"Costume"> | string
+    matiere?: StringNullableWithAggregatesFilter<"Costume"> | string | null
     etat?: EnumEtatWithAggregatesFilter<"Costume"> | $Enums.Etat
     quantiteTotal?: IntWithAggregatesFilter<"Costume"> | number
     quantiteDispo?: IntWithAggregatesFilter<"Costume"> | number
     emplacement?: StringNullableWithAggregatesFilter<"Costume"> | string | null
-    imageUrl?: StringNullableWithAggregatesFilter<"Costume"> | string | null
     proprietaireId?: StringWithAggregatesFilter<"Costume"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Costume"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Costume"> | Date | string
+  }
+
+  export type CostumeImageWhereInput = {
+    AND?: CostumeImageWhereInput | CostumeImageWhereInput[]
+    OR?: CostumeImageWhereInput[]
+    NOT?: CostumeImageWhereInput | CostumeImageWhereInput[]
+    id?: StringFilter<"CostumeImage"> | string
+    costumeId?: StringFilter<"CostumeImage"> | string
+    url?: StringFilter<"CostumeImage"> | string
+    ordre?: IntFilter<"CostumeImage"> | number
+    createdAt?: DateTimeFilter<"CostumeImage"> | Date | string
+    costume?: XOR<CostumeScalarRelationFilter, CostumeWhereInput>
+  }
+
+  export type CostumeImageOrderByWithRelationInput = {
+    id?: SortOrder
+    costumeId?: SortOrder
+    url?: SortOrder
+    ordre?: SortOrder
+    createdAt?: SortOrder
+    costume?: CostumeOrderByWithRelationInput
+  }
+
+  export type CostumeImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CostumeImageWhereInput | CostumeImageWhereInput[]
+    OR?: CostumeImageWhereInput[]
+    NOT?: CostumeImageWhereInput | CostumeImageWhereInput[]
+    costumeId?: StringFilter<"CostumeImage"> | string
+    url?: StringFilter<"CostumeImage"> | string
+    ordre?: IntFilter<"CostumeImage"> | number
+    createdAt?: DateTimeFilter<"CostumeImage"> | Date | string
+    costume?: XOR<CostumeScalarRelationFilter, CostumeWhereInput>
+  }, "id">
+
+  export type CostumeImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    costumeId?: SortOrder
+    url?: SortOrder
+    ordre?: SortOrder
+    createdAt?: SortOrder
+    _count?: CostumeImageCountOrderByAggregateInput
+    _avg?: CostumeImageAvgOrderByAggregateInput
+    _max?: CostumeImageMaxOrderByAggregateInput
+    _min?: CostumeImageMinOrderByAggregateInput
+    _sum?: CostumeImageSumOrderByAggregateInput
+  }
+
+  export type CostumeImageScalarWhereWithAggregatesInput = {
+    AND?: CostumeImageScalarWhereWithAggregatesInput | CostumeImageScalarWhereWithAggregatesInput[]
+    OR?: CostumeImageScalarWhereWithAggregatesInput[]
+    NOT?: CostumeImageScalarWhereWithAggregatesInput | CostumeImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CostumeImage"> | string
+    costumeId?: StringWithAggregatesFilter<"CostumeImage"> | string
+    url?: StringWithAggregatesFilter<"CostumeImage"> | string
+    ordre?: IntWithAggregatesFilter<"CostumeImage"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"CostumeImage"> | Date | string
   }
 
   export type ProprietaireWhereInput = {
@@ -6171,6 +8570,58 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
+  export type PasswordResetTokenWhereInput = {
+    AND?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    OR?: PasswordResetTokenWhereInput[]
+    NOT?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    id?: StringFilter<"PasswordResetToken"> | string
+    email?: StringFilter<"PasswordResetToken"> | string
+    token?: StringFilter<"PasswordResetToken"> | string
+    expiresAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    createdAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+  }
+
+  export type PasswordResetTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PasswordResetTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    OR?: PasswordResetTokenWhereInput[]
+    NOT?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    email?: StringFilter<"PasswordResetToken"> | string
+    expiresAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    createdAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+  }, "id" | "token">
+
+  export type PasswordResetTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: PasswordResetTokenCountOrderByAggregateInput
+    _max?: PasswordResetTokenMaxOrderByAggregateInput
+    _min?: PasswordResetTokenMinOrderByAggregateInput
+  }
+
+  export type PasswordResetTokenScalarWhereWithAggregatesInput = {
+    AND?: PasswordResetTokenScalarWhereWithAggregatesInput | PasswordResetTokenScalarWhereWithAggregatesInput[]
+    OR?: PasswordResetTokenScalarWhereWithAggregatesInput[]
+    NOT?: PasswordResetTokenScalarWhereWithAggregatesInput | PasswordResetTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordResetToken"> | string
+    email?: StringWithAggregatesFilter<"PasswordResetToken"> | string
+    token?: StringWithAggregatesFilter<"PasswordResetToken"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
+  }
+
   export type CostumeCreateInput = {
     id?: string
     nom: string
@@ -6178,15 +8629,16 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     proprietaire: ProprietaireCreateNestedOneWithoutCostumesInput
     prets?: PretCreateNestedManyWithoutCostumeInput
+    images?: CostumeImageCreateNestedManyWithoutCostumeInput
   }
 
   export type CostumeUncheckedCreateInput = {
@@ -6196,15 +8648,16 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     proprietaireId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     prets?: PretUncheckedCreateNestedManyWithoutCostumeInput
+    images?: CostumeImageUncheckedCreateNestedManyWithoutCostumeInput
   }
 
   export type CostumeUpdateInput = {
@@ -6214,15 +8667,16 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     proprietaire?: ProprietaireUpdateOneRequiredWithoutCostumesNestedInput
     prets?: PretUpdateManyWithoutCostumeNestedInput
+    images?: CostumeImageUpdateManyWithoutCostumeNestedInput
   }
 
   export type CostumeUncheckedUpdateInput = {
@@ -6232,15 +8686,16 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     proprietaireId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     prets?: PretUncheckedUpdateManyWithoutCostumeNestedInput
+    images?: CostumeImageUncheckedUpdateManyWithoutCostumeNestedInput
   }
 
   export type CostumeCreateManyInput = {
@@ -6250,11 +8705,11 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     proprietaireId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6267,11 +8722,11 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6283,14 +8738,69 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     proprietaireId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostumeImageCreateInput = {
+    id?: string
+    url: string
+    ordre?: number
+    createdAt?: Date | string
+    costume: CostumeCreateNestedOneWithoutImagesInput
+  }
+
+  export type CostumeImageUncheckedCreateInput = {
+    id?: string
+    costumeId: string
+    url: string
+    ordre?: number
+    createdAt?: Date | string
+  }
+
+  export type CostumeImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    ordre?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    costume?: CostumeUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type CostumeImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costumeId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    ordre?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostumeImageCreateManyInput = {
+    id?: string
+    costumeId: string
+    url: string
+    ordre?: number
+    createdAt?: Date | string
+  }
+
+  export type CostumeImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    ordre?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostumeImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    costumeId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    ordre?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProprietaireCreateInput = {
@@ -6478,6 +8988,62 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PasswordResetTokenCreateInput = {
+    id?: string
+    email: string
+    token: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetTokenUncheckedCreateInput = {
+    id?: string
+    email: string
+    token: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetTokenCreateManyInput = {
+    id?: string
+    email: string
+    token: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -6555,12 +9121,22 @@ export namespace Prisma {
     none?: PretWhereInput
   }
 
+  export type CostumeImageListRelationFilter = {
+    every?: CostumeImageWhereInput
+    some?: CostumeImageWhereInput
+    none?: CostumeImageWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type PretOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CostumeImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -6571,11 +9147,11 @@ export namespace Prisma {
     description?: SortOrder
     taille?: SortOrder
     couleur?: SortOrder
+    matiere?: SortOrder
     etat?: SortOrder
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrder
-    imageUrl?: SortOrder
     proprietaireId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6593,11 +9169,11 @@ export namespace Prisma {
     description?: SortOrder
     taille?: SortOrder
     couleur?: SortOrder
+    matiere?: SortOrder
     etat?: SortOrder
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrder
-    imageUrl?: SortOrder
     proprietaireId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6610,11 +9186,11 @@ export namespace Prisma {
     description?: SortOrder
     taille?: SortOrder
     couleur?: SortOrder
+    matiere?: SortOrder
     etat?: SortOrder
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrder
-    imageUrl?: SortOrder
     proprietaireId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6711,6 +9287,43 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type CostumeScalarRelationFilter = {
+    is?: CostumeWhereInput
+    isNot?: CostumeWhereInput
+  }
+
+  export type CostumeImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    costumeId?: SortOrder
+    url?: SortOrder
+    ordre?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CostumeImageAvgOrderByAggregateInput = {
+    ordre?: SortOrder
+  }
+
+  export type CostumeImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    costumeId?: SortOrder
+    url?: SortOrder
+    ordre?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CostumeImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    costumeId?: SortOrder
+    url?: SortOrder
+    ordre?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CostumeImageSumOrderByAggregateInput = {
+    ordre?: SortOrder
+  }
+
   export type CostumeListRelationFilter = {
     every?: CostumeWhereInput
     some?: CostumeWhereInput
@@ -6755,11 +9368,6 @@ export namespace Prisma {
     in?: $Enums.StatutPret[] | ListEnumStatutPretFieldRefInput<$PrismaModel>
     notIn?: $Enums.StatutPret[] | ListEnumStatutPretFieldRefInput<$PrismaModel>
     not?: NestedEnumStatutPretFilter<$PrismaModel> | $Enums.StatutPret
-  }
-
-  export type CostumeScalarRelationFilter = {
-    is?: CostumeWhereInput
-    isNot?: CostumeWhereInput
   }
 
   export type PretCountOrderByAggregateInput = {
@@ -6863,6 +9471,30 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type PasswordResetTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PasswordResetTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PasswordResetTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type ProprietaireCreateNestedOneWithoutCostumesInput = {
     create?: XOR<ProprietaireCreateWithoutCostumesInput, ProprietaireUncheckedCreateWithoutCostumesInput>
     connectOrCreate?: ProprietaireCreateOrConnectWithoutCostumesInput
@@ -6876,11 +9508,25 @@ export namespace Prisma {
     connect?: PretWhereUniqueInput | PretWhereUniqueInput[]
   }
 
+  export type CostumeImageCreateNestedManyWithoutCostumeInput = {
+    create?: XOR<CostumeImageCreateWithoutCostumeInput, CostumeImageUncheckedCreateWithoutCostumeInput> | CostumeImageCreateWithoutCostumeInput[] | CostumeImageUncheckedCreateWithoutCostumeInput[]
+    connectOrCreate?: CostumeImageCreateOrConnectWithoutCostumeInput | CostumeImageCreateOrConnectWithoutCostumeInput[]
+    createMany?: CostumeImageCreateManyCostumeInputEnvelope
+    connect?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+  }
+
   export type PretUncheckedCreateNestedManyWithoutCostumeInput = {
     create?: XOR<PretCreateWithoutCostumeInput, PretUncheckedCreateWithoutCostumeInput> | PretCreateWithoutCostumeInput[] | PretUncheckedCreateWithoutCostumeInput[]
     connectOrCreate?: PretCreateOrConnectWithoutCostumeInput | PretCreateOrConnectWithoutCostumeInput[]
     createMany?: PretCreateManyCostumeInputEnvelope
     connect?: PretWhereUniqueInput | PretWhereUniqueInput[]
+  }
+
+  export type CostumeImageUncheckedCreateNestedManyWithoutCostumeInput = {
+    create?: XOR<CostumeImageCreateWithoutCostumeInput, CostumeImageUncheckedCreateWithoutCostumeInput> | CostumeImageCreateWithoutCostumeInput[] | CostumeImageUncheckedCreateWithoutCostumeInput[]
+    connectOrCreate?: CostumeImageCreateOrConnectWithoutCostumeInput | CostumeImageCreateOrConnectWithoutCostumeInput[]
+    createMany?: CostumeImageCreateManyCostumeInputEnvelope
+    connect?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -6933,6 +9579,20 @@ export namespace Prisma {
     deleteMany?: PretScalarWhereInput | PretScalarWhereInput[]
   }
 
+  export type CostumeImageUpdateManyWithoutCostumeNestedInput = {
+    create?: XOR<CostumeImageCreateWithoutCostumeInput, CostumeImageUncheckedCreateWithoutCostumeInput> | CostumeImageCreateWithoutCostumeInput[] | CostumeImageUncheckedCreateWithoutCostumeInput[]
+    connectOrCreate?: CostumeImageCreateOrConnectWithoutCostumeInput | CostumeImageCreateOrConnectWithoutCostumeInput[]
+    upsert?: CostumeImageUpsertWithWhereUniqueWithoutCostumeInput | CostumeImageUpsertWithWhereUniqueWithoutCostumeInput[]
+    createMany?: CostumeImageCreateManyCostumeInputEnvelope
+    set?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    disconnect?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    delete?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    connect?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    update?: CostumeImageUpdateWithWhereUniqueWithoutCostumeInput | CostumeImageUpdateWithWhereUniqueWithoutCostumeInput[]
+    updateMany?: CostumeImageUpdateManyWithWhereWithoutCostumeInput | CostumeImageUpdateManyWithWhereWithoutCostumeInput[]
+    deleteMany?: CostumeImageScalarWhereInput | CostumeImageScalarWhereInput[]
+  }
+
   export type PretUncheckedUpdateManyWithoutCostumeNestedInput = {
     create?: XOR<PretCreateWithoutCostumeInput, PretUncheckedCreateWithoutCostumeInput> | PretCreateWithoutCostumeInput[] | PretUncheckedCreateWithoutCostumeInput[]
     connectOrCreate?: PretCreateOrConnectWithoutCostumeInput | PretCreateOrConnectWithoutCostumeInput[]
@@ -6945,6 +9605,34 @@ export namespace Prisma {
     update?: PretUpdateWithWhereUniqueWithoutCostumeInput | PretUpdateWithWhereUniqueWithoutCostumeInput[]
     updateMany?: PretUpdateManyWithWhereWithoutCostumeInput | PretUpdateManyWithWhereWithoutCostumeInput[]
     deleteMany?: PretScalarWhereInput | PretScalarWhereInput[]
+  }
+
+  export type CostumeImageUncheckedUpdateManyWithoutCostumeNestedInput = {
+    create?: XOR<CostumeImageCreateWithoutCostumeInput, CostumeImageUncheckedCreateWithoutCostumeInput> | CostumeImageCreateWithoutCostumeInput[] | CostumeImageUncheckedCreateWithoutCostumeInput[]
+    connectOrCreate?: CostumeImageCreateOrConnectWithoutCostumeInput | CostumeImageCreateOrConnectWithoutCostumeInput[]
+    upsert?: CostumeImageUpsertWithWhereUniqueWithoutCostumeInput | CostumeImageUpsertWithWhereUniqueWithoutCostumeInput[]
+    createMany?: CostumeImageCreateManyCostumeInputEnvelope
+    set?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    disconnect?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    delete?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    connect?: CostumeImageWhereUniqueInput | CostumeImageWhereUniqueInput[]
+    update?: CostumeImageUpdateWithWhereUniqueWithoutCostumeInput | CostumeImageUpdateWithWhereUniqueWithoutCostumeInput[]
+    updateMany?: CostumeImageUpdateManyWithWhereWithoutCostumeInput | CostumeImageUpdateManyWithWhereWithoutCostumeInput[]
+    deleteMany?: CostumeImageScalarWhereInput | CostumeImageScalarWhereInput[]
+  }
+
+  export type CostumeCreateNestedOneWithoutImagesInput = {
+    create?: XOR<CostumeCreateWithoutImagesInput, CostumeUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: CostumeCreateOrConnectWithoutImagesInput
+    connect?: CostumeWhereUniqueInput
+  }
+
+  export type CostumeUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<CostumeCreateWithoutImagesInput, CostumeUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: CostumeCreateOrConnectWithoutImagesInput
+    upsert?: CostumeUpsertWithoutImagesInput
+    connect?: CostumeWhereUniqueInput
+    update?: XOR<XOR<CostumeUpdateToOneWithWhereWithoutImagesInput, CostumeUpdateWithoutImagesInput>, CostumeUncheckedUpdateWithoutImagesInput>
   }
 
   export type CostumeCreateNestedManyWithoutProprietaireInput = {
@@ -7291,6 +9979,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CostumeImageCreateWithoutCostumeInput = {
+    id?: string
+    url: string
+    ordre?: number
+    createdAt?: Date | string
+  }
+
+  export type CostumeImageUncheckedCreateWithoutCostumeInput = {
+    id?: string
+    url: string
+    ordre?: number
+    createdAt?: Date | string
+  }
+
+  export type CostumeImageCreateOrConnectWithoutCostumeInput = {
+    where: CostumeImageWhereUniqueInput
+    create: XOR<CostumeImageCreateWithoutCostumeInput, CostumeImageUncheckedCreateWithoutCostumeInput>
+  }
+
+  export type CostumeImageCreateManyCostumeInputEnvelope = {
+    data: CostumeImageCreateManyCostumeInput | CostumeImageCreateManyCostumeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProprietaireUpsertWithoutCostumesInput = {
     update: XOR<ProprietaireUpdateWithoutCostumesInput, ProprietaireUncheckedUpdateWithoutCostumesInput>
     create: XOR<ProprietaireCreateWithoutCostumesInput, ProprietaireUncheckedCreateWithoutCostumesInput>
@@ -7344,6 +10056,121 @@ export namespace Prisma {
     notes?: StringNullableFilter<"Pret"> | string | null
   }
 
+  export type CostumeImageUpsertWithWhereUniqueWithoutCostumeInput = {
+    where: CostumeImageWhereUniqueInput
+    update: XOR<CostumeImageUpdateWithoutCostumeInput, CostumeImageUncheckedUpdateWithoutCostumeInput>
+    create: XOR<CostumeImageCreateWithoutCostumeInput, CostumeImageUncheckedCreateWithoutCostumeInput>
+  }
+
+  export type CostumeImageUpdateWithWhereUniqueWithoutCostumeInput = {
+    where: CostumeImageWhereUniqueInput
+    data: XOR<CostumeImageUpdateWithoutCostumeInput, CostumeImageUncheckedUpdateWithoutCostumeInput>
+  }
+
+  export type CostumeImageUpdateManyWithWhereWithoutCostumeInput = {
+    where: CostumeImageScalarWhereInput
+    data: XOR<CostumeImageUpdateManyMutationInput, CostumeImageUncheckedUpdateManyWithoutCostumeInput>
+  }
+
+  export type CostumeImageScalarWhereInput = {
+    AND?: CostumeImageScalarWhereInput | CostumeImageScalarWhereInput[]
+    OR?: CostumeImageScalarWhereInput[]
+    NOT?: CostumeImageScalarWhereInput | CostumeImageScalarWhereInput[]
+    id?: StringFilter<"CostumeImage"> | string
+    costumeId?: StringFilter<"CostumeImage"> | string
+    url?: StringFilter<"CostumeImage"> | string
+    ordre?: IntFilter<"CostumeImage"> | number
+    createdAt?: DateTimeFilter<"CostumeImage"> | Date | string
+  }
+
+  export type CostumeCreateWithoutImagesInput = {
+    id?: string
+    nom: string
+    epoque: $Enums.Epoque
+    description?: string | null
+    taille: string
+    couleur: string
+    matiere?: string | null
+    etat?: $Enums.Etat
+    quantiteTotal?: number
+    quantiteDispo?: number
+    emplacement?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    proprietaire: ProprietaireCreateNestedOneWithoutCostumesInput
+    prets?: PretCreateNestedManyWithoutCostumeInput
+  }
+
+  export type CostumeUncheckedCreateWithoutImagesInput = {
+    id?: string
+    nom: string
+    epoque: $Enums.Epoque
+    description?: string | null
+    taille: string
+    couleur: string
+    matiere?: string | null
+    etat?: $Enums.Etat
+    quantiteTotal?: number
+    quantiteDispo?: number
+    emplacement?: string | null
+    proprietaireId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    prets?: PretUncheckedCreateNestedManyWithoutCostumeInput
+  }
+
+  export type CostumeCreateOrConnectWithoutImagesInput = {
+    where: CostumeWhereUniqueInput
+    create: XOR<CostumeCreateWithoutImagesInput, CostumeUncheckedCreateWithoutImagesInput>
+  }
+
+  export type CostumeUpsertWithoutImagesInput = {
+    update: XOR<CostumeUpdateWithoutImagesInput, CostumeUncheckedUpdateWithoutImagesInput>
+    create: XOR<CostumeCreateWithoutImagesInput, CostumeUncheckedCreateWithoutImagesInput>
+    where?: CostumeWhereInput
+  }
+
+  export type CostumeUpdateToOneWithWhereWithoutImagesInput = {
+    where?: CostumeWhereInput
+    data: XOR<CostumeUpdateWithoutImagesInput, CostumeUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type CostumeUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nom?: StringFieldUpdateOperationsInput | string
+    epoque?: EnumEpoqueFieldUpdateOperationsInput | $Enums.Epoque
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    taille?: StringFieldUpdateOperationsInput | string
+    couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
+    etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
+    quantiteTotal?: IntFieldUpdateOperationsInput | number
+    quantiteDispo?: IntFieldUpdateOperationsInput | number
+    emplacement?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    proprietaire?: ProprietaireUpdateOneRequiredWithoutCostumesNestedInput
+    prets?: PretUpdateManyWithoutCostumeNestedInput
+  }
+
+  export type CostumeUncheckedUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nom?: StringFieldUpdateOperationsInput | string
+    epoque?: EnumEpoqueFieldUpdateOperationsInput | $Enums.Epoque
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    taille?: StringFieldUpdateOperationsInput | string
+    couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
+    etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
+    quantiteTotal?: IntFieldUpdateOperationsInput | number
+    quantiteDispo?: IntFieldUpdateOperationsInput | number
+    emplacement?: NullableStringFieldUpdateOperationsInput | string | null
+    proprietaireId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    prets?: PretUncheckedUpdateManyWithoutCostumeNestedInput
+  }
+
   export type CostumeCreateWithoutProprietaireInput = {
     id?: string
     nom: string
@@ -7351,14 +10178,15 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     prets?: PretCreateNestedManyWithoutCostumeInput
+    images?: CostumeImageCreateNestedManyWithoutCostumeInput
   }
 
   export type CostumeUncheckedCreateWithoutProprietaireInput = {
@@ -7368,14 +10196,15 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     prets?: PretUncheckedCreateNestedManyWithoutCostumeInput
+    images?: CostumeImageUncheckedCreateNestedManyWithoutCostumeInput
   }
 
   export type CostumeCreateOrConnectWithoutProprietaireInput = {
@@ -7414,11 +10243,11 @@ export namespace Prisma {
     description?: StringNullableFilter<"Costume"> | string | null
     taille?: StringFilter<"Costume"> | string
     couleur?: StringFilter<"Costume"> | string
+    matiere?: StringNullableFilter<"Costume"> | string | null
     etat?: EnumEtatFilter<"Costume"> | $Enums.Etat
     quantiteTotal?: IntFilter<"Costume"> | number
     quantiteDispo?: IntFilter<"Costume"> | number
     emplacement?: StringNullableFilter<"Costume"> | string | null
-    imageUrl?: StringNullableFilter<"Costume"> | string | null
     proprietaireId?: StringFilter<"Costume"> | string
     createdAt?: DateTimeFilter<"Costume"> | Date | string
     updatedAt?: DateTimeFilter<"Costume"> | Date | string
@@ -7431,14 +10260,15 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     proprietaire: ProprietaireCreateNestedOneWithoutCostumesInput
+    images?: CostumeImageCreateNestedManyWithoutCostumeInput
   }
 
   export type CostumeUncheckedCreateWithoutPretsInput = {
@@ -7448,14 +10278,15 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     proprietaireId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    images?: CostumeImageUncheckedCreateNestedManyWithoutCostumeInput
   }
 
   export type CostumeCreateOrConnectWithoutPretsInput = {
@@ -7481,14 +10312,15 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     proprietaire?: ProprietaireUpdateOneRequiredWithoutCostumesNestedInput
+    images?: CostumeImageUpdateManyWithoutCostumeNestedInput
   }
 
   export type CostumeUncheckedUpdateWithoutPretsInput = {
@@ -7498,14 +10330,15 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     proprietaireId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: CostumeImageUncheckedUpdateManyWithoutCostumeNestedInput
   }
 
   export type PretCreateManyCostumeInput = {
@@ -7516,6 +10349,13 @@ export namespace Prisma {
     dateRetourReelle?: Date | string | null
     statut?: $Enums.StatutPret
     notes?: string | null
+  }
+
+  export type CostumeImageCreateManyCostumeInput = {
+    id?: string
+    url: string
+    ordre?: number
+    createdAt?: Date | string
   }
 
   export type PretUpdateWithoutCostumeInput = {
@@ -7548,6 +10388,27 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type CostumeImageUpdateWithoutCostumeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    ordre?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostumeImageUncheckedUpdateWithoutCostumeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    ordre?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostumeImageUncheckedUpdateManyWithoutCostumeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    ordre?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CostumeCreateManyProprietaireInput = {
     id?: string
     nom: string
@@ -7555,11 +10416,11 @@ export namespace Prisma {
     description?: string | null
     taille: string
     couleur: string
+    matiere?: string | null
     etat?: $Enums.Etat
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7571,14 +10432,15 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     prets?: PretUpdateManyWithoutCostumeNestedInput
+    images?: CostumeImageUpdateManyWithoutCostumeNestedInput
   }
 
   export type CostumeUncheckedUpdateWithoutProprietaireInput = {
@@ -7588,14 +10450,15 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     prets?: PretUncheckedUpdateManyWithoutCostumeNestedInput
+    images?: CostumeImageUncheckedUpdateManyWithoutCostumeNestedInput
   }
 
   export type CostumeUncheckedUpdateManyWithoutProprietaireInput = {
@@ -7605,11 +10468,11 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     taille?: StringFieldUpdateOperationsInput | string
     couleur?: StringFieldUpdateOperationsInput | string
+    matiere?: NullableStringFieldUpdateOperationsInput | string | null
     etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

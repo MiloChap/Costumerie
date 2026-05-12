@@ -6,9 +6,10 @@ export default auth((req) => {
   console.log("middleware auth:", req.auth)
 
   const isLoggedIn = !!req.auth
-  const isLoginPage = req.nextUrl.pathname === "/login"
+  const publicPaths = ["/login", "/forgot-password", "/reset-password"]
+  const isPublicPage = publicPaths.includes(req.nextUrl.pathname)
 
-  if (!isLoggedIn && !isLoginPage) {
+  if (!isLoggedIn && !isPublicPage) {
     return NextResponse.redirect(new URL("/login", req.url))
   }
 
@@ -19,5 +20,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth|.*\\.(?:jpg|jpeg|png|gif|svg|webp|ico)$).*)"],
 }

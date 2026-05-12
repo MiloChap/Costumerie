@@ -5,22 +5,21 @@ import { NextResponse } from "next/server"
 
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ imageId: string }> }
 ) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
-  const { id } = await params
+  const { imageId } = await params
 
-  const firstImage = await prisma.costumeImage.findFirst({
-    where: { costumeId: id },
-    orderBy: { ordre: "asc" },
+  const image = await prisma.costumeImage.findUnique({
+    where: { id: imageId },
     select: { url: true },
   })
 
-  if (!firstImage) return NextResponse.json({ error: "Pas d'image" }, { status: 404 })
+  if (!image) return NextResponse.json({ error: "Image introuvable" }, { status: 404 })
 
-  const result = await get(firstImage.url, { access: "private" })
+  const result = await get(image.url, { access: "private" })
   if (!result) return NextResponse.json({ error: "Image introuvable" }, { status: 404 })
 
   return new Response(result.stream, {

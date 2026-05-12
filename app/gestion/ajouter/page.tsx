@@ -14,16 +14,11 @@ export default async function Page() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="border-b border-slate-200 bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center gap-4">
-          
-            <a href="/gestion"
-            className="text-sm text-slate-500 hover:text-slate-700"
-          >
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
+          <img src="/logo.jpg" alt="L'équipe costumes" className="h-8 w-auto" />
+          <a href="/gestion" className="text-sm text-slate-500 hover:text-[#e21713] transition">
             ← Retour au stock
           </a>
-          <h1 className="text-lg font-semibold text-slate-900">
-            Ajouter un costume
-          </h1>
         </div>
       </div>
 

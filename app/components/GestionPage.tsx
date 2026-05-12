@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import CostumeCard, { type CostumeCardProps } from "./CostumeCard";
+import CostumePopup from "./CostumePopup";
 import FiltresSidebar, { type Filtres } from "./FiltresSidebar";
 import StatCard from "./StatCard";
 import LogoutButton from "./LogoutButton";
@@ -9,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 type Costume = Omit<
   CostumeCardProps,
-  "onModifier" | "onGererPret" | "onSupprimer"
+  "onModifier" | "onGererPret" | "onSupprimer" | "onOpenPopup"
 > & {
   proprietaireId: string;
 };
@@ -22,9 +23,6 @@ interface GestionPageProps {
   pretsEnCours: number;
   utilisateurNom?: string;
   estAdmin?: boolean;
-  onSeDeconnecter?: () => void;
-  onAjouter?: () => void;
-  onGererPrets?: () => void;
 }
 
 export default function GestionPage({
@@ -35,36 +33,25 @@ export default function GestionPage({
   pretsEnCours,
   utilisateurNom = "Utilisateur",
   estAdmin = false,
-  onSeDeconnecter,
-  onAjouter,
-  onGererPrets,
 }: GestionPageProps) {
-  const [filtres, setFiltres] = useState<Filtres>({
-    disponibleSeulement: false,
-  });
+  const [filtres, setFiltres] = useState<Filtres>({ disponibleSeulement: false });
   const [costumesLocaux, setCostumesLocaux] = useState(costumes);
   const [supprimantId, setSupprimantId] = useState<string | null>(null);
+  const [popupId, setPopupId] = useState<string | null>(null);
   const router = useRouter();
 
   const costumesFiltres = useMemo(() => {
     return costumesLocaux.filter((c) => {
-      if (
-        filtres.recherche &&
-        !c.nom.toLowerCase().includes(filtres.recherche.toLowerCase())
-      )
+      if (filtres.recherche && !c.nom.toLowerCase().includes(filtres.recherche.toLowerCase()))
         return false;
       if (filtres.epoque && c.epoque !== filtres.epoque) return false;
-      if (
-        filtres.taille &&
-        !c.taille.toLowerCase().includes(filtres.taille.toLowerCase())
-      )
+      if (filtres.taille && !c.taille.toLowerCase().includes(filtres.taille.toLowerCase()))
         return false;
-      if (
-        filtres.couleur &&
-        !c.couleur.toLowerCase().includes(filtres.couleur.toLowerCase())
-      )
+      if (filtres.couleur && !c.couleur.toLowerCase().includes(filtres.couleur.toLowerCase()))
         return false;
-      if (filtres.etat && c.etat.toLowerCase() !== filtres.etat.toLowerCase())
+      if (filtres.matiere && !c.matiere?.toLowerCase().includes(filtres.matiere.toLowerCase()))
+        return false;
+      if (filtres.etat && c.etat !== filtres.etat)
         return false;
       if (filtres.disponibleSeulement && c.quantiteDispo <= 0) return false;
       if (filtres.proprietaireId && c.proprietaireId !== filtres.proprietaireId)
@@ -73,17 +60,33 @@ export default function GestionPage({
     });
   }, [filtres, costumesLocaux]);
 
-  const handleModifier = (id: string) => router.push(`/gestion/costume/${id}`);
+  const popupIndex = costumesFiltres.findIndex((c) => c.id === popupId);
+  const popupCostume = popupIndex >= 0 ? costumesFiltres[popupIndex] : null;
+
+  const naviguerPopup = (direction: 1 | -1) => {
+    if (costumesFiltres.length === 0) return;
+    const newIndex = (popupIndex + direction + costumesFiltres.length) % costumesFiltres.length;
+    setPopupId(costumesFiltres[newIndex].id);
+  };
+
+  const handleModifier = (id: string) => {
+    setPopupId(null);
+    router.push(`/gestion/costume/${id}`);
+  };
+
+  const handleGererPret = (id: string) => {
+    setPopupId(null);
+    router.push(`/gestion/prets?costumeId=${id}`);
+  };
+
   const handleSupprimer = async (id: string) => {
-    if (!confirm("Supprimer ce costume ? Cette action est irréversible."))
-      return;
+    setPopupId(null);
+    if (!confirm("Supprimer ce costume ? Cette action est irréversible.")) return;
 
     setSupprimantId(id);
-
-    await new Promise((res) => setTimeout(res, 300)); // attendre le fade
+    await new Promise((res) => setTimeout(res, 300));
 
     const res = await fetch(`/api/costumes/${id}`, { method: "DELETE" });
-
     if (res.ok) {
       setCostumesLocaux((prev) => prev.filter((c) => c.id !== id));
       router.refresh();
@@ -98,27 +101,14 @@ export default function GestionPage({
     <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-white">
-              <span className="text-sm font-bold">C</span>
-            </div>
-            <div>
-              <h1 className="text-lg font-semibold tracking-tight">
-                Costumerie
-              </h1>
-              <p className="text-xs text-slate-500">Gestion du stock</p>
-            </div>
+            <img src="/logo.jpg" alt="L'équipe costumes" className="h-16 w-auto" />
           </div>
-
           <div className="flex items-center gap-4">
             <div className="hidden text-right sm:block">
-              <p className="text-sm font-medium text-slate-900">
-                {utilisateurNom}
-              </p>
-              <p className="text-xs text-slate-500">
-                {estAdmin ? "Administrateur" : "Gestionnaire"}
-              </p>
+              <p className="text-sm font-medium text-slate-900">{utilisateurNom}</p>
+              <p className="text-xs text-slate-500">{estAdmin ? "Administrateur" : "Gestionnaire"}</p>
             </div>
             <LogoutButton />
           </div>
@@ -128,43 +118,31 @@ export default function GestionPage({
       <main className="mx-auto max-w-7xl px-6 py-8">
         {/* Stats */}
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <StatCard
-            label="Total costumes"
-            valeur={totalCostumes}
-            couleur="bleu"
-          />
+          <StatCard label="Total costumes" valeur={totalCostumes} couleur="bleu" />
           <StatCard label="Disponibles" valeur={totalDispo} couleur="vert" />
-          <StatCard
-            label="Prêts en cours"
-            valeur={pretsEnCours}
-            couleur="orange"
-          />
+          <StatCard label="Prêts en cours" valeur={pretsEnCours} couleur="orange" />
         </section>
 
         {/* Actions */}
         <section className="mt-6 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold tracking-tight">
-              Stock de costumes
-            </h2>
+            <h2 className="text-xl font-semibold tracking-tight">Stock de costumes</h2>
             <p className="text-sm text-slate-500">
-              {costumesFiltres.length} résultat
-              {costumesFiltres.length > 1 ? "s" : ""} affiché
-              {costumesFiltres.length > 1 ? "s" : ""}
+              {costumesFiltres.length} résultat{costumesFiltres.length > 1 ? "s" : ""} affiché{costumesFiltres.length > 1 ? "s" : ""}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => router.push("/gestion/prets")}
-              className="inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
+              className="inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
             >
               Gérer les prêts
             </button>
             <button
               type="button"
               onClick={() => router.push("/gestion/ajouter")}
-              className="inline-flex items-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-700"
+              className="inline-flex items-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800"
             >
               + Ajouter un costume
             </button>
@@ -173,36 +151,28 @@ export default function GestionPage({
 
         {/* Sidebar + Grid */}
         <section className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start">
-          <FiltresSidebar
-            proprietaires={proprietaires}
-            onFiltrer={setFiltres}
-          />
+          <FiltresSidebar proprietaires={proprietaires} onFiltrer={setFiltres} />
 
           <div className="flex-1">
             {costumesFiltres.length === 0 ? (
               <div className="rounded-xl border border-dashed border-slate-300 bg-white p-12 text-center">
-                <p className="text-sm text-slate-500">
-                  Aucun costume ne correspond à ces filtres.
-                </p>
+                <p className="text-sm text-slate-500">Aucun costume ne correspond à ces filtres.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {costumesFiltres.map((c) => (
                   <div
                     key={c.id}
-                    className={`transition-all duration-400 ease-in-out ${
-                      supprimantId === c.id
-                        ? "opacity-0 scale-95"
-                        : "opacity-100 scale-100"
+                    className={`transition-opacity duration-300 ${
+                      supprimantId === c.id ? "opacity-0" : "opacity-100"
                     }`}
                   >
                     <CostumeCard
                       {...c}
                       onModifier={handleModifier}
-                      onGererPret={(id) =>
-                        router.push(`/gestion/prets?costumeId=${id}`)
-                      }
+                      onGererPret={handleGererPret}
                       onSupprimer={estAdmin ? handleSupprimer : undefined}
+                      onOpenPopup={setPopupId}
                     />
                   </div>
                 ))}
@@ -211,6 +181,21 @@ export default function GestionPage({
           </div>
         </section>
       </main>
+
+      {/* Popup centralisé — rendu hors stacking context via Portal dans CostumePopup */}
+      {popupCostume && (
+        <CostumePopup
+          {...popupCostume}
+          onClose={() => setPopupId(null)}
+          onModifier={handleModifier}
+          onGererPret={handleGererPret}
+          onSupprimer={estAdmin ? handleSupprimer : undefined}
+          onPrecedent={costumesFiltres.length > 1 ? () => naviguerPopup(-1) : undefined}
+          onSuivant={costumesFiltres.length > 1 ? () => naviguerPopup(1) : undefined}
+          position={popupIndex + 1}
+          total={costumesFiltres.length}
+        />
+      )}
     </div>
   );
 }

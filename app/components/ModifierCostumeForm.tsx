@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 
 const EPOQUES = [
   { value: "AVANT_1900", label: "Avant 1900" },
@@ -25,8 +25,23 @@ const ETATS = [
   { value: "BON", label: "Bon" },
   { value: "USE", label: "Usé" },
   { value: "A_REPARER", label: "À réparer" },
-  { value: "HORS_SERVICE", label: "Hors service" },
+  { value: "A_NETTOYER", label: "À nettoyer" },
+  { value: "A_FABRIQUER", label: "À fabriquer" },
 ] as const;
+
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+interface ImageExistante {
+  id: string;
+  url: string;
+  ordre: number;
+}
+
+interface NouvellePhoto {
+  file: File;
+  previewUrl: string;
+}
 
 export interface ModifierCostumeFormProps {
   costume: {
@@ -35,12 +50,13 @@ export interface ModifierCostumeFormProps {
     epoque: string;
     taille: string;
     couleur: string;
+    matiere?: string;
     etat: string;
     quantiteTotal: number;
     quantiteDispo: number;
     emplacement?: string;
     description?: string;
-    imageUrl?: string;
+    images: ImageExistante[];
     proprietaireId: string;
   };
   proprietaires: { id: string; nom: string }[];
@@ -56,34 +72,20 @@ export default function ModifierCostumeForm({
   const [epoque, setEpoque] = useState<string>(costume.epoque);
   const [taille, setTaille] = useState<string>(costume.taille);
   const [couleur, setCouleur] = useState<string>(costume.couleur);
+  const [matiere, setMatiere] = useState<string>(costume.matiere ?? "");
   const [etat, setEtat] = useState<string>(costume.etat);
-  const [quantiteTotal, setQuantiteTotal] = useState<number>(
-    costume.quantiteTotal,
-  );
-  const [quantiteDispo, setQuantiteDispo] = useState<number>(
-    costume.quantiteDispo,
-  );
-  const [emplacement, setEmplacement] = useState<string>(
-    costume.emplacement ?? "",
-  );
-  const [description, setDescription] = useState<string>(
-    costume.description ?? "",
-  );
-  const [proprietaireId, setProprietaireId] = useState<string>(
-    costume.proprietaireId,
-  );
+  const [quantiteTotal, setQuantiteTotal] = useState<number>(costume.quantiteTotal);
+  const [quantiteDispo, setQuantiteDispo] = useState<number>(costume.quantiteDispo);
+  const [emplacement, setEmplacement] = useState<string>(costume.emplacement ?? "");
+  const [description, setDescription] = useState<string>(costume.description ?? "");
+  const [proprietaireId, setProprietaireId] = useState<string>(costume.proprietaireId);
 
-  const [photoSupprimee, setPhotoSupprimee] = useState<boolean>(false);
-  const [nouvelleImageFile, setNouvelleImageFile] = useState<File | null>(null);
-  const [nouvelleImagePreview, setNouvelleImagePreview] = useState<
-    string | null
-  >(null);
+  const [imagesExistantes, setImagesExistantes] = useState<ImageExistante[]>(costume.images);
+  const [idsASupprimer, setIdsASupprimer] = useState<string[]>([]);
+  const [nouvellesPhotos, setNouvellesPhotos] = useState<NouvellePhoto[]>([]);
 
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  const photoActuelleVisible =
-    !!costume.imageUrl && !photoSupprimee && !nouvelleImagePreview;
 
   const handleQuantiteTotalChange = (e: ChangeEvent<HTMLInputElement>) => {
     const v = Math.max(1, Number(e.target.value) || 1);
@@ -96,62 +98,61 @@ export default function ModifierCostumeForm({
     setQuantiteDispo(Math.min(v, quantiteTotal));
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setNouvelleImageFile(file);
-    if (nouvelleImagePreview) URL.revokeObjectURL(nouvelleImagePreview);
-    setNouvelleImagePreview(file ? URL.createObjectURL(file) : null);
-    if (file) setPhotoSupprimee(false);
+  const handleSupprimerExistante = (id: string) => {
+    setImagesExistantes((prev) => prev.filter((img) => img.id !== id));
+    setIdsASupprimer((prev) => [...prev, id]);
   };
 
-  const handleSupprimerPhotoActuelle = () => {
-    setPhotoSupprimee(true);
+  const handleNouvellesPhotos = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+
+    const invalides = files.filter(
+      (f) => !ALLOWED_TYPES.includes(f.type) || f.size > MAX_PHOTO_SIZE
+    );
+    if (invalides.length > 0) {
+      setError("Certains fichiers sont invalides (format JPG/PNG/WebP, max 5 Mo)");
+      return;
+    }
+
+    const nouvelles: NouvellePhoto[] = files.map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
+    setNouvellesPhotos((prev) => [...prev, ...nouvelles]);
   };
 
-  const handleAnnulerNouvellePhoto = () => {
-    setNouvelleImageFile(null);
-    if (nouvelleImagePreview) URL.revokeObjectURL(nouvelleImagePreview);
-    setNouvelleImagePreview(null);
+  const handleSupprimerNouvelle = (index: number) => {
+    setNouvellesPhotos((prev) => {
+      URL.revokeObjectURL(prev[index].previewUrl);
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault();
     setError(null);
 
     if (quantiteDispo > quantiteTotal) {
-      setError(
-        "La quantité disponible ne peut pas dépasser la quantité totale.",
-      );
+      setError("La quantité disponible ne peut pas dépasser la quantité totale.");
       return;
     }
 
     setSubmitting(true);
     try {
-      let nouvelleImageUrl: string | null | undefined = undefined;
+      const addImageUrls: string[] = [];
 
-      if (nouvelleImageFile) {
+      for (const photo of nouvellesPhotos) {
         const formData = new FormData();
-        formData.append("file", nouvelleImageFile);
-        const uploadRes = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
+        formData.append("file", photo.file);
+        const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
         if (!uploadRes.ok) {
-          const data = (await uploadRes.json().catch(() => ({}))) as {
-            error?: string;
-          };
+          const data = (await uploadRes.json().catch(() => ({}))) as { error?: string };
           throw new Error(data.error ?? "Échec de l'upload de la photo.");
         }
         const data = (await uploadRes.json()) as { url: string };
-        nouvelleImageUrl = data.url;
+        addImageUrls.push(data.url);
       }
-
-      const imageUrlPayload =
-        nouvelleImageUrl !== undefined
-          ? nouvelleImageUrl
-          : photoSupprimee
-            ? null
-            : undefined;
 
       const res = await fetch(`/api/costumes/${costume.id}`, {
         method: "PATCH",
@@ -161,13 +162,15 @@ export default function ModifierCostumeForm({
           epoque,
           taille,
           couleur,
+          matiere: matiere || undefined,
           etat,
           quantiteTotal,
           quantiteDispo,
           proprietaireId,
           emplacement: emplacement || undefined,
           description: description || undefined,
-          imageUrl: imageUrlPayload,
+          addImageUrls,
+          deleteImageIds: idsASupprimer,
         }),
       });
 
@@ -176,6 +179,7 @@ export default function ModifierCostumeForm({
         throw new Error(data.error ?? "Échec de la modification du costume.");
       }
 
+      nouvellesPhotos.forEach((p) => URL.revokeObjectURL(p.previewUrl));
       router.push("/gestion");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -184,9 +188,8 @@ export default function ModifierCostumeForm({
     }
   };
 
-  const handleAnnuler = () => {
-    router.push("/gestion");
-  };
+  const fieldClass =
+    "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10";
 
   return (
     <form
@@ -198,151 +201,75 @@ export default function ModifierCostumeForm({
           Modifier le costume
         </h1>
         <p className="text-sm text-slate-500">
-          Mettez à jour les informations du costume puis enregistrez les
-          modifications.
+          Mettez à jour les informations du costume puis enregistrez les modifications.
         </p>
       </header>
 
       {error && (
-        <div
-          role="alert"
-          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-        >
+        <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </div>
       )}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label
-            htmlFor="nom"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="nom" className="mb-1 block text-sm font-medium text-slate-700">
             Nom <span className="text-red-500">*</span>
           </label>
-          <input
-            id="nom"
-            type="text"
-            required
-            value={nom}
-            onChange={(e) => setNom(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          />
+          <input id="nom" type="text" required value={nom} onChange={(e) => setNom(e.target.value)} className={fieldClass} />
         </div>
 
         <div>
-          <label
-            htmlFor="epoque"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="epoque" className="mb-1 block text-sm font-medium text-slate-700">
             Époque <span className="text-red-500">*</span>
           </label>
-          <select
-            id="epoque"
-            required
-            value={epoque}
-            onChange={(e) => setEpoque(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          >
-            {EPOQUES.map((e) => (
-              <option key={e.value} value={e.value}>
-                {e.label}
-              </option>
-            ))}
+          <select id="epoque" required value={epoque} onChange={(e) => setEpoque(e.target.value)} className={fieldClass}>
+            {EPOQUES.map((e) => <option key={e.value} value={e.value}>{e.label}</option>)}
           </select>
         </div>
 
         <div>
-          <label
-            htmlFor="etat"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="etat" className="mb-1 block text-sm font-medium text-slate-700">
             État <span className="text-red-500">*</span>
           </label>
-          <select
-            id="etat"
-            required
-            value={etat}
-            onChange={(e) => setEtat(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          >
-            {ETATS.map((e) => (
-              <option key={e.value} value={e.value}>
-                {e.label}
-              </option>
-            ))}
+          <select id="etat" required value={etat} onChange={(e) => setEtat(e.target.value)} className={fieldClass}>
+            {ETATS.map((e) => <option key={e.value} value={e.value}>{e.label}</option>)}
           </select>
         </div>
 
         <div>
-          <label
-            htmlFor="taille"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="taille" className="mb-1 block text-sm font-medium text-slate-700">
             Taille <span className="text-red-500">*</span>
           </label>
-          <input
-            id="taille"
-            type="text"
-            required
-            value={taille}
-            onChange={(e) => setTaille(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          />
+          <input id="taille" type="text" required value={taille} onChange={(e) => setTaille(e.target.value)} className={fieldClass} />
         </div>
 
         <div>
-          <label
-            htmlFor="couleur"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="couleur" className="mb-1 block text-sm font-medium text-slate-700">
             Couleur <span className="text-red-500">*</span>
           </label>
-          <input
-            id="couleur"
-            type="text"
-            required
-            value={couleur}
-            onChange={(e) => setCouleur(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          />
+          <input id="couleur" type="text" required value={couleur} onChange={(e) => setCouleur(e.target.value)} className={fieldClass} />
         </div>
 
         <div>
-          <label
-            htmlFor="quantiteTotal"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="matiere" className="mb-1 block text-sm font-medium text-slate-700">
+            Matière
+          </label>
+          <input id="matiere" type="text" value={matiere} onChange={(e) => setMatiere(e.target.value)} placeholder="ex: Soie, Coton, Velours…" className={fieldClass} />
+        </div>
+
+        <div>
+          <label htmlFor="quantiteTotal" className="mb-1 block text-sm font-medium text-slate-700">
             Quantité totale <span className="text-red-500">*</span>
           </label>
-          <input
-            id="quantiteTotal"
-            type="number"
-            min={1}
-            required
-            value={quantiteTotal}
-            onChange={handleQuantiteTotalChange}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          />
+          <input id="quantiteTotal" type="number" min={1} required value={quantiteTotal} onChange={handleQuantiteTotalChange} className={fieldClass} />
         </div>
 
         <div>
-          <label
-            htmlFor="quantiteDispo"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="quantiteDispo" className="mb-1 block text-sm font-medium text-slate-700">
             Quantité disponible <span className="text-red-500">*</span>
           </label>
-          <input
-            id="quantiteDispo"
-            type="number"
-            min={0}
-            max={quantiteTotal}
-            required
-            value={quantiteDispo}
-            onChange={handleQuantiteDispoChange}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          />
+          <input id="quantiteDispo" type="number" min={0} max={quantiteTotal} required value={quantiteDispo} onChange={handleQuantiteDispoChange} className={fieldClass} />
         </div>
 
         <p className="text-xs text-slate-500 sm:col-span-2 -mt-2">
@@ -350,129 +277,94 @@ export default function ModifierCostumeForm({
         </p>
 
         <div>
-          <label
-            htmlFor="proprietaireId"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="proprietaireId" className="mb-1 block text-sm font-medium text-slate-700">
             Propriétaire <span className="text-red-500">*</span>
           </label>
-          <select
-            id="proprietaireId"
-            required
-            value={proprietaireId}
-            onChange={(e) => setProprietaireId(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          >
-            {proprietaires.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.nom}
-              </option>
-            ))}
+          <select id="proprietaireId" required value={proprietaireId} onChange={(e) => setProprietaireId(e.target.value)} className={fieldClass}>
+            {proprietaires.map((p) => <option key={p.id} value={p.id}>{p.nom}</option>)}
           </select>
         </div>
 
         <div>
-          <label
-            htmlFor="emplacement"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="emplacement" className="mb-1 block text-sm font-medium text-slate-700">
             Emplacement
           </label>
-          <input
-            id="emplacement"
-            type="text"
-            value={emplacement}
-            onChange={(e) => setEmplacement(e.target.value)}
-            placeholder="Ex : Étagère B-3"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          />
+          <input id="emplacement" type="text" value={emplacement} onChange={(e) => setEmplacement(e.target.value)} placeholder="Ex : Étagère B-3" className={fieldClass} />
         </div>
 
         <div className="sm:col-span-2">
-          <label
-            htmlFor="description"
-            className="mb-1 block text-sm font-medium text-slate-700"
-          >
+          <label htmlFor="description" className="mb-1 block text-sm font-medium text-slate-700">
             Description
           </label>
-          <textarea
-            id="description"
-            rows={4}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full resize-y rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-          />
+          <textarea id="description" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} className={`${fieldClass} resize-y`} />
         </div>
 
+        {/* Photos */}
         <div className="sm:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-slate-700">
-            Photo
-          </span>
+          <span className="mb-2 block text-sm font-medium text-slate-700">Photos</span>
 
-          {photoActuelleVisible && costume.imageUrl && (
-            <div className="mb-3 flex items-start gap-4">
-              <img
-                src={`/api/costumes/${costume.id}/image`}
-                alt={`Photo actuelle de ${costume.nom}`}
-                className="h-32 w-32 rounded-lg border border-slate-200 object-cover"
-              />
-              <button
-                type="button"
-                onClick={handleSupprimerPhotoActuelle}
-                className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 transition hover:bg-red-100"
-              >
-                Supprimer la photo actuelle
-              </button>
+          {/* Photos existantes */}
+          {imagesExistantes.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-3">
+              {imagesExistantes.map((img) => (
+                <div key={img.id} className="relative">
+                  <img
+                    src={`/api/images/${img.id}`}
+                    alt="Photo existante"
+                    className="h-24 w-24 rounded-lg border border-slate-200 object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleSupprimerExistante(img.id)}
+                    className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-rose-600 text-white shadow hover:bg-rose-700"
+                    aria-label="Supprimer cette photo"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
             </div>
           )}
 
-          {photoSupprimee && !nouvelleImagePreview && (
-            <p className="mb-3 text-sm text-amber-700">
-              La photo actuelle sera supprimée à l&apos;enregistrement.{" "}
-              <button
-                type="button"
-                onClick={() => setPhotoSupprimee(false)}
-                className="underline hover:no-underline"
-              >
-                Annuler
-              </button>
-            </p>
-          )}
-
-          {nouvelleImagePreview && (
-            <div className="mb-3 flex items-start gap-4">
-              <img
-                src={nouvelleImagePreview}
-                alt="Aperçu de la nouvelle photo"
-                className="h-32 w-32 rounded-lg border border-slate-200 object-cover"
-              />
-              <button
-                type="button"
-                onClick={handleAnnulerNouvellePhoto}
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-              >
-                Retirer la nouvelle photo
-              </button>
+          {/* Nouvelles photos en attente */}
+          {nouvellesPhotos.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-3">
+              {nouvellesPhotos.map((photo, i) => (
+                <div key={i} className="relative">
+                  <img
+                    src={photo.previewUrl}
+                    alt={`Nouvelle photo ${i + 1}`}
+                    className="h-24 w-24 rounded-lg border border-slate-200 object-cover opacity-80 ring-2 ring-slate-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleSupprimerNouvelle(i)}
+                    className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-rose-600 text-white shadow hover:bg-rose-700"
+                    aria-label="Retirer cette photo"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
             </div>
           )}
 
           <input
-            id="photo"
+            id="photos"
             type="file"
             accept="image/jpeg,image/png,image/webp"
-            onChange={handleFileChange}
+            multiple
+            onChange={handleNouvellesPhotos}
             className="block w-full text-sm text-slate-700 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-slate-800"
           />
-          <p className="mt-1 text-xs text-slate-500">
-            JPG, PNG ou WEBP, 5 Mo maximum.
-          </p>
+          <p className="mt-1 text-xs text-slate-500">JPG, PNG ou WEBP, 5 Mo maximum par photo.</p>
         </div>
       </div>
 
       <div className="flex flex-col-reverse gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:justify-end">
         <button
           type="button"
-          onClick={handleAnnuler}
+          onClick={() => router.push("/gestion")}
           disabled={submitting}
           className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
         >

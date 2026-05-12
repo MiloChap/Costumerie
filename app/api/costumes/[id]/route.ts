@@ -12,28 +12,57 @@ export async function PATCH(
   const { id } = await params
   const body = await req.json()
 
-  const costume = await prisma.costume.update({
-    where: { id },
-    data: {
-      nom: body.nom,
-      epoque: body.epoque,
-      description: body.description || null,
-      taille: body.taille,
-      couleur: body.couleur,
-      etat: body.etat,
-      quantiteTotal: Number(body.quantiteTotal),
-      quantiteDispo: Number(body.quantiteDispo),
-      emplacement: body.emplacement || null,
-      imageUrl: body.imageUrl !== undefined ? body.imageUrl : undefined,
-      proprietaireId: body.proprietaireId,
-    },
-  })
+  const addImageUrls: string[] = Array.isArray(body.addImageUrls) ? body.addImageUrls : []
+  const deleteImageIds: string[] = Array.isArray(body.deleteImageIds) ? body.deleteImageIds : []
 
-  return NextResponse.json(costume)
+  try {
+    const costume = await prisma.$transaction(async (tx) => {
+      if (deleteImageIds.length > 0) {
+        await tx.costumeImage.deleteMany({
+          where: { id: { in: deleteImageIds }, costumeId: id },
+        })
+      }
+
+      if (addImageUrls.length > 0) {
+        const lastImage = await tx.costumeImage.findFirst({
+          where: { costumeId: id },
+          orderBy: { ordre: "desc" },
+          select: { ordre: true },
+        })
+        const nextOrdre = (lastImage?.ordre ?? -1) + 1
+        await tx.costumeImage.createMany({
+          data: addImageUrls.map((url, i) => ({ url, costumeId: id, ordre: nextOrdre + i })),
+        })
+      }
+
+      return tx.costume.update({
+        where: { id },
+        data: {
+          nom: body.nom,
+          epoque: body.epoque,
+          description: body.description || null,
+          taille: body.taille,
+          couleur: body.couleur,
+          matiere: body.matiere || null,
+          etat: body.etat,
+          quantiteTotal: Number(body.quantiteTotal),
+          quantiteDispo: Number(body.quantiteDispo),
+          emplacement: body.emplacement || null,
+          proprietaireId: body.proprietaireId,
+        },
+      })
+    })
+
+    return NextResponse.json(costume)
+  } catch (err) {
+    console.error("[PATCH /api/costumes/:id]", err)
+    const message = err instanceof Error ? err.message : "Erreur inconnue"
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
 }
 
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth()

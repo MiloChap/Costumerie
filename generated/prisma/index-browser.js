@@ -127,14 +127,22 @@ exports.Prisma.CostumeScalarFieldEnum = {
   description: 'description',
   taille: 'taille',
   couleur: 'couleur',
+  matiere: 'matiere',
   etat: 'etat',
   quantiteTotal: 'quantiteTotal',
   quantiteDispo: 'quantiteDispo',
   emplacement: 'emplacement',
-  imageUrl: 'imageUrl',
   proprietaireId: 'proprietaireId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CostumeImageScalarFieldEnum = {
+  id: 'id',
+  costumeId: 'costumeId',
+  url: 'url',
+  ordre: 'ordre',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ProprietaireScalarFieldEnum = {
@@ -160,6 +168,14 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   nom: 'nom',
   role: 'role',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt'
 };
 
@@ -199,7 +215,8 @@ exports.Etat = exports.$Enums.Etat = {
   BON: 'BON',
   USE: 'USE',
   A_REPARER: 'A_REPARER',
-  A_NETTOYER: 'A_NETTOYER'
+  A_NETTOYER: 'A_NETTOYER',
+  A_FABRIQUER: 'A_FABRIQUER'
 };
 
 exports.StatutPret = exports.$Enums.StatutPret = {
@@ -215,9 +232,11 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   Costume: 'Costume',
+  CostumeImage: 'CostumeImage',
   Proprietaire: 'Proprietaire',
   Pret: 'Pret',
-  User: 'User'
+  User: 'User',
+  PasswordResetToken: 'PasswordResetToken'
 };
 
 /**

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import NouveauPretModal from "@/app/components/NouveauPretModal";
+import ModifierPretModal from "@/app/components/ModifierPretModal";
 import { useSearchParams } from "next/navigation";
 
 export interface Pret {
@@ -88,6 +89,7 @@ export default function PretsPage({
   const [prets, setPrets] = useState<Pret[]>(pretsInitiaux);
   const [onglet, setOnglet] = useState<Onglet>("EN_COURS");
   const [modaleOuverte, setModaleOuverte] = useState<boolean>(false);
+  const [pretAModifier, setPretAModifier] = useState<Pret | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const pretsAffiches = useMemo(() => {
@@ -143,6 +145,12 @@ export default function PretsPage({
   const handleNouveauPret = (nouveau: Pret): void => {
     setPrets((prev) => [nouveau, ...prev]);
     setModaleOuverte(false);
+    router.refresh();
+  };
+
+  const handlePretModifie = (pretModifie: Pret): void => {
+    setPrets((prev) => prev.map((p) => (p.id === pretModifie.id ? pretModifie : p)));
+    setPretAModifier(null);
     router.refresh();
   };
 
@@ -275,27 +283,38 @@ export default function PretsPage({
                         <StatutBadge statut={p.statut} />
                       </td>
                       <td className="px-4 py-3 text-right text-sm">
-                        {p.statut !== "RENDU" ? (
+                        <div className="flex items-center justify-end gap-2">
+                          {p.statut !== "RENDU" ? (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => setPretAModifier(p)}
+                                className="inline-flex items-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+                              >
+                                Modifier
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleRetour(p.id)}
+                                disabled={loadingId === p.id}
+                                className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                              >
+                                {loadingId === p.id ? "…" : "Marquer rendu"}
+                              </button>
+                            </>
+                          ) : (
+                            <span className="text-xs text-gray-400">
+                              Rendu le {formatDate(p.dateRetourReelle)}
+                            </span>
+                          )}
                           <button
                             type="button"
-                            onClick={() => handleRetour(p.id)}
-                            disabled={loadingId === p.id}
-                            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                            onClick={() => handleSupprimerPret(p.id)}
+                            className="inline-flex items-center rounded-md border border-rose-200 bg-white px-3 py-1.5 text-xs font-medium text-rose-700 shadow-sm transition hover:bg-rose-50"
                           >
-                            {loadingId === p.id ? "..." : "Marquer comme rendu"}
+                            ✕
                           </button>
-                        ) : (
-                          <span className="text-xs text-gray-400">
-                            Rendu le {formatDate(p.dateRetourReelle)}
-                          </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => handleSupprimerPret(p.id)}
-                          className="inline-flex items-center rounded-md border border-rose-200 bg-white px-3 py-1.5 text-xs font-medium text-rose-700 shadow-sm transition hover:bg-rose-50"
-                        >
-                          Supprimer
-                        </button>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -305,6 +324,14 @@ export default function PretsPage({
           </div>
         </div>
       </div>
+
+      {pretAModifier && (
+        <ModifierPretModal
+          pret={pretAModifier}
+          onSuccess={handlePretModifie}
+          onFermer={() => setPretAModifier(null)}
+        />
+      )}
 
       {modaleOuverte && (
         <NouveauPretModal

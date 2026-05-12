@@ -16,7 +16,10 @@ export default async function Page({
   const [costume, proprietaires] = await Promise.all([
     prisma.costume.findUnique({
       where: { id },
-      include: { proprietaire: true },
+      include: {
+        proprietaire: true,
+        images: { orderBy: { ordre: "asc" } },
+      },
     }),
     prisma.proprietaire.findMany({ orderBy: { nom: "asc" } }),
   ]);
@@ -29,28 +32,24 @@ export default async function Page({
     epoque: costume.epoque,
     taille: costume.taille,
     couleur: costume.couleur,
+    matiere: costume.matiere ?? undefined,
     etat: costume.etat,
     quantiteTotal: costume.quantiteTotal,
     quantiteDispo: costume.quantiteDispo,
     emplacement: costume.emplacement ?? undefined,
     description: costume.description ?? undefined,
-    imageUrl: costume.imageUrl ?? undefined,
+    images: costume.images.map((img) => ({ id: img.id, url: img.url, ordre: img.ordre })),
     proprietaireId: costume.proprietaireId,
   };
 
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="border-b border-slate-200 bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center gap-4">
-          <a
-            href="/gestion"
-            className="text-sm text-slate-500 hover:text-slate-700"
-          >
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
+          <img src="/logo.jpg" alt="L'équipe costumes" className="h-8 w-auto" />
+          <a href="/gestion" className="text-sm text-slate-500 hover:text-[#e21713] transition">
             ← Retour au stock
           </a>
-          <h1 className="text-lg font-semibold text-slate-900">
-            Modifier un costume
-          </h1>
         </div>
       </div>
 

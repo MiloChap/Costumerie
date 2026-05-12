@@ -8,22 +8,32 @@ datasource db {
 }
 
 model Costume {
-  id             String       @id @default(cuid())
+  id             String         @id @default(cuid())
   nom            String
   epoque         Epoque
   description    String?
   taille         String
   couleur        String
-  etat           Etat         @default(BON)
-  quantiteTotal  Int          @default(1)
-  quantiteDispo  Int          @default(1)
+  matiere        String?
+  etat           Etat           @default(BON)
+  quantiteTotal  Int            @default(1)
+  quantiteDispo  Int            @default(1)
   emplacement    String?
-  imageUrl       String?
   proprietaireId String
-  proprietaire   Proprietaire @relation(fields: [proprietaireId], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  proprietaire   Proprietaire   @relation(fields: [proprietaireId], references: [id])
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
   prets          Pret[]
+  images         CostumeImage[]
+}
+
+model CostumeImage {
+  id        String   @id @default(cuid())
+  costumeId String
+  costume   Costume  @relation(fields: [costumeId], references: [id], onDelete: Cascade)
+  url       String
+  ordre     Int      @default(0)
+  createdAt DateTime @default(now())
 }
 
 model Proprietaire {
@@ -54,6 +64,14 @@ model User {
   createdAt DateTime @default(now())
 }
 
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
 enum Epoque {
   AVANT_1900
   E1900_1910
@@ -77,6 +95,7 @@ enum Etat {
   USE
   A_REPARER
   A_NETTOYER
+  A_FABRIQUER
 }
 
 enum StatutPret {

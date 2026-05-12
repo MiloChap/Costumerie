@@ -26,6 +26,7 @@ const ETAT_LABELS: Record<string, string> = {
   USE: "USÉ",
   A_REPARER: "À RÉPARER",
   A_NETTOYER: "À NETTOYER",
+  A_FABRIQUER: "À FABRIQUER",
 };
 
 export default async function Page() {
@@ -34,7 +35,10 @@ export default async function Page() {
 
   const [costumes, proprietaires, stats] = await Promise.all([
     prisma.costume.findMany({
-      include: { proprietaire: true },
+      include: {
+        proprietaire: true,
+        images: { orderBy: { ordre: "asc" } },
+      },
       orderBy: { createdAt: "desc" },
     }),
     prisma.proprietaire.findMany({ orderBy: { nom: "asc" } }),
@@ -54,8 +58,11 @@ export default async function Page() {
     epoque: EPOQUE_LABELS[c.epoque] ?? c.epoque,
     taille: c.taille,
     couleur: c.couleur,
+    matiere: c.matiere ?? undefined,
     etat: ETAT_LABELS[c.etat] ?? c.etat,
-    imageUrl: c.imageUrl ?? undefined,
+    imageUrl: c.images[0]?.url ?? undefined,
+    imageIds: c.images.map((img) => img.id),
+    description: c.description ?? undefined,
     quantiteDispo: c.quantiteDispo,
     quantiteTotal: c.quantiteTotal,
     proprietaire: c.proprietaire.nom,
