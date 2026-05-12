@@ -92,6 +92,15 @@ function LoginForm() {
             </Link>
           </div>
         </form>
+
+        <div className="mt-5 border-t border-slate-100 pt-5">
+          <Link
+            href="/catalogue"
+            className="flex w-full items-center justify-center rounded-md border-2 border-[#e21713] px-4 py-2 text-sm font-semibold text-[#e21713] transition hover:bg-[#fbb9b6]/40"
+          >
+            Voir le catalogue de costumes →
+          </Link>
+        </div>
       </div>
     </main>
   );

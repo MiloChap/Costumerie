@@ -44,6 +44,8 @@ export interface CostumePopupProps {
   onSupprimer?: (id: string) => void
   onPrecedent?: () => void
   onSuivant?: () => void
+  readOnly?: boolean
+  onReserver?: () => void
 }
 
 export default function CostumePopup({
@@ -68,6 +70,8 @@ export default function CostumePopup({
   onSupprimer,
   onPrecedent,
   onSuivant,
+  readOnly,
+  onReserver,
 }: CostumePopupProps) {
   const [imgIndex, setImgIndex] = useState(0)
   const [imgErrors, setImgErrors] = useState<boolean[]>([])
@@ -269,28 +273,40 @@ export default function CostumePopup({
 
           {/* Actions */}
           <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
-            <button
-              type="button"
-              onClick={() => onModifier(id)}
-              className="inline-flex items-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"
-            >
-              Modifier
-            </button>
-            <button
-              type="button"
-              onClick={() => onGererPret(id)}
-              className="inline-flex items-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-slate-800"
-            >
-              Gérer le prêt
-            </button>
-            {onSupprimer && (
+            {readOnly ? (
               <button
                 type="button"
-                onClick={() => onSupprimer(id)}
-                className="inline-flex items-center rounded-md border border-rose-200 bg-white px-3 py-1.5 text-sm font-medium text-rose-700 shadow-sm hover:bg-rose-50"
+                onClick={onReserver}
+                className="inline-flex items-center rounded-md bg-[#e21713] px-4 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-[#f04d46]"
               >
-                Supprimer
+                Réserver ce costume
               </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => onModifier(id)}
+                  className="inline-flex items-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"
+                >
+                  Modifier
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onGererPret(id)}
+                  className="inline-flex items-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-slate-800"
+                >
+                  Gérer le prêt
+                </button>
+                {onSupprimer && (
+                  <button
+                    type="button"
+                    onClick={() => onSupprimer(id)}
+                    className="inline-flex items-center rounded-md border border-rose-200 bg-white px-3 py-1.5 text-sm font-medium text-rose-700 shadow-sm hover:bg-rose-50"
+                  >
+                    Supprimer
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>

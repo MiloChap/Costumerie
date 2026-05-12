@@ -6,10 +6,15 @@ export default auth((req) => {
   console.log("middleware auth:", req.auth)
 
   const isLoggedIn = !!req.auth
-  const publicPaths = ["/login", "/forgot-password", "/reset-password"]
-  const isPublicPage = publicPaths.includes(req.nextUrl.pathname)
+  const publicPaths = ["/login", "/forgot-password", "/reset-password", "/catalogue"]
+  const publicApiPrefixes = ["/api/catalogue", "/api/reservation", "/api/images"]
 
-  if (!isLoggedIn && !isPublicPage) {
+  const isPublicPage = publicPaths.some(
+    (p) => req.nextUrl.pathname === p || req.nextUrl.pathname.startsWith(p + "/")
+  )
+  const isPublicApi = publicApiPrefixes.some((p) => req.nextUrl.pathname.startsWith(p))
+
+  if (!isLoggedIn && !isPublicPage && !isPublicApi) {
     return NextResponse.redirect(new URL("/login", req.url))
   }
 
