@@ -7,6 +7,8 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+  const [rateLimited, setRateLimited] = useState(false)
+  const [retryAt, setRetryAt] = useState<string | null>(null)
   const [error, setError] = useState("")
 
   const handleSubmit = async (e: { preventDefault(): void }) => {
@@ -21,12 +23,18 @@ export default function ForgotPasswordPage() {
         body: JSON.stringify({ email }),
       })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({})) as { error?: string }
-        throw new Error(data.error ?? "Erreur serveur")
-      }
+      const data = await res.json().catch(() => ({})) as { error?: string; rateLimited?: boolean; retryAt?: string }
 
-      setSent(true)
+      if (!res.ok) throw new Error(data.error ?? "Erreur serveur")
+
+      if (data.rateLimited) {
+        setRateLimited(true)
+        if (data.retryAt) {
+          setRetryAt(new Date(data.retryAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }))
+        }
+      } else {
+        setSent(true)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue")
     } finally {
@@ -43,7 +51,16 @@ export default function ForgotPasswordPage() {
         </div>
         <p className="text-sm text-slate-500 text-center mb-6">Réinitialisation du mot de passe</p>
 
-        {sent ? (
+        {rateLimited ? (
+          <div className="text-center space-y-4">
+            <div className="rounded-lg bg-amber-50 border border-amber-300 px-4 py-3 text-sm text-amber-800">
+              Un lien de réinitialisation a déjà été envoyé à <strong>{email}</strong>.{retryAt ? <> Vous pourrez réessayer à <strong>{retryAt}</strong>.</> : " Veuillez patienter 15 minutes avant de réessayer."}
+            </div>
+            <Link href="/login" className="block text-sm text-slate-500 hover:text-[#e21713] transition underline">
+              Retour à la connexion
+            </Link>
+          </div>
+        ) : sent ? (
           <div className="text-center space-y-4">
             <div className="rounded-lg bg-[#fbb9b6] border border-[#f04d46] px-4 py-3 text-sm text-[#e21713]">
               Si un compte existe pour <strong>{email}</strong>, un email de réinitialisation vient d&apos;être envoyé.

@@ -20,7 +20,10 @@ export async function POST(req: Request) {
         createdAt: { gte: new Date(Date.now() - 15 * 60 * 1000) },
       },
     })
-    if (recentToken) return NextResponse.json({ ok: true })
+    if (recentToken) {
+      const retryAt = new Date(recentToken.createdAt.getTime() + 15 * 60 * 1000)
+      return NextResponse.json({ ok: true, rateLimited: true, retryAt: retryAt.toISOString() })
+    }
 
     // Supprimer les anciens tokens de cet email
     await prisma.passwordResetToken.deleteMany({ where: { email } })
