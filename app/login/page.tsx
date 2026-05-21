@@ -26,7 +26,12 @@ function LoginForm() {
       redirect: false,
     });
 
-    if (result?.error) {
+    if (result?.error?.startsWith("LOCKED:")) {
+      const lockedUntil = new Date(result.error.replace("LOCKED:", ""))
+      const time = lockedUntil.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+      setError(`Compte temporairement bloqué après plusieurs tentatives. Réessayez à ${time}.`)
+      setLoading(false);
+    } else if (result?.error) {
       setError("Email ou mot de passe incorrect");
       setLoading(false);
     } else {

@@ -18,8 +18,8 @@ function ResetPasswordForm() {
     e.preventDefault()
     setError("")
 
-    if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères")
+    if (password.length < 12) {
+      setError("Le mot de passe doit contenir au moins 12 caractères")
       return
     }
     if (password !== confirm) {
@@ -66,10 +66,10 @@ function ResetPasswordForm() {
         <input
           type="password"
           required
-          minLength={8}
+          minLength={12}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="8 caractères minimum"
+          placeholder="12 caractères minimum"
           className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#f04d46]/40"
         />
       </div>

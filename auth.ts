@@ -1,5 +1,12 @@
-import NextAuth from "next-auth"
+import NextAuth, { CredentialsSignin } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+
+class LockedAccountError extends CredentialsSignin {
+  constructor(lockedUntil: string) {
+    super()
+    this.code = `LOCKED:${lockedUntil}`
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
@@ -23,6 +30,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             password: credentials.password,
           }),
         })
+
+        if (res.status === 429) {
+          const data = await res.json()
+          throw new LockedAccountError(data.lockedUntil)
+        }
 
         if (!res.ok) return null
         const user = await res.json()

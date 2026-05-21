@@ -25,6 +25,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true, rateLimited: true, retryAt: retryAt.toISOString() })
     }
 
+    // Nettoyage RGPD : supprimer tous les tokens expirés (minimisation des données)
+    await prisma.passwordResetToken.deleteMany({ where: { expiresAt: { lt: new Date() } } })
+
     // Supprimer les anciens tokens de cet email
     await prisma.passwordResetToken.deleteMany({ where: { email } })
 

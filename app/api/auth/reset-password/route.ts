@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     const { token, password } = await req.json()
 
-    if (!token || !password || password.length < 8) {
+    if (!token || !password || password.length < 12) {
       return NextResponse.json({ error: "Données invalides" }, { status: 400 })
     }
 

@@ -63,6 +63,28 @@ export default function MentionsLegalesPage() {
           </div>
         </section>
 
+        {/* Base légale */}
+        <section className="mb-8">
+          <h2 className="mb-3 text-lg font-semibold text-slate-800">Base légale du traitement</h2>
+          <div className="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-700 space-y-3">
+            <p className="text-slate-600">Conformément à l&apos;article 6 du RGPD, les traitements reposent sur les bases légales suivantes :</p>
+            <ul className="list-disc pl-5 space-y-1 text-slate-600">
+              <li><span className="font-medium text-slate-700">Exécution d&apos;un contrat</span> — gestion des comptes administrateurs nécessaire à l&apos;accès à l&apos;interface de gestion.</li>
+              <li><span className="font-medium text-slate-700">Intérêt légitime</span> — traitement des demandes de réservation transmises par email, dans le cadre de l&apos;activité associative.</li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Transfert hors UE */}
+        <section className="mb-8">
+          <h2 className="mb-3 text-lg font-semibold text-slate-800">Transfert de données hors Union Européenne</h2>
+          <div className="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-700 space-y-2">
+            <p className="text-slate-600">
+              Les données sont hébergées par <span className="font-medium text-slate-700">Vercel Inc.</span> et <span className="font-medium text-slate-700">Neon Inc.</span>, sociétés établies aux États-Unis. Ces transferts sont encadrés par les <span className="font-medium text-slate-700">Clauses Contractuelles Types (CCT)</span> approuvées par la Commission européenne, conformément à l&apos;article 46 du RGPD, garantissant un niveau de protection adéquat.
+            </p>
+          </div>
+        </section>
+
         {/* Droits */}
         <section className="mb-8">
           <h2 className="mb-3 text-lg font-semibold text-slate-800">Vos droits</h2>
@@ -72,6 +94,7 @@ export default function MentionsLegalesPage() {
               <li>Droit d&apos;accès — obtenir une copie des données vous concernant</li>
               <li>Droit de rectification — corriger des données inexactes</li>
               <li>Droit à l&apos;effacement — demander la suppression de vos données</li>
+              <li>Droit à la limitation du traitement — geler temporairement l&apos;utilisation de vos données</li>
               <li>Droit d&apos;opposition — vous opposer au traitement de vos données</li>
               <li>Droit à la portabilité — recevoir vos données dans un format structuré</li>
             </ul>
