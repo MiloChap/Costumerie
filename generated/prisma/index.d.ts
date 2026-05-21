@@ -50,6 +50,13 @@ export type PasswordResetToken = $Result.DefaultSelection<Prisma.$PasswordResetT
 export namespace $Enums {
   export const Epoque: {
   AVANT_1900: 'AVANT_1900',
+  ANTIQUITE: 'ANTIQUITE',
+  MOYEN_AGE: 'MOYEN_AGE',
+  RENAISSANCE: 'RENAISSANCE',
+  E17EME: 'E17EME',
+  E18EME: 'E18EME',
+  E1800_1850: 'E1800_1850',
+  E1850_1900: 'E1850_1900',
   E1900_1910: 'E1900_1910',
   E1910_1920: 'E1910_1920',
   E1920_1930: 'E1920_1930',
@@ -62,7 +69,8 @@ export namespace $Enums {
   E1990_2000: 'E1990_2000',
   E2000_2010: 'E2000_2010',
   E2010_2020: 'E2010_2020',
-  E2020_PRESENT: 'E2020_PRESENT'
+  E2020_PRESENT: 'E2020_PRESENT',
+  INCLASSABLE: 'INCLASSABLE'
 };
 
 export type Epoque = (typeof Epoque)[keyof typeof Epoque]
@@ -5991,8 +5999,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    failedAttempts: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    failedAttempts: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -6002,6 +6020,8 @@ export namespace Prisma {
     nom: string | null
     role: $Enums.Role | null
     createdAt: Date | null
+    failedAttempts: number | null
+    lockedUntil: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -6011,6 +6031,8 @@ export namespace Prisma {
     nom: string | null
     role: $Enums.Role | null
     createdAt: Date | null
+    failedAttempts: number | null
+    lockedUntil: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -6020,9 +6042,19 @@ export namespace Prisma {
     nom: number
     role: number
     createdAt: number
+    failedAttempts: number
+    lockedUntil: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    failedAttempts?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    failedAttempts?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -6031,6 +6063,8 @@ export namespace Prisma {
     nom?: true
     role?: true
     createdAt?: true
+    failedAttempts?: true
+    lockedUntil?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -6040,6 +6074,8 @@ export namespace Prisma {
     nom?: true
     role?: true
     createdAt?: true
+    failedAttempts?: true
+    lockedUntil?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -6049,6 +6085,8 @@ export namespace Prisma {
     nom?: true
     role?: true
     createdAt?: true
+    failedAttempts?: true
+    lockedUntil?: true
     _all?: true
   }
 
@@ -6090,6 +6128,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -6120,6 +6170,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -6131,7 +6183,11 @@ export namespace Prisma {
     nom: string
     role: $Enums.Role
     createdAt: Date
+    failedAttempts: number
+    lockedUntil: Date | null
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -6157,6 +6213,8 @@ export namespace Prisma {
     nom?: boolean
     role?: boolean
     createdAt?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6166,6 +6224,8 @@ export namespace Prisma {
     nom?: boolean
     role?: boolean
     createdAt?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6175,6 +6235,8 @@ export namespace Prisma {
     nom?: boolean
     role?: boolean
     createdAt?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -6184,9 +6246,11 @@ export namespace Prisma {
     nom?: boolean
     role?: boolean
     createdAt?: boolean
+    failedAttempts?: boolean
+    lockedUntil?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "nom" | "role" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "nom" | "role" | "createdAt" | "failedAttempts" | "lockedUntil", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -6198,6 +6262,8 @@ export namespace Prisma {
       nom: string
       role: $Enums.Role
       createdAt: Date
+      failedAttempts: number
+      lockedUntil: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6627,6 +6693,8 @@ export namespace Prisma {
     readonly nom: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly failedAttempts: FieldRef<"User", 'Int'>
+    readonly lockedUntil: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -8072,7 +8140,9 @@ export namespace Prisma {
     password: 'password',
     nom: 'nom',
     role: 'role',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    failedAttempts: 'failedAttempts',
+    lockedUntil: 'lockedUntil'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -8523,6 +8593,8 @@ export namespace Prisma {
     nom?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
+    failedAttempts?: IntFilter<"User"> | number
+    lockedUntil?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8532,6 +8604,8 @@ export namespace Prisma {
     nom?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -8544,6 +8618,8 @@ export namespace Prisma {
     nom?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
+    failedAttempts?: IntFilter<"User"> | number
+    lockedUntil?: DateTimeNullableFilter<"User"> | Date | string | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8553,9 +8629,13 @@ export namespace Prisma {
     nom?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -8568,6 +8648,8 @@ export namespace Prisma {
     nom?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    failedAttempts?: IntWithAggregatesFilter<"User"> | number
+    lockedUntil?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type PasswordResetTokenWhereInput = {
@@ -8932,6 +9014,8 @@ export namespace Prisma {
     nom: string
     role: $Enums.Role
     createdAt?: Date | string
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
   }
 
   export type UserUncheckedCreateInput = {
@@ -8941,6 +9025,8 @@ export namespace Prisma {
     nom: string
     role: $Enums.Role
     createdAt?: Date | string
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
   }
 
   export type UserUpdateInput = {
@@ -8950,6 +9036,8 @@ export namespace Prisma {
     nom?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8959,6 +9047,8 @@ export namespace Prisma {
     nom?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateManyInput = {
@@ -8968,6 +9058,8 @@ export namespace Prisma {
     nom: string
     role: $Enums.Role
     createdAt?: Date | string
+    failedAttempts?: number
+    lockedUntil?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -8977,6 +9069,8 @@ export namespace Prisma {
     nom?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -8986,6 +9080,8 @@ export namespace Prisma {
     nom?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    failedAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PasswordResetTokenCreateInput = {
@@ -9441,6 +9537,12 @@ export namespace Prisma {
     nom?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    failedAttempts?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -9450,6 +9552,8 @@ export namespace Prisma {
     nom?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -9459,6 +9563,12 @@ export namespace Prisma {
     nom?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
+    failedAttempts?: SortOrder
+    lockedUntil?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    failedAttempts?: SortOrder
   }
 
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {

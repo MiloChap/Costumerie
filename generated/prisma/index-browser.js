@@ -168,7 +168,9 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   nom: 'nom',
   role: 'role',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  failedAttempts: 'failedAttempts',
+  lockedUntil: 'lockedUntil'
 };
 
 exports.Prisma.PasswordResetTokenScalarFieldEnum = {
@@ -195,6 +197,13 @@ exports.Prisma.NullsOrder = {
 };
 exports.Epoque = exports.$Enums.Epoque = {
   AVANT_1900: 'AVANT_1900',
+  ANTIQUITE: 'ANTIQUITE',
+  MOYEN_AGE: 'MOYEN_AGE',
+  RENAISSANCE: 'RENAISSANCE',
+  E17EME: 'E17EME',
+  E18EME: 'E18EME',
+  E1800_1850: 'E1800_1850',
+  E1850_1900: 'E1850_1900',
   E1900_1910: 'E1900_1910',
   E1910_1920: 'E1910_1920',
   E1920_1930: 'E1920_1930',
@@ -207,7 +216,8 @@ exports.Epoque = exports.$Enums.Epoque = {
   E1990_2000: 'E1990_2000',
   E2000_2010: 'E2000_2010',
   E2010_2020: 'E2010_2020',
-  E2020_PRESENT: 'E2020_PRESENT'
+  E2020_PRESENT: 'E2020_PRESENT',
+  INCLASSABLE: 'INCLASSABLE'
 };
 
 exports.Etat = exports.$Enums.Etat = {
