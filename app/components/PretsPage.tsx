@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import NouveauPretModal from "@/app/components/NouveauPretModal";
 import ModifierPretModal from "@/app/components/ModifierPretModal";
 import { useSearchParams } from "next/navigation";
+import Footer from "@/app/components/Footer";
 
 export interface Pret {
   id: string;
@@ -340,6 +341,7 @@ export default function PretsPage({
           onFermer={() => setModaleOuverte(false)}
         />
       )}
+      <Footer />
     </div>
   );
 }

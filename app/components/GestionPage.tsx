@@ -8,6 +8,7 @@ import StatCard from "./StatCard";
 import LogoutButton from "./LogoutButton";
 import FormulaireModal from "./FormulaireModal";
 import AjouterCostumeForm from "./AjouterCostumeForm";
+import Footer from "./Footer";
 import ModifierCostumeForm, { type ModifierCostumeFormProps } from "./ModifierCostumeForm";
 import { useRouter } from "next/navigation";
 
@@ -253,20 +254,7 @@ export default function GestionPage({
         </FormulaireModal>
       )}
 
-      <footer className="mt-10 border-t border-slate-200 py-6 text-center text-xs text-slate-400">
-        <a href="/mentions-legales" className="hover:text-[#e21713] transition">
-          Mentions légales & Politique de confidentialité
-        </a>
-        {" · "}
-        <span>© {new Date().getFullYear()} L&apos;Équipe Costumes</span>
-        {" · "}
-        <span>
-          Made with ♥ by{" "}
-          <a href="mailto:mchapat1998@gmail.com" className="hover:text-[#e21713] transition">
-            Milo Chapat
-          </a>
-        </span>
-      </footer>
+      <Footer />
 
       {/* Popup centralisé — rendu hors stacking context via Portal dans CostumePopup */}
       {popupCostume && (

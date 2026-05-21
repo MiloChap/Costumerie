@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import CostumePopup from "@/app/components/CostumePopup"
 import ReservationModal from "@/app/components/ReservationModal"
 import CatalogueFiltresSidebar, { CatalogueFiltres } from "@/app/components/CatalogueFiltresSidebar"
+import Footer from "@/app/components/Footer"
 
 interface CostumeCatalogue {
   id: string
@@ -260,21 +261,7 @@ export default function CataloguePage() {
         />
       )}
 
-      {/* Footer */}
-      <footer className="mt-10 border-t border-slate-200 py-6 text-center text-xs text-slate-400">
-        <a href="/mentions-legales" className="hover:text-[#e21713] transition">
-          Mentions légales & Politique de confidentialité
-        </a>
-        {" · "}
-        <span>© {new Date().getFullYear()} L&apos;Équipe Costumes</span>
-        {" · "}
-        <span>
-          Made with ♥ by{" "}
-          <a href="mailto:mchapat1998@gmail.com" className="hover:text-[#e21713] transition">
-            Milo Chapat
-          </a>
-        </span>
-      </footer>
+      <Footer />
 
       {/* Modal réservation */}
       {reserverCostume && (

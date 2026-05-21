@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Footer from "@/app/components/Footer"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -43,7 +44,8 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#fbb9b6]">
+    <main className="min-h-screen flex flex-col bg-[#fbb9b6]">
+      <div className="flex-1 flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
         <div className="flex justify-center mb-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -101,6 +103,8 @@ export default function ForgotPasswordPage() {
           </form>
         )}
       </div>
+      </div>
+      <Footer variant="pink" />
     </main>
   )
 }

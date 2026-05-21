@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Footer from "@/app/components/Footer";
 
 function LoginForm() {
   const router = useRouter();
@@ -40,7 +41,8 @@ function LoginForm() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#fbb9b6]">
+    <main className="min-h-screen flex flex-col bg-[#fbb9b6]">
+      <div className="flex-1 flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
         <div className="flex justify-center mb-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -107,6 +109,8 @@ function LoginForm() {
           </Link>
         </div>
       </div>
+      </div>
+      <Footer variant="pink" />
     </main>
   );
 }

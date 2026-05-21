@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Footer from "@/app/components/Footer"
 
 export default function MentionsLegalesPage() {
   return (
@@ -130,6 +131,7 @@ export default function MentionsLegalesPage() {
           Dernière mise à jour : mai 2026
         </p>
       </main>
+      <Footer />
     </div>
   )
 }
