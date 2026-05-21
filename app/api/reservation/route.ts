@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server"
 import nodemailer from "nodemailer"
 
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+
 export async function POST(req: Request) {
   try {
-    const { nom, email, telephone, costumeName, message } = await req.json()
+    const { nom, email, telephone, dateEnlevement, dateRetour, costumeName, message } = await req.json()
 
     if (!nom || !email || !costumeName) {
       return NextResponse.json({ error: "Champs requis manquants" }, { status: 400 })
@@ -24,11 +27,13 @@ export async function POST(req: Request) {
       subject: `Demande de réservation — ${costumeName}`,
       html: `
         <h2>Nouvelle demande de réservation</h2>
-        <p><strong>Costume :</strong> ${costumeName}</p>
-        <p><strong>Nom :</strong> ${nom}</p>
-        <p><strong>Email :</strong> ${email}</p>
-        ${telephone ? `<p><strong>Téléphone :</strong> ${telephone}</p>` : ""}
-        ${message ? `<p><strong>Message :</strong><br>${message.replace(/\n/g, "<br>")}</p>` : ""}
+        <p><strong>Costume :</strong> ${esc(costumeName)}</p>
+        <p><strong>Nom :</strong> ${esc(nom)}</p>
+        <p><strong>Email :</strong> ${esc(email)}</p>
+        ${telephone ? `<p><strong>Téléphone :</strong> ${esc(telephone)}</p>` : ""}
+        ${dateEnlevement ? `<p><strong>Date d'enlèvement souhaitée :</strong> ${new Date(dateEnlevement).toLocaleDateString("fr-FR")}</p>` : ""}
+        ${dateRetour ? `<p><strong>Date de retour prévue :</strong> ${new Date(dateRetour).toLocaleDateString("fr-FR")}</p>` : ""}
+        ${message ? `<p><strong>Message :</strong><br>${esc(message).replace(/\n/g, "<br>")}</p>` : ""}
       `,
     })
 

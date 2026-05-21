@@ -9,6 +9,7 @@ interface CostumeCatalogue {
   id: string
   nom: string
   epoque: string
+  createdAt: string
   taille: string
   couleur: string
   matiere?: string
@@ -146,7 +147,7 @@ function CatalogueCard({
 export default function CataloguePage() {
   const [costumes, setCostumes] = useState<CostumeCatalogue[]>([])
   const [loading, setLoading] = useState(true)
-  const [filtres, setFiltres] = useState<CatalogueFiltres>({ disponibleSeulement: false })
+  const [filtres, setFiltres] = useState<CatalogueFiltres>({ disponibleSeulement: false, tri: "DATE_DESC" })
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [reserverCostume, setReserverCostume] = useState<{ id: string; nom: string } | null>(null)
 
@@ -156,16 +157,23 @@ export default function CataloguePage() {
       .then((data) => { setCostumes(data); setLoading(false) })
   }, [])
 
-  const filtered = costumes.filter((c) => {
-    if (filtres.disponibleSeulement && c.quantiteDispo === 0) return false
-    if (filtres.recherche && !c.nom.toLowerCase().includes(filtres.recherche.toLowerCase())) return false
-    if (filtres.epoque && c.epoque !== filtres.epoque) return false
-    if (filtres.taille && !c.taille.toLowerCase().includes(filtres.taille.toLowerCase())) return false
-    if (filtres.couleur && !c.couleur.toLowerCase().includes(filtres.couleur.toLowerCase())) return false
-    if (filtres.matiere && !c.matiere?.toLowerCase().includes(filtres.matiere.toLowerCase())) return false
-    if (filtres.etat && c.etat !== filtres.etat) return false
-    return true
-  })
+  const filtered = costumes
+    .filter((c) => {
+      if (filtres.disponibleSeulement && c.quantiteDispo === 0) return false
+      if (filtres.recherche && !c.nom.toLowerCase().includes(filtres.recherche.toLowerCase())) return false
+      if (filtres.epoque && c.epoque !== filtres.epoque) return false
+      if (filtres.taille && !c.taille.toLowerCase().includes(filtres.taille.toLowerCase())) return false
+      if (filtres.couleur && !c.couleur.toLowerCase().includes(filtres.couleur.toLowerCase())) return false
+      if (filtres.matiere && !c.matiere?.toLowerCase().includes(filtres.matiere.toLowerCase())) return false
+      if (filtres.etat && c.etat !== filtres.etat) return false
+      return true
+    })
+    .sort((a, b) => {
+      if (filtres.tri === "DATE_ASC") return a.createdAt.localeCompare(b.createdAt)
+      if (filtres.tri === "EPOQUE_ASC") return a.epoque.localeCompare(b.epoque)
+      if (filtres.tri === "EPOQUE_DESC") return b.epoque.localeCompare(a.epoque)
+      return b.createdAt.localeCompare(a.createdAt)
+    })
 
   const selectedIndex = selectedId ? filtered.findIndex((c) => c.id === selectedId) : -1
   const selected = selectedIndex >= 0 ? filtered[selectedIndex] : null
@@ -191,7 +199,7 @@ export default function CataloguePage() {
       </header>
 
       {/* Contenu */}
-      <div className="mx-auto flex max-w-7xl gap-6 px-6 py-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 lg:flex-row lg:gap-6 lg:px-6">
         <CatalogueFiltresSidebar onFiltrer={setFiltres} />
 
         <main className="flex-1">
@@ -259,6 +267,13 @@ export default function CataloguePage() {
         </a>
         {" · "}
         <span>© {new Date().getFullYear()} L&apos;Équipe Costumes</span>
+        {" · "}
+        <span>
+          Made with ♥ by{" "}
+          <a href="mailto:mchapat1998@gmail.com" className="hover:text-[#e21713] transition">
+            Milo Chapat
+          </a>
+        </span>
       </footer>
 
       {/* Modal réservation */}

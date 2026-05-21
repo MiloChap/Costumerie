@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { EPOQUES, ETATS } from "@/app/lib/constants"
 
 export interface CatalogueFiltres {
   recherche?: string
@@ -10,33 +11,9 @@ export interface CatalogueFiltres {
   matiere?: string
   etat?: string
   disponibleSeulement: boolean
+  tri: "DATE_DESC" | "DATE_ASC" | "EPOQUE_ASC" | "EPOQUE_DESC"
 }
 
-const EPOQUES = [
-  { value: "AVANT_1900", label: "Avant 1900" },
-  { value: "E1900_1910", label: "1900 – 1910" },
-  { value: "E1910_1920", label: "1910 – 1920" },
-  { value: "E1920_1930", label: "1920 – 1930" },
-  { value: "E1930_1940", label: "1930 – 1940" },
-  { value: "E1940_1950", label: "1940 – 1950" },
-  { value: "E1950_1960", label: "1950 – 1960" },
-  { value: "E1960_1970", label: "1960 – 1970" },
-  { value: "E1970_1980", label: "1970 – 1980" },
-  { value: "E1980_1990", label: "1980 – 1990" },
-  { value: "E1990_2000", label: "1990 – 2000" },
-  { value: "E2000_2010", label: "2000 – 2010" },
-  { value: "E2010_2020", label: "2010 – 2020" },
-  { value: "E2020_PRESENT", label: "2020 – présent" },
-]
-
-const ETATS = [
-  { value: "NEUF", label: "Neuf" },
-  { value: "BON", label: "Bon" },
-  { value: "USE", label: "Usé" },
-  { value: "A_REPARER", label: "À réparer" },
-  { value: "A_NETTOYER", label: "À nettoyer" },
-  { value: "A_FABRIQUER", label: "À fabriquer" },
-]
 
 const initial: CatalogueFiltres = {
   recherche: undefined,
@@ -46,6 +23,7 @@ const initial: CatalogueFiltres = {
   matiere: undefined,
   etat: undefined,
   disponibleSeulement: false,
+  tri: "DATE_DESC",
 }
 
 const labelClass = "block text-xs font-semibold uppercase tracking-wide text-slate-600"
@@ -58,6 +36,7 @@ export default function CatalogueFiltresSidebar({
   onFiltrer: (filtres: CatalogueFiltres) => void
 }) {
   const [filtres, setFiltres] = useState<CatalogueFiltres>(initial)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     onFiltrer(filtres)
@@ -67,11 +46,44 @@ export default function CatalogueFiltresSidebar({
   const update = <K extends keyof CatalogueFiltres>(key: K, value: CatalogueFiltres[K]) =>
     setFiltres((f) => ({ ...f, [key]: value }))
 
+  const activeCount = [filtres.recherche, filtres.epoque, filtres.taille, filtres.couleur, filtres.matiere, filtres.etat, filtres.disponibleSeulement || undefined].filter(Boolean).length
+
   return (
-    <aside className="w-[260px] shrink-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-700">Filtres</h2>
+    <div className="w-full lg:w-[260px] lg:shrink-0">
+      <button
+        type="button"
+        onClick={() => setMobileOpen((o) => !o)}
+        className="lg:hidden w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 shadow-sm"
+      >
+        <span className="flex items-center gap-2">
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+          Recherche & filtres
+          {activeCount > 0 && (
+            <span className="inline-flex items-center justify-center rounded-full bg-[#e21713] px-1.5 py-0.5 text-xs font-semibold text-white leading-none">{activeCount}</span>
+          )}
+        </span>
+        <svg className={`h-4 w-4 transition-transform ${mobileOpen ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+
+    <aside className={`${mobileOpen ? "block" : "hidden"} lg:block mt-2 lg:mt-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm`}>
+      <h2 className="mb-4 hidden lg:block text-sm font-semibold uppercase tracking-wide text-slate-700">Recherche & filtres</h2>
 
       <div className="space-y-4">
+        <div>
+          <label className={labelClass} htmlFor="cf-tri">Trier par</label>
+          <select
+            id="cf-tri"
+            className={inputClass}
+            value={filtres.tri}
+            onChange={(e) => update("tri", e.target.value as CatalogueFiltres["tri"])}
+          >
+            <option value="DATE_DESC">Date d&apos;ajout (récent)</option>
+            <option value="DATE_ASC">Date d&apos;ajout (ancien)</option>
+            <option value="EPOQUE_ASC">Époque (ancienne → récente)</option>
+            <option value="EPOQUE_DESC">Époque (récente → ancienne)</option>
+          </select>
+        </div>
+
         <div>
           <label className={labelClass} htmlFor="cf-recherche">Recherche</label>
           <input
@@ -173,5 +185,6 @@ export default function CatalogueFiltresSidebar({
         </button>
       </div>
     </aside>
+    </div>
   )
 }

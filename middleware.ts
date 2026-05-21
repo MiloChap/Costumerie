@@ -2,9 +2,6 @@ import { auth } from "./auth"
 import { NextResponse } from "next/server"
 
 export default auth((req) => {
-  console.log("middleware path:", req.nextUrl.pathname)
-  console.log("middleware auth:", req.auth)
-
   const isLoggedIn = !!req.auth
   const publicPaths = ["/login", "/forgot-password", "/reset-password", "/catalogue", "/mentions-legales"]
   const publicApiPrefixes = ["/api/catalogue", "/api/reservation", "/api/images"]

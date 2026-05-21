@@ -7,6 +7,7 @@ export async function GET() {
       id: true,
       nom: true,
       epoque: true,
+      createdAt: true,
       taille: true,
       couleur: true,
       matiere: true,

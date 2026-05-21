@@ -19,6 +19,7 @@ type Costume = Omit<
   epoqueEnum: string;
   etatEnum: string;
   images: { id: string; url: string; ordre: number }[];
+  createdAt: string;
 };
 
 interface GestionPageProps {
@@ -40,7 +41,7 @@ export default function GestionPage({
   utilisateurNom = "Utilisateur",
   estAdmin = false,
 }: GestionPageProps) {
-  const [filtres, setFiltres] = useState<Filtres>({ disponibleSeulement: false });
+  const [filtres, setFiltres] = useState<Filtres>({ disponibleSeulement: false, tri: "DATE_DESC" });
   const [costumesLocaux, setCostumesLocaux] = useState(costumes);
   const [supprimantId, setSupprimantId] = useState<string | null>(null);
   const [popupId, setPopupId] = useState<string | null>(null);
@@ -76,7 +77,7 @@ export default function GestionPage({
   }, [modifierCostumeId, costumesLocaux]);
 
   const costumesFiltres = useMemo(() => {
-    return costumesLocaux.filter((c) => {
+    const filtered = costumesLocaux.filter((c) => {
       if (filtres.recherche && !c.nom.toLowerCase().includes(filtres.recherche.toLowerCase()))
         return false;
       if (filtres.epoque && c.epoque !== filtres.epoque) return false;
@@ -93,6 +94,11 @@ export default function GestionPage({
         return false;
       return true;
     });
+    if (filtres.tri === "DATE_ASC") filtered.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    else if (filtres.tri === "EPOQUE_ASC") filtered.sort((a, b) => a.epoqueEnum.localeCompare(b.epoqueEnum));
+    else if (filtres.tri === "EPOQUE_DESC") filtered.sort((a, b) => b.epoqueEnum.localeCompare(a.epoqueEnum));
+    else filtered.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    return filtered;
   }, [filtres, costumesLocaux]);
 
   const popupIndex = costumesFiltres.findIndex((c) => c.id === popupId);
@@ -246,6 +252,21 @@ export default function GestionPage({
           )}
         </FormulaireModal>
       )}
+
+      <footer className="mt-10 border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+        <a href="/mentions-legales" className="hover:text-[#e21713] transition">
+          Mentions légales & Politique de confidentialité
+        </a>
+        {" · "}
+        <span>© {new Date().getFullYear()} L&apos;Équipe Costumes</span>
+        {" · "}
+        <span>
+          Made with ♥ by{" "}
+          <a href="mailto:mchapat1998@gmail.com" className="hover:text-[#e21713] transition">
+            Milo Chapat
+          </a>
+        </span>
+      </footer>
 
       {/* Popup centralisé — rendu hors stacking context via Portal dans CostumePopup */}
       {popupCostume && (

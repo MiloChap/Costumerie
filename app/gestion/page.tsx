@@ -2,32 +2,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import GestionPage from "@/app/components/GestionPage";
-
-const EPOQUE_LABELS: Record<string, string> = {
-  AVANT_1900: "Avant 1900",
-  E1900_1910: "1900 – 1910",
-  E1910_1920: "1910 – 1920",
-  E1920_1930: "1920 – 1930",
-  E1930_1940: "1930 – 1940",
-  E1940_1950: "1940 – 1950",
-  E1950_1960: "1950 – 1960",
-  E1960_1970: "1960 – 1970",
-  E1970_1980: "1970 – 1980",
-  E1980_1990: "1980 – 1990",
-  E1990_2000: "1990 – 2000",
-  E2000_2010: "2000 – 2010",
-  E2010_2020: "2010 – 2020",
-  E2020_PRESENT: "2020 – présent",
-};
-
-const ETAT_LABELS: Record<string, string> = {
-  NEUF: "NEUF",
-  BON: "BON",
-  USE: "USÉ",
-  A_REPARER: "À RÉPARER",
-  A_NETTOYER: "À NETTOYER",
-  A_FABRIQUER: "À FABRIQUER",
-};
+import { EPOQUE_LABELS, ETAT_LABELS_UPPER as ETAT_LABELS } from "@/app/lib/constants";
 
 export default async function Page() {
   const session = await auth();
@@ -71,6 +46,7 @@ export default async function Page() {
     emplacement: c.emplacement ?? undefined,
     epoqueEnum: c.epoque as string,
     etatEnum: c.etat as string,
+    createdAt: c.createdAt.toISOString(),
   }));
 
   return (

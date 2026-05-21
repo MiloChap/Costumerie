@@ -12,6 +12,8 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
   const [nom, setNom] = useState("")
   const [email, setEmail] = useState("")
   const [telephone, setTelephone] = useState("")
+  const [dateEnlevement, setDateEnlevement] = useState("")
+  const [dateRetour, setDateRetour] = useState("")
   const [message, setMessage] = useState(`Bonjour, je souhaite réserver le costume "${costumeName}".`)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -34,7 +36,7 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
     const res = await fetch("/api/reservation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nom, email, telephone, costumeName, message }),
+      body: JSON.stringify({ nom, email, telephone, dateEnlevement, dateRetour, costumeName, message }),
     })
 
     setLoading(false)
@@ -123,6 +125,29 @@ export default function ReservationModal({ costumeName, onClose }: ReservationMo
                 onChange={(e) => setTelephone(e.target.value)}
                 placeholder="06 00 00 00 00"
               />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={labelClass} htmlFor="r-enlevement">Date d&apos;enlèvement souhaitée</label>
+                <input
+                  id="r-enlevement"
+                  type="date"
+                  className={inputClass}
+                  value={dateEnlevement}
+                  onChange={(e) => setDateEnlevement(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelClass} htmlFor="r-retour">Date de retour prévue</label>
+                <input
+                  id="r-retour"
+                  type="date"
+                  className={inputClass}
+                  value={dateRetour}
+                  onChange={(e) => setDateRetour(e.target.value)}
+                />
+              </div>
             </div>
 
             <div>
