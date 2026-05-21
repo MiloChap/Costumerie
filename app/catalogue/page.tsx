@@ -5,6 +5,7 @@ import CostumePopup from "@/app/components/CostumePopup"
 import ReservationModal from "@/app/components/ReservationModal"
 import CatalogueFiltresSidebar, { CatalogueFiltres } from "@/app/components/CatalogueFiltresSidebar"
 import Footer from "@/app/components/Footer"
+import { EPOQUE_LABELS } from "@/app/lib/constants"
 
 interface CostumeCatalogue {
   id: string
@@ -117,7 +118,7 @@ function CatalogueCard({
               {etatLabel}
             </span>
           </div>
-          <p className="mt-1 text-xs text-slate-400">{costume.epoque.replace("_", " – ").replace("E", "")}</p>
+          <p className="mt-1 text-xs text-slate-400">{EPOQUE_LABELS[costume.epoque] ?? costume.epoque}</p>
           <p className="truncate text-xs text-slate-500">
             {costume.taille} · {costume.couleur}{costume.matiere ? ` · ${costume.matiere}` : ""}
           </p>
