@@ -13,6 +13,15 @@ export async function POST(req: Request) {
     // On répond toujours "ok" même si l'email n'existe pas (sécurité)
     if (!user) return NextResponse.json({ ok: true })
 
+    // Rate limiting : max 1 email toutes les 15 minutes par adresse
+    const recentToken = await prisma.passwordResetToken.findFirst({
+      where: {
+        email,
+        createdAt: { gte: new Date(Date.now() - 15 * 60 * 1000) },
+      },
+    })
+    if (recentToken) return NextResponse.json({ ok: true })
+
     // Supprimer les anciens tokens de cet email
     await prisma.passwordResetToken.deleteMany({ where: { email } })
 
