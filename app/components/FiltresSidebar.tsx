@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { EPOQUES, ETATS } from "@/app/lib/constants"
+import { EPOQUES, ETATS, PROPRIETAIRES } from "@/app/lib/constants"
 
 export interface Filtres {
   recherche?: string
@@ -11,15 +11,13 @@ export interface Filtres {
   matiere?: string
   etat?: string
   disponibleSeulement: boolean
-  proprietaireId?: string
+  proprietaire?: string
   tri: "DATE_DESC" | "DATE_ASC" | "EPOQUE_ASC" | "EPOQUE_DESC"
 }
 
 export interface FiltresSidebarProps {
-  proprietaires: { id: string; nom: string }[]
   onFiltrer: (filtres: Filtres) => void
 }
-
 
 const initial: Filtres = {
   recherche: undefined,
@@ -29,7 +27,7 @@ const initial: Filtres = {
   matiere: undefined,
   etat: undefined,
   disponibleSeulement: false,
-  proprietaireId: undefined,
+  proprietaire: undefined,
   tri: "DATE_DESC",
 }
 
@@ -37,7 +35,7 @@ const labelClass = "block text-xs font-semibold uppercase tracking-wide text-sla
 const inputClass =
   "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400"
 
-export default function FiltresSidebar({ proprietaires, onFiltrer }: FiltresSidebarProps) {
+export default function FiltresSidebar({ onFiltrer }: FiltresSidebarProps) {
   const [filtres, setFiltres] = useState<Filtres>(initial)
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -51,7 +49,7 @@ export default function FiltresSidebar({ proprietaires, onFiltrer }: FiltresSide
 
   const reset = () => setFiltres(initial)
 
-  const activeCount = [filtres.recherche, filtres.epoque, filtres.taille, filtres.couleur, filtres.matiere, filtres.etat, filtres.proprietaireId, filtres.disponibleSeulement || undefined].filter(Boolean).length
+  const activeCount = [filtres.recherche, filtres.epoque, filtres.taille, filtres.couleur, filtres.matiere, filtres.etat, filtres.proprietaire, filtres.disponibleSeulement || undefined].filter(Boolean).length
 
   return (
     <div className="w-full lg:w-[280px] lg:shrink-0">
@@ -171,12 +169,12 @@ export default function FiltresSidebar({ proprietaires, onFiltrer }: FiltresSide
           <select
             id="f-prop"
             className={inputClass}
-            value={filtres.proprietaireId ?? ""}
-            onChange={(e) => update("proprietaireId", e.target.value || undefined)}
+            value={filtres.proprietaire ?? ""}
+            onChange={(e) => update("proprietaire", e.target.value || undefined)}
           >
             <option value="">Tous</option>
-            {proprietaires.map((p) => (
-              <option key={p.id} value={p.id}>{p.nom}</option>
+            {PROPRIETAIRES.map((nom) => (
+              <option key={nom} value={nom}>{nom}</option>
             ))}
           </select>
         </div>

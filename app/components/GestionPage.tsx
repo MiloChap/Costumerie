@@ -16,7 +16,7 @@ type Costume = Omit<
   CostumeCardProps,
   "onModifier" | "onGererPret" | "onSupprimer" | "onOpenPopup"
 > & {
-  proprietaireId: string;
+  proprietaire: string;
   epoqueEnum: string;
   etatEnum: string;
   images: { id: string; url: string; ordre: number }[];
@@ -25,7 +25,6 @@ type Costume = Omit<
 
 interface GestionPageProps {
   costumes: Costume[];
-  proprietaires: { id: string; nom: string }[];
   totalCostumes: number;
   totalDispo: number;
   pretsEnCours: number;
@@ -35,7 +34,6 @@ interface GestionPageProps {
 
 export default function GestionPage({
   costumes,
-  proprietaires,
   totalCostumes,
   totalDispo,
   pretsEnCours,
@@ -73,7 +71,7 @@ export default function GestionPage({
       emplacement: c.emplacement,
       description: c.description,
       images: c.images,
-      proprietaireId: c.proprietaireId,
+      proprietaire: c.proprietaire,
     })
   }, [modifierCostumeId, costumesLocaux]);
 
@@ -91,7 +89,7 @@ export default function GestionPage({
       if (filtres.etat && c.etat !== filtres.etat)
         return false;
       if (filtres.disponibleSeulement && c.quantiteDispo <= 0) return false;
-      if (filtres.proprietaireId && c.proprietaireId !== filtres.proprietaireId)
+      if (filtres.proprietaire && c.proprietaire !== filtres.proprietaire)
         return false;
       return true;
     });
@@ -194,7 +192,7 @@ export default function GestionPage({
 
         {/* Sidebar + Grid */}
         <section className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start">
-          <FiltresSidebar proprietaires={proprietaires} onFiltrer={setFiltres} />
+          <FiltresSidebar onFiltrer={setFiltres} />
 
           <div className="flex-1">
             {costumesFiltres.length === 0 ? (
@@ -229,7 +227,6 @@ export default function GestionPage({
       {showAjouter && (
         <FormulaireModal onClose={() => setShowAjouter(false)}>
           <AjouterCostumeForm
-            proprietaires={proprietaires}
             onSuccess={() => { setShowAjouter(false); router.refresh() }}
             onCancel={() => setShowAjouter(false)}
           />
@@ -242,7 +239,6 @@ export default function GestionPage({
           {modifierCostumeData ? (
             <ModifierCostumeForm
               costume={modifierCostumeData}
-              proprietaires={proprietaires}
               onSuccess={() => { setModifierCostumeId(null); router.refresh() }}
               onCancel={() => setModifierCostumeId(null)}
             />

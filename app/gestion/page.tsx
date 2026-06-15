@@ -8,15 +8,11 @@ export default async function Page() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const [costumes, proprietaires, stats] = await Promise.all([
+  const [costumes, stats] = await Promise.all([
     prisma.costume.findMany({
-      include: {
-        proprietaire: true,
-        images: { orderBy: { ordre: "asc" } },
-      },
+      include: { images: { orderBy: { ordre: "asc" } } },
       orderBy: { createdAt: "desc" },
     }),
-    prisma.proprietaire.findMany({ orderBy: { nom: "asc" } }),
     Promise.all([
       prisma.costume.count(),
       prisma.costume.aggregate({ _sum: { quantiteDispo: true } }),
@@ -41,8 +37,7 @@ export default async function Page() {
     description: c.description ?? undefined,
     quantiteDispo: c.quantiteDispo,
     quantiteTotal: c.quantiteTotal,
-    proprietaire: c.proprietaire.nom,
-    proprietaireId: c.proprietaire.id,
+    proprietaire: c.proprietaire,
     emplacement: c.emplacement ?? undefined,
     epoqueEnum: c.epoque as string,
     etatEnum: c.etat as string,
@@ -52,7 +47,6 @@ export default async function Page() {
   return (
     <GestionPage
       costumes={costumesFormatted}
-      proprietaires={proprietaires}
       totalCostumes={totalCostumes}
       totalDispo={totalDispo}
       pretsEnCours={pretsEnCours}

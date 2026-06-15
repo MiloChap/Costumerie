@@ -189,6 +189,11 @@ export default function CataloguePage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      {loading && (
+        <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-slate-100">
+          <div className="h-full bg-[#e21713] loading-bar" />
+        </div>
+      )}
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
@@ -205,11 +210,7 @@ export default function CataloguePage() {
         <CatalogueFiltresSidebar onFiltrer={setFiltres} />
 
         <main className="flex-1">
-          {loading ? (
-            <div className="flex h-64 items-center justify-center text-slate-400">
-              Chargement…
-            </div>
-          ) : filtered.length === 0 ? (
+          {filtered.length === 0 && !loading ? (
             <div className="flex h-64 flex-col items-center justify-center gap-2 text-slate-400">
               <HangerIcon className="h-12 w-12" />
               <p>Aucun costume trouvé</p>

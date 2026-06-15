@@ -65,7 +65,7 @@ export async function PATCH(
           quantiteTotal: Number(body.quantiteTotal),
           quantiteDispo: Number(body.quantiteDispo),
           emplacement: body.emplacement || null,
-          proprietaireId: body.proprietaireId,
+          proprietaire: body.proprietaire ?? "",
         },
       })
     })

@@ -24,11 +24,6 @@ export type Costume = $Result.DefaultSelection<Prisma.$CostumePayload>
  */
 export type CostumeImage = $Result.DefaultSelection<Prisma.$CostumeImagePayload>
 /**
- * Model Proprietaire
- * 
- */
-export type Proprietaire = $Result.DefaultSelection<Prisma.$ProprietairePayload>
-/**
  * Model Pret
  * 
  */
@@ -262,16 +257,6 @@ export class PrismaClient<
     * ```
     */
   get costumeImage(): Prisma.CostumeImageDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.proprietaire`: Exposes CRUD operations for the **Proprietaire** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Proprietaires
-    * const proprietaires = await prisma.proprietaire.findMany()
-    * ```
-    */
-  get proprietaire(): Prisma.ProprietaireDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.pret`: Exposes CRUD operations for the **Pret** model.
@@ -738,7 +723,6 @@ export namespace Prisma {
   export const ModelName: {
     Costume: 'Costume',
     CostumeImage: 'CostumeImage',
-    Proprietaire: 'Proprietaire',
     Pret: 'Pret',
     User: 'User',
     PasswordResetToken: 'PasswordResetToken'
@@ -757,7 +741,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "costume" | "costumeImage" | "proprietaire" | "pret" | "user" | "passwordResetToken"
+      modelProps: "costume" | "costumeImage" | "pret" | "user" | "passwordResetToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -906,80 +890,6 @@ export namespace Prisma {
           count: {
             args: Prisma.CostumeImageCountArgs<ExtArgs>
             result: $Utils.Optional<CostumeImageCountAggregateOutputType> | number
-          }
-        }
-      }
-      Proprietaire: {
-        payload: Prisma.$ProprietairePayload<ExtArgs>
-        fields: Prisma.ProprietaireFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ProprietaireFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ProprietaireFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>
-          }
-          findFirst: {
-            args: Prisma.ProprietaireFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ProprietaireFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>
-          }
-          findMany: {
-            args: Prisma.ProprietaireFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>[]
-          }
-          create: {
-            args: Prisma.ProprietaireCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>
-          }
-          createMany: {
-            args: Prisma.ProprietaireCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ProprietaireCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>[]
-          }
-          delete: {
-            args: Prisma.ProprietaireDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>
-          }
-          update: {
-            args: Prisma.ProprietaireUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>
-          }
-          deleteMany: {
-            args: Prisma.ProprietaireDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ProprietaireUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ProprietaireUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>[]
-          }
-          upsert: {
-            args: Prisma.ProprietaireUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProprietairePayload>
-          }
-          aggregate: {
-            args: Prisma.ProprietaireAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateProprietaire>
-          }
-          groupBy: {
-            args: Prisma.ProprietaireGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ProprietaireGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ProprietaireCountArgs<ExtArgs>
-            result: $Utils.Optional<ProprietaireCountAggregateOutputType> | number
           }
         }
       }
@@ -1315,7 +1225,6 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     costume?: CostumeOmit
     costumeImage?: CostumeImageOmit
-    proprietaire?: ProprietaireOmit
     pret?: PretOmit
     user?: UserOmit
     passwordResetToken?: PasswordResetTokenOmit
@@ -1435,37 +1344,6 @@ export namespace Prisma {
 
 
   /**
-   * Count Type ProprietaireCountOutputType
-   */
-
-  export type ProprietaireCountOutputType = {
-    costumes: number
-  }
-
-  export type ProprietaireCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    costumes?: boolean | ProprietaireCountOutputTypeCountCostumesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * ProprietaireCountOutputType without action
-   */
-  export type ProprietaireCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProprietaireCountOutputType
-     */
-    select?: ProprietaireCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ProprietaireCountOutputType without action
-   */
-  export type ProprietaireCountOutputTypeCountCostumesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CostumeWhereInput
-  }
-
-
-  /**
    * Models
    */
 
@@ -1503,7 +1381,7 @@ export namespace Prisma {
     quantiteTotal: number | null
     quantiteDispo: number | null
     emplacement: string | null
-    proprietaireId: string | null
+    proprietaire: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1520,7 +1398,7 @@ export namespace Prisma {
     quantiteTotal: number | null
     quantiteDispo: number | null
     emplacement: string | null
-    proprietaireId: string | null
+    proprietaire: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1537,7 +1415,7 @@ export namespace Prisma {
     quantiteTotal: number
     quantiteDispo: number
     emplacement: number
-    proprietaireId: number
+    proprietaire: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1566,7 +1444,7 @@ export namespace Prisma {
     quantiteTotal?: true
     quantiteDispo?: true
     emplacement?: true
-    proprietaireId?: true
+    proprietaire?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1583,7 +1461,7 @@ export namespace Prisma {
     quantiteTotal?: true
     quantiteDispo?: true
     emplacement?: true
-    proprietaireId?: true
+    proprietaire?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1600,7 +1478,7 @@ export namespace Prisma {
     quantiteTotal?: true
     quantiteDispo?: true
     emplacement?: true
-    proprietaireId?: true
+    proprietaire?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1704,7 +1582,7 @@ export namespace Prisma {
     quantiteTotal: number
     quantiteDispo: number
     emplacement: string | null
-    proprietaireId: string
+    proprietaire: string
     createdAt: Date
     updatedAt: Date
     _count: CostumeCountAggregateOutputType | null
@@ -1740,10 +1618,9 @@ export namespace Prisma {
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    proprietaireId?: boolean
+    proprietaire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
     prets?: boolean | Costume$pretsArgs<ExtArgs>
     images?: boolean | Costume$imagesArgs<ExtArgs>
     _count?: boolean | CostumeCountOutputTypeDefaultArgs<ExtArgs>
@@ -1761,10 +1638,9 @@ export namespace Prisma {
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    proprietaireId?: boolean
+    proprietaire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["costume"]>
 
   export type CostumeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1779,10 +1655,9 @@ export namespace Prisma {
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    proprietaireId?: boolean
+    proprietaire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["costume"]>
 
   export type CostumeSelectScalar = {
@@ -1797,29 +1672,23 @@ export namespace Prisma {
     quantiteTotal?: boolean
     quantiteDispo?: boolean
     emplacement?: boolean
-    proprietaireId?: boolean
+    proprietaire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CostumeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nom" | "epoque" | "description" | "taille" | "couleur" | "matiere" | "etat" | "quantiteTotal" | "quantiteDispo" | "emplacement" | "proprietaireId" | "createdAt" | "updatedAt", ExtArgs["result"]["costume"]>
+  export type CostumeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nom" | "epoque" | "description" | "taille" | "couleur" | "matiere" | "etat" | "quantiteTotal" | "quantiteDispo" | "emplacement" | "proprietaire" | "createdAt" | "updatedAt", ExtArgs["result"]["costume"]>
   export type CostumeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
     prets?: boolean | Costume$pretsArgs<ExtArgs>
     images?: boolean | Costume$imagesArgs<ExtArgs>
     _count?: boolean | CostumeCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type CostumeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
-  }
-  export type CostumeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    proprietaire?: boolean | ProprietaireDefaultArgs<ExtArgs>
-  }
+  export type CostumeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CostumeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $CostumePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Costume"
     objects: {
-      proprietaire: Prisma.$ProprietairePayload<ExtArgs>
       prets: Prisma.$PretPayload<ExtArgs>[]
       images: Prisma.$CostumeImagePayload<ExtArgs>[]
     }
@@ -1835,7 +1704,7 @@ export namespace Prisma {
       quantiteTotal: number
       quantiteDispo: number
       emplacement: string | null
-      proprietaireId: string
+      proprietaire: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["costume"]>
@@ -2232,7 +2101,6 @@ export namespace Prisma {
    */
   export interface Prisma__CostumeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    proprietaire<T extends ProprietaireDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProprietaireDefaultArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     prets<T extends Costume$pretsArgs<ExtArgs> = {}>(args?: Subset<T, Costume$pretsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PretPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     images<T extends Costume$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Costume$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostumeImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -2275,7 +2143,7 @@ export namespace Prisma {
     readonly quantiteTotal: FieldRef<"Costume", 'Int'>
     readonly quantiteDispo: FieldRef<"Costume", 'Int'>
     readonly emplacement: FieldRef<"Costume", 'String'>
-    readonly proprietaireId: FieldRef<"Costume", 'String'>
+    readonly proprietaire: FieldRef<"Costume", 'String'>
     readonly createdAt: FieldRef<"Costume", 'DateTime'>
     readonly updatedAt: FieldRef<"Costume", 'DateTime'>
   }
@@ -2532,10 +2400,6 @@ export namespace Prisma {
      */
     data: CostumeCreateManyInput | CostumeCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CostumeIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2606,10 +2470,6 @@ export namespace Prisma {
      * Limit how many Costumes to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CostumeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3839,1055 +3699,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CostumeImageInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Proprietaire
-   */
-
-  export type AggregateProprietaire = {
-    _count: ProprietaireCountAggregateOutputType | null
-    _min: ProprietaireMinAggregateOutputType | null
-    _max: ProprietaireMaxAggregateOutputType | null
-  }
-
-  export type ProprietaireMinAggregateOutputType = {
-    id: string | null
-    nom: string | null
-    email: string | null
-  }
-
-  export type ProprietaireMaxAggregateOutputType = {
-    id: string | null
-    nom: string | null
-    email: string | null
-  }
-
-  export type ProprietaireCountAggregateOutputType = {
-    id: number
-    nom: number
-    email: number
-    _all: number
-  }
-
-
-  export type ProprietaireMinAggregateInputType = {
-    id?: true
-    nom?: true
-    email?: true
-  }
-
-  export type ProprietaireMaxAggregateInputType = {
-    id?: true
-    nom?: true
-    email?: true
-  }
-
-  export type ProprietaireCountAggregateInputType = {
-    id?: true
-    nom?: true
-    email?: true
-    _all?: true
-  }
-
-  export type ProprietaireAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Proprietaire to aggregate.
-     */
-    where?: ProprietaireWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Proprietaires to fetch.
-     */
-    orderBy?: ProprietaireOrderByWithRelationInput | ProprietaireOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ProprietaireWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Proprietaires from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Proprietaires.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Proprietaires
-    **/
-    _count?: true | ProprietaireCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ProprietaireMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ProprietaireMaxAggregateInputType
-  }
-
-  export type GetProprietaireAggregateType<T extends ProprietaireAggregateArgs> = {
-        [P in keyof T & keyof AggregateProprietaire]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateProprietaire[P]>
-      : GetScalarType<T[P], AggregateProprietaire[P]>
-  }
-
-
-
-
-  export type ProprietaireGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProprietaireWhereInput
-    orderBy?: ProprietaireOrderByWithAggregationInput | ProprietaireOrderByWithAggregationInput[]
-    by: ProprietaireScalarFieldEnum[] | ProprietaireScalarFieldEnum
-    having?: ProprietaireScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ProprietaireCountAggregateInputType | true
-    _min?: ProprietaireMinAggregateInputType
-    _max?: ProprietaireMaxAggregateInputType
-  }
-
-  export type ProprietaireGroupByOutputType = {
-    id: string
-    nom: string
-    email: string | null
-    _count: ProprietaireCountAggregateOutputType | null
-    _min: ProprietaireMinAggregateOutputType | null
-    _max: ProprietaireMaxAggregateOutputType | null
-  }
-
-  type GetProprietaireGroupByPayload<T extends ProprietaireGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ProprietaireGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ProprietaireGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ProprietaireGroupByOutputType[P]>
-            : GetScalarType<T[P], ProprietaireGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ProprietaireSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nom?: boolean
-    email?: boolean
-    costumes?: boolean | Proprietaire$costumesArgs<ExtArgs>
-    _count?: boolean | ProprietaireCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["proprietaire"]>
-
-  export type ProprietaireSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nom?: boolean
-    email?: boolean
-  }, ExtArgs["result"]["proprietaire"]>
-
-  export type ProprietaireSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nom?: boolean
-    email?: boolean
-  }, ExtArgs["result"]["proprietaire"]>
-
-  export type ProprietaireSelectScalar = {
-    id?: boolean
-    nom?: boolean
-    email?: boolean
-  }
-
-  export type ProprietaireOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nom" | "email", ExtArgs["result"]["proprietaire"]>
-  export type ProprietaireInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    costumes?: boolean | Proprietaire$costumesArgs<ExtArgs>
-    _count?: boolean | ProprietaireCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type ProprietaireIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type ProprietaireIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $ProprietairePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Proprietaire"
-    objects: {
-      costumes: Prisma.$CostumePayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      nom: string
-      email: string | null
-    }, ExtArgs["result"]["proprietaire"]>
-    composites: {}
-  }
-
-  type ProprietaireGetPayload<S extends boolean | null | undefined | ProprietaireDefaultArgs> = $Result.GetResult<Prisma.$ProprietairePayload, S>
-
-  type ProprietaireCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ProprietaireFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ProprietaireCountAggregateInputType | true
-    }
-
-  export interface ProprietaireDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Proprietaire'], meta: { name: 'Proprietaire' } }
-    /**
-     * Find zero or one Proprietaire that matches the filter.
-     * @param {ProprietaireFindUniqueArgs} args - Arguments to find a Proprietaire
-     * @example
-     * // Get one Proprietaire
-     * const proprietaire = await prisma.proprietaire.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ProprietaireFindUniqueArgs>(args: SelectSubset<T, ProprietaireFindUniqueArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Proprietaire that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ProprietaireFindUniqueOrThrowArgs} args - Arguments to find a Proprietaire
-     * @example
-     * // Get one Proprietaire
-     * const proprietaire = await prisma.proprietaire.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ProprietaireFindUniqueOrThrowArgs>(args: SelectSubset<T, ProprietaireFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Proprietaire that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProprietaireFindFirstArgs} args - Arguments to find a Proprietaire
-     * @example
-     * // Get one Proprietaire
-     * const proprietaire = await prisma.proprietaire.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ProprietaireFindFirstArgs>(args?: SelectSubset<T, ProprietaireFindFirstArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Proprietaire that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProprietaireFindFirstOrThrowArgs} args - Arguments to find a Proprietaire
-     * @example
-     * // Get one Proprietaire
-     * const proprietaire = await prisma.proprietaire.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ProprietaireFindFirstOrThrowArgs>(args?: SelectSubset<T, ProprietaireFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Proprietaires that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProprietaireFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Proprietaires
-     * const proprietaires = await prisma.proprietaire.findMany()
-     * 
-     * // Get first 10 Proprietaires
-     * const proprietaires = await prisma.proprietaire.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const proprietaireWithIdOnly = await prisma.proprietaire.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ProprietaireFindManyArgs>(args?: SelectSubset<T, ProprietaireFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Proprietaire.
-     * @param {ProprietaireCreateArgs} args - Arguments to create a Proprietaire.
-     * @example
-     * // Create one Proprietaire
-     * const Proprietaire = await prisma.proprietaire.create({
-     *   data: {
-     *     // ... data to create a Proprietaire
-     *   }
-     * })
-     * 
-     */
-    create<T extends ProprietaireCreateArgs>(args: SelectSubset<T, ProprietaireCreateArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Proprietaires.
-     * @param {ProprietaireCreateManyArgs} args - Arguments to create many Proprietaires.
-     * @example
-     * // Create many Proprietaires
-     * const proprietaire = await prisma.proprietaire.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ProprietaireCreateManyArgs>(args?: SelectSubset<T, ProprietaireCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Proprietaires and returns the data saved in the database.
-     * @param {ProprietaireCreateManyAndReturnArgs} args - Arguments to create many Proprietaires.
-     * @example
-     * // Create many Proprietaires
-     * const proprietaire = await prisma.proprietaire.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Proprietaires and only return the `id`
-     * const proprietaireWithIdOnly = await prisma.proprietaire.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ProprietaireCreateManyAndReturnArgs>(args?: SelectSubset<T, ProprietaireCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Proprietaire.
-     * @param {ProprietaireDeleteArgs} args - Arguments to delete one Proprietaire.
-     * @example
-     * // Delete one Proprietaire
-     * const Proprietaire = await prisma.proprietaire.delete({
-     *   where: {
-     *     // ... filter to delete one Proprietaire
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ProprietaireDeleteArgs>(args: SelectSubset<T, ProprietaireDeleteArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Proprietaire.
-     * @param {ProprietaireUpdateArgs} args - Arguments to update one Proprietaire.
-     * @example
-     * // Update one Proprietaire
-     * const proprietaire = await prisma.proprietaire.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ProprietaireUpdateArgs>(args: SelectSubset<T, ProprietaireUpdateArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Proprietaires.
-     * @param {ProprietaireDeleteManyArgs} args - Arguments to filter Proprietaires to delete.
-     * @example
-     * // Delete a few Proprietaires
-     * const { count } = await prisma.proprietaire.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ProprietaireDeleteManyArgs>(args?: SelectSubset<T, ProprietaireDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Proprietaires.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProprietaireUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Proprietaires
-     * const proprietaire = await prisma.proprietaire.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ProprietaireUpdateManyArgs>(args: SelectSubset<T, ProprietaireUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Proprietaires and returns the data updated in the database.
-     * @param {ProprietaireUpdateManyAndReturnArgs} args - Arguments to update many Proprietaires.
-     * @example
-     * // Update many Proprietaires
-     * const proprietaire = await prisma.proprietaire.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Proprietaires and only return the `id`
-     * const proprietaireWithIdOnly = await prisma.proprietaire.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ProprietaireUpdateManyAndReturnArgs>(args: SelectSubset<T, ProprietaireUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Proprietaire.
-     * @param {ProprietaireUpsertArgs} args - Arguments to update or create a Proprietaire.
-     * @example
-     * // Update or create a Proprietaire
-     * const proprietaire = await prisma.proprietaire.upsert({
-     *   create: {
-     *     // ... data to create a Proprietaire
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Proprietaire we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ProprietaireUpsertArgs>(args: SelectSubset<T, ProprietaireUpsertArgs<ExtArgs>>): Prisma__ProprietaireClient<$Result.GetResult<Prisma.$ProprietairePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Proprietaires.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProprietaireCountArgs} args - Arguments to filter Proprietaires to count.
-     * @example
-     * // Count the number of Proprietaires
-     * const count = await prisma.proprietaire.count({
-     *   where: {
-     *     // ... the filter for the Proprietaires we want to count
-     *   }
-     * })
-    **/
-    count<T extends ProprietaireCountArgs>(
-      args?: Subset<T, ProprietaireCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ProprietaireCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Proprietaire.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProprietaireAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ProprietaireAggregateArgs>(args: Subset<T, ProprietaireAggregateArgs>): Prisma.PrismaPromise<GetProprietaireAggregateType<T>>
-
-    /**
-     * Group by Proprietaire.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProprietaireGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ProprietaireGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProprietaireGroupByArgs['orderBy'] }
-        : { orderBy?: ProprietaireGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ProprietaireGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProprietaireGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Proprietaire model
-   */
-  readonly fields: ProprietaireFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Proprietaire.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ProprietaireClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    costumes<T extends Proprietaire$costumesArgs<ExtArgs> = {}>(args?: Subset<T, Proprietaire$costumesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostumePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Proprietaire model
-   */
-  interface ProprietaireFieldRefs {
-    readonly id: FieldRef<"Proprietaire", 'String'>
-    readonly nom: FieldRef<"Proprietaire", 'String'>
-    readonly email: FieldRef<"Proprietaire", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Proprietaire findUnique
-   */
-  export type ProprietaireFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * Filter, which Proprietaire to fetch.
-     */
-    where: ProprietaireWhereUniqueInput
-  }
-
-  /**
-   * Proprietaire findUniqueOrThrow
-   */
-  export type ProprietaireFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * Filter, which Proprietaire to fetch.
-     */
-    where: ProprietaireWhereUniqueInput
-  }
-
-  /**
-   * Proprietaire findFirst
-   */
-  export type ProprietaireFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * Filter, which Proprietaire to fetch.
-     */
-    where?: ProprietaireWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Proprietaires to fetch.
-     */
-    orderBy?: ProprietaireOrderByWithRelationInput | ProprietaireOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Proprietaires.
-     */
-    cursor?: ProprietaireWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Proprietaires from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Proprietaires.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Proprietaires.
-     */
-    distinct?: ProprietaireScalarFieldEnum | ProprietaireScalarFieldEnum[]
-  }
-
-  /**
-   * Proprietaire findFirstOrThrow
-   */
-  export type ProprietaireFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * Filter, which Proprietaire to fetch.
-     */
-    where?: ProprietaireWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Proprietaires to fetch.
-     */
-    orderBy?: ProprietaireOrderByWithRelationInput | ProprietaireOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Proprietaires.
-     */
-    cursor?: ProprietaireWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Proprietaires from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Proprietaires.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Proprietaires.
-     */
-    distinct?: ProprietaireScalarFieldEnum | ProprietaireScalarFieldEnum[]
-  }
-
-  /**
-   * Proprietaire findMany
-   */
-  export type ProprietaireFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * Filter, which Proprietaires to fetch.
-     */
-    where?: ProprietaireWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Proprietaires to fetch.
-     */
-    orderBy?: ProprietaireOrderByWithRelationInput | ProprietaireOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Proprietaires.
-     */
-    cursor?: ProprietaireWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Proprietaires from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Proprietaires.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Proprietaires.
-     */
-    distinct?: ProprietaireScalarFieldEnum | ProprietaireScalarFieldEnum[]
-  }
-
-  /**
-   * Proprietaire create
-   */
-  export type ProprietaireCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Proprietaire.
-     */
-    data: XOR<ProprietaireCreateInput, ProprietaireUncheckedCreateInput>
-  }
-
-  /**
-   * Proprietaire createMany
-   */
-  export type ProprietaireCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Proprietaires.
-     */
-    data: ProprietaireCreateManyInput | ProprietaireCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Proprietaire createManyAndReturn
-   */
-  export type ProprietaireCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * The data used to create many Proprietaires.
-     */
-    data: ProprietaireCreateManyInput | ProprietaireCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Proprietaire update
-   */
-  export type ProprietaireUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Proprietaire.
-     */
-    data: XOR<ProprietaireUpdateInput, ProprietaireUncheckedUpdateInput>
-    /**
-     * Choose, which Proprietaire to update.
-     */
-    where: ProprietaireWhereUniqueInput
-  }
-
-  /**
-   * Proprietaire updateMany
-   */
-  export type ProprietaireUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Proprietaires.
-     */
-    data: XOR<ProprietaireUpdateManyMutationInput, ProprietaireUncheckedUpdateManyInput>
-    /**
-     * Filter which Proprietaires to update
-     */
-    where?: ProprietaireWhereInput
-    /**
-     * Limit how many Proprietaires to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Proprietaire updateManyAndReturn
-   */
-  export type ProprietaireUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * The data used to update Proprietaires.
-     */
-    data: XOR<ProprietaireUpdateManyMutationInput, ProprietaireUncheckedUpdateManyInput>
-    /**
-     * Filter which Proprietaires to update
-     */
-    where?: ProprietaireWhereInput
-    /**
-     * Limit how many Proprietaires to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Proprietaire upsert
-   */
-  export type ProprietaireUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Proprietaire to update in case it exists.
-     */
-    where: ProprietaireWhereUniqueInput
-    /**
-     * In case the Proprietaire found by the `where` argument doesn't exist, create a new Proprietaire with this data.
-     */
-    create: XOR<ProprietaireCreateInput, ProprietaireUncheckedCreateInput>
-    /**
-     * In case the Proprietaire was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ProprietaireUpdateInput, ProprietaireUncheckedUpdateInput>
-  }
-
-  /**
-   * Proprietaire delete
-   */
-  export type ProprietaireDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
-    /**
-     * Filter which Proprietaire to delete.
-     */
-    where: ProprietaireWhereUniqueInput
-  }
-
-  /**
-   * Proprietaire deleteMany
-   */
-  export type ProprietaireDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Proprietaires to delete
-     */
-    where?: ProprietaireWhereInput
-    /**
-     * Limit how many Proprietaires to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Proprietaire.costumes
-   */
-  export type Proprietaire$costumesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Costume
-     */
-    select?: CostumeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Costume
-     */
-    omit?: CostumeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CostumeInclude<ExtArgs> | null
-    where?: CostumeWhereInput
-    orderBy?: CostumeOrderByWithRelationInput | CostumeOrderByWithRelationInput[]
-    cursor?: CostumeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CostumeScalarFieldEnum | CostumeScalarFieldEnum[]
-  }
-
-  /**
-   * Proprietaire without action
-   */
-  export type ProprietaireDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Proprietaire
-     */
-    select?: ProprietaireSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Proprietaire
-     */
-    omit?: ProprietaireOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProprietaireInclude<ExtArgs> | null
   }
 
 
@@ -8092,7 +6903,7 @@ export namespace Prisma {
     quantiteTotal: 'quantiteTotal',
     quantiteDispo: 'quantiteDispo',
     emplacement: 'emplacement',
-    proprietaireId: 'proprietaireId',
+    proprietaire: 'proprietaire',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8109,15 +6920,6 @@ export namespace Prisma {
   };
 
   export type CostumeImageScalarFieldEnum = (typeof CostumeImageScalarFieldEnum)[keyof typeof CostumeImageScalarFieldEnum]
-
-
-  export const ProprietaireScalarFieldEnum: {
-    id: 'id',
-    nom: 'nom',
-    email: 'email'
-  };
-
-  export type ProprietaireScalarFieldEnum = (typeof ProprietaireScalarFieldEnum)[keyof typeof ProprietaireScalarFieldEnum]
 
 
   export const PretScalarFieldEnum: {
@@ -8318,10 +7120,9 @@ export namespace Prisma {
     quantiteTotal?: IntFilter<"Costume"> | number
     quantiteDispo?: IntFilter<"Costume"> | number
     emplacement?: StringNullableFilter<"Costume"> | string | null
-    proprietaireId?: StringFilter<"Costume"> | string
+    proprietaire?: StringFilter<"Costume"> | string
     createdAt?: DateTimeFilter<"Costume"> | Date | string
     updatedAt?: DateTimeFilter<"Costume"> | Date | string
-    proprietaire?: XOR<ProprietaireScalarRelationFilter, ProprietaireWhereInput>
     prets?: PretListRelationFilter
     images?: CostumeImageListRelationFilter
   }
@@ -8338,10 +7139,9 @@ export namespace Prisma {
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrderInput | SortOrder
-    proprietaireId?: SortOrder
+    proprietaire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    proprietaire?: ProprietaireOrderByWithRelationInput
     prets?: PretOrderByRelationAggregateInput
     images?: CostumeImageOrderByRelationAggregateInput
   }
@@ -8361,10 +7161,9 @@ export namespace Prisma {
     quantiteTotal?: IntFilter<"Costume"> | number
     quantiteDispo?: IntFilter<"Costume"> | number
     emplacement?: StringNullableFilter<"Costume"> | string | null
-    proprietaireId?: StringFilter<"Costume"> | string
+    proprietaire?: StringFilter<"Costume"> | string
     createdAt?: DateTimeFilter<"Costume"> | Date | string
     updatedAt?: DateTimeFilter<"Costume"> | Date | string
-    proprietaire?: XOR<ProprietaireScalarRelationFilter, ProprietaireWhereInput>
     prets?: PretListRelationFilter
     images?: CostumeImageListRelationFilter
   }, "id">
@@ -8381,7 +7180,7 @@ export namespace Prisma {
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrderInput | SortOrder
-    proprietaireId?: SortOrder
+    proprietaire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CostumeCountOrderByAggregateInput
@@ -8406,7 +7205,7 @@ export namespace Prisma {
     quantiteTotal?: IntWithAggregatesFilter<"Costume"> | number
     quantiteDispo?: IntWithAggregatesFilter<"Costume"> | number
     emplacement?: StringNullableWithAggregatesFilter<"Costume"> | string | null
-    proprietaireId?: StringWithAggregatesFilter<"Costume"> | string
+    proprietaire?: StringWithAggregatesFilter<"Costume"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Costume"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Costume"> | Date | string
   }
@@ -8466,51 +7265,6 @@ export namespace Prisma {
     url?: StringWithAggregatesFilter<"CostumeImage"> | string
     ordre?: IntWithAggregatesFilter<"CostumeImage"> | number
     createdAt?: DateTimeWithAggregatesFilter<"CostumeImage"> | Date | string
-  }
-
-  export type ProprietaireWhereInput = {
-    AND?: ProprietaireWhereInput | ProprietaireWhereInput[]
-    OR?: ProprietaireWhereInput[]
-    NOT?: ProprietaireWhereInput | ProprietaireWhereInput[]
-    id?: StringFilter<"Proprietaire"> | string
-    nom?: StringFilter<"Proprietaire"> | string
-    email?: StringNullableFilter<"Proprietaire"> | string | null
-    costumes?: CostumeListRelationFilter
-  }
-
-  export type ProprietaireOrderByWithRelationInput = {
-    id?: SortOrder
-    nom?: SortOrder
-    email?: SortOrderInput | SortOrder
-    costumes?: CostumeOrderByRelationAggregateInput
-  }
-
-  export type ProprietaireWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: ProprietaireWhereInput | ProprietaireWhereInput[]
-    OR?: ProprietaireWhereInput[]
-    NOT?: ProprietaireWhereInput | ProprietaireWhereInput[]
-    nom?: StringFilter<"Proprietaire"> | string
-    email?: StringNullableFilter<"Proprietaire"> | string | null
-    costumes?: CostumeListRelationFilter
-  }, "id">
-
-  export type ProprietaireOrderByWithAggregationInput = {
-    id?: SortOrder
-    nom?: SortOrder
-    email?: SortOrderInput | SortOrder
-    _count?: ProprietaireCountOrderByAggregateInput
-    _max?: ProprietaireMaxOrderByAggregateInput
-    _min?: ProprietaireMinOrderByAggregateInput
-  }
-
-  export type ProprietaireScalarWhereWithAggregatesInput = {
-    AND?: ProprietaireScalarWhereWithAggregatesInput | ProprietaireScalarWhereWithAggregatesInput[]
-    OR?: ProprietaireScalarWhereWithAggregatesInput[]
-    NOT?: ProprietaireScalarWhereWithAggregatesInput | ProprietaireScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Proprietaire"> | string
-    nom?: StringWithAggregatesFilter<"Proprietaire"> | string
-    email?: StringNullableWithAggregatesFilter<"Proprietaire"> | string | null
   }
 
   export type PretWhereInput = {
@@ -8716,9 +7470,9 @@ export namespace Prisma {
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
+    proprietaire?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    proprietaire: ProprietaireCreateNestedOneWithoutCostumesInput
     prets?: PretCreateNestedManyWithoutCostumeInput
     images?: CostumeImageCreateNestedManyWithoutCostumeInput
   }
@@ -8735,7 +7489,7 @@ export namespace Prisma {
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    proprietaireId: string
+    proprietaire?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     prets?: PretUncheckedCreateNestedManyWithoutCostumeInput
@@ -8754,9 +7508,9 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    proprietaire?: ProprietaireUpdateOneRequiredWithoutCostumesNestedInput
     prets?: PretUpdateManyWithoutCostumeNestedInput
     images?: CostumeImageUpdateManyWithoutCostumeNestedInput
   }
@@ -8773,7 +7527,7 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    proprietaireId?: StringFieldUpdateOperationsInput | string
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     prets?: PretUncheckedUpdateManyWithoutCostumeNestedInput
@@ -8792,7 +7546,7 @@ export namespace Prisma {
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    proprietaireId: string
+    proprietaire?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8809,6 +7563,7 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8825,7 +7580,7 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    proprietaireId?: StringFieldUpdateOperationsInput | string
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8883,52 +7638,6 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     ordre?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProprietaireCreateInput = {
-    id?: string
-    nom: string
-    email?: string | null
-    costumes?: CostumeCreateNestedManyWithoutProprietaireInput
-  }
-
-  export type ProprietaireUncheckedCreateInput = {
-    id?: string
-    nom: string
-    email?: string | null
-    costumes?: CostumeUncheckedCreateNestedManyWithoutProprietaireInput
-  }
-
-  export type ProprietaireUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    costumes?: CostumeUpdateManyWithoutProprietaireNestedInput
-  }
-
-  export type ProprietaireUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    costumes?: CostumeUncheckedUpdateManyWithoutProprietaireNestedInput
-  }
-
-  export type ProprietaireCreateManyInput = {
-    id?: string
-    nom: string
-    email?: string | null
-  }
-
-  export type ProprietaireUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ProprietaireUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PretCreateInput = {
@@ -9206,11 +7915,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type ProprietaireScalarRelationFilter = {
-    is?: ProprietaireWhereInput
-    isNot?: ProprietaireWhereInput
-  }
-
   export type PretListRelationFilter = {
     every?: PretWhereInput
     some?: PretWhereInput
@@ -9248,7 +7952,7 @@ export namespace Prisma {
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrder
-    proprietaireId?: SortOrder
+    proprietaire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9270,7 +7974,7 @@ export namespace Prisma {
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrder
-    proprietaireId?: SortOrder
+    proprietaire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9287,7 +7991,7 @@ export namespace Prisma {
     quantiteTotal?: SortOrder
     quantiteDispo?: SortOrder
     emplacement?: SortOrder
-    proprietaireId?: SortOrder
+    proprietaire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9418,34 +8122,6 @@ export namespace Prisma {
 
   export type CostumeImageSumOrderByAggregateInput = {
     ordre?: SortOrder
-  }
-
-  export type CostumeListRelationFilter = {
-    every?: CostumeWhereInput
-    some?: CostumeWhereInput
-    none?: CostumeWhereInput
-  }
-
-  export type CostumeOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ProprietaireCountOrderByAggregateInput = {
-    id?: SortOrder
-    nom?: SortOrder
-    email?: SortOrder
-  }
-
-  export type ProprietaireMaxOrderByAggregateInput = {
-    id?: SortOrder
-    nom?: SortOrder
-    email?: SortOrder
-  }
-
-  export type ProprietaireMinOrderByAggregateInput = {
-    id?: SortOrder
-    nom?: SortOrder
-    email?: SortOrder
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -9605,12 +8281,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type ProprietaireCreateNestedOneWithoutCostumesInput = {
-    create?: XOR<ProprietaireCreateWithoutCostumesInput, ProprietaireUncheckedCreateWithoutCostumesInput>
-    connectOrCreate?: ProprietaireCreateOrConnectWithoutCostumesInput
-    connect?: ProprietaireWhereUniqueInput
-  }
-
   export type PretCreateNestedManyWithoutCostumeInput = {
     create?: XOR<PretCreateWithoutCostumeInput, PretUncheckedCreateWithoutCostumeInput> | PretCreateWithoutCostumeInput[] | PretUncheckedCreateWithoutCostumeInput[]
     connectOrCreate?: PretCreateOrConnectWithoutCostumeInput | PretCreateOrConnectWithoutCostumeInput[]
@@ -9665,14 +8335,6 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
-  }
-
-  export type ProprietaireUpdateOneRequiredWithoutCostumesNestedInput = {
-    create?: XOR<ProprietaireCreateWithoutCostumesInput, ProprietaireUncheckedCreateWithoutCostumesInput>
-    connectOrCreate?: ProprietaireCreateOrConnectWithoutCostumesInput
-    upsert?: ProprietaireUpsertWithoutCostumesInput
-    connect?: ProprietaireWhereUniqueInput
-    update?: XOR<XOR<ProprietaireUpdateToOneWithWhereWithoutCostumesInput, ProprietaireUpdateWithoutCostumesInput>, ProprietaireUncheckedUpdateWithoutCostumesInput>
   }
 
   export type PretUpdateManyWithoutCostumeNestedInput = {
@@ -9743,48 +8405,6 @@ export namespace Prisma {
     upsert?: CostumeUpsertWithoutImagesInput
     connect?: CostumeWhereUniqueInput
     update?: XOR<XOR<CostumeUpdateToOneWithWhereWithoutImagesInput, CostumeUpdateWithoutImagesInput>, CostumeUncheckedUpdateWithoutImagesInput>
-  }
-
-  export type CostumeCreateNestedManyWithoutProprietaireInput = {
-    create?: XOR<CostumeCreateWithoutProprietaireInput, CostumeUncheckedCreateWithoutProprietaireInput> | CostumeCreateWithoutProprietaireInput[] | CostumeUncheckedCreateWithoutProprietaireInput[]
-    connectOrCreate?: CostumeCreateOrConnectWithoutProprietaireInput | CostumeCreateOrConnectWithoutProprietaireInput[]
-    createMany?: CostumeCreateManyProprietaireInputEnvelope
-    connect?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-  }
-
-  export type CostumeUncheckedCreateNestedManyWithoutProprietaireInput = {
-    create?: XOR<CostumeCreateWithoutProprietaireInput, CostumeUncheckedCreateWithoutProprietaireInput> | CostumeCreateWithoutProprietaireInput[] | CostumeUncheckedCreateWithoutProprietaireInput[]
-    connectOrCreate?: CostumeCreateOrConnectWithoutProprietaireInput | CostumeCreateOrConnectWithoutProprietaireInput[]
-    createMany?: CostumeCreateManyProprietaireInputEnvelope
-    connect?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-  }
-
-  export type CostumeUpdateManyWithoutProprietaireNestedInput = {
-    create?: XOR<CostumeCreateWithoutProprietaireInput, CostumeUncheckedCreateWithoutProprietaireInput> | CostumeCreateWithoutProprietaireInput[] | CostumeUncheckedCreateWithoutProprietaireInput[]
-    connectOrCreate?: CostumeCreateOrConnectWithoutProprietaireInput | CostumeCreateOrConnectWithoutProprietaireInput[]
-    upsert?: CostumeUpsertWithWhereUniqueWithoutProprietaireInput | CostumeUpsertWithWhereUniqueWithoutProprietaireInput[]
-    createMany?: CostumeCreateManyProprietaireInputEnvelope
-    set?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    disconnect?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    delete?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    connect?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    update?: CostumeUpdateWithWhereUniqueWithoutProprietaireInput | CostumeUpdateWithWhereUniqueWithoutProprietaireInput[]
-    updateMany?: CostumeUpdateManyWithWhereWithoutProprietaireInput | CostumeUpdateManyWithWhereWithoutProprietaireInput[]
-    deleteMany?: CostumeScalarWhereInput | CostumeScalarWhereInput[]
-  }
-
-  export type CostumeUncheckedUpdateManyWithoutProprietaireNestedInput = {
-    create?: XOR<CostumeCreateWithoutProprietaireInput, CostumeUncheckedCreateWithoutProprietaireInput> | CostumeCreateWithoutProprietaireInput[] | CostumeUncheckedCreateWithoutProprietaireInput[]
-    connectOrCreate?: CostumeCreateOrConnectWithoutProprietaireInput | CostumeCreateOrConnectWithoutProprietaireInput[]
-    upsert?: CostumeUpsertWithWhereUniqueWithoutProprietaireInput | CostumeUpsertWithWhereUniqueWithoutProprietaireInput[]
-    createMany?: CostumeCreateManyProprietaireInputEnvelope
-    set?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    disconnect?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    delete?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    connect?: CostumeWhereUniqueInput | CostumeWhereUniqueInput[]
-    update?: CostumeUpdateWithWhereUniqueWithoutProprietaireInput | CostumeUpdateWithWhereUniqueWithoutProprietaireInput[]
-    updateMany?: CostumeUpdateManyWithWhereWithoutProprietaireInput | CostumeUpdateManyWithWhereWithoutProprietaireInput[]
-    deleteMany?: CostumeScalarWhereInput | CostumeScalarWhereInput[]
   }
 
   export type CostumeCreateNestedOneWithoutPretsInput = {
@@ -10042,23 +8662,6 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
-  export type ProprietaireCreateWithoutCostumesInput = {
-    id?: string
-    nom: string
-    email?: string | null
-  }
-
-  export type ProprietaireUncheckedCreateWithoutCostumesInput = {
-    id?: string
-    nom: string
-    email?: string | null
-  }
-
-  export type ProprietaireCreateOrConnectWithoutCostumesInput = {
-    where: ProprietaireWhereUniqueInput
-    create: XOR<ProprietaireCreateWithoutCostumesInput, ProprietaireUncheckedCreateWithoutCostumesInput>
-  }
-
   export type PretCreateWithoutCostumeInput = {
     id?: string
     emprunteur: string
@@ -10111,29 +8714,6 @@ export namespace Prisma {
   export type CostumeImageCreateManyCostumeInputEnvelope = {
     data: CostumeImageCreateManyCostumeInput | CostumeImageCreateManyCostumeInput[]
     skipDuplicates?: boolean
-  }
-
-  export type ProprietaireUpsertWithoutCostumesInput = {
-    update: XOR<ProprietaireUpdateWithoutCostumesInput, ProprietaireUncheckedUpdateWithoutCostumesInput>
-    create: XOR<ProprietaireCreateWithoutCostumesInput, ProprietaireUncheckedCreateWithoutCostumesInput>
-    where?: ProprietaireWhereInput
-  }
-
-  export type ProprietaireUpdateToOneWithWhereWithoutCostumesInput = {
-    where?: ProprietaireWhereInput
-    data: XOR<ProprietaireUpdateWithoutCostumesInput, ProprietaireUncheckedUpdateWithoutCostumesInput>
-  }
-
-  export type ProprietaireUpdateWithoutCostumesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ProprietaireUncheckedUpdateWithoutCostumesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PretUpsertWithWhereUniqueWithoutCostumeInput = {
@@ -10205,9 +8785,9 @@ export namespace Prisma {
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
+    proprietaire?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    proprietaire: ProprietaireCreateNestedOneWithoutCostumesInput
     prets?: PretCreateNestedManyWithoutCostumeInput
   }
 
@@ -10223,7 +8803,7 @@ export namespace Prisma {
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    proprietaireId: string
+    proprietaire?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     prets?: PretUncheckedCreateNestedManyWithoutCostumeInput
@@ -10257,9 +8837,9 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    proprietaire?: ProprietaireUpdateOneRequiredWithoutCostumesNestedInput
     prets?: PretUpdateManyWithoutCostumeNestedInput
   }
 
@@ -10275,92 +8855,10 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    proprietaireId?: StringFieldUpdateOperationsInput | string
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     prets?: PretUncheckedUpdateManyWithoutCostumeNestedInput
-  }
-
-  export type CostumeCreateWithoutProprietaireInput = {
-    id?: string
-    nom: string
-    epoque: $Enums.Epoque
-    description?: string | null
-    taille: string
-    couleur: string
-    matiere?: string | null
-    etat?: $Enums.Etat
-    quantiteTotal?: number
-    quantiteDispo?: number
-    emplacement?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    prets?: PretCreateNestedManyWithoutCostumeInput
-    images?: CostumeImageCreateNestedManyWithoutCostumeInput
-  }
-
-  export type CostumeUncheckedCreateWithoutProprietaireInput = {
-    id?: string
-    nom: string
-    epoque: $Enums.Epoque
-    description?: string | null
-    taille: string
-    couleur: string
-    matiere?: string | null
-    etat?: $Enums.Etat
-    quantiteTotal?: number
-    quantiteDispo?: number
-    emplacement?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    prets?: PretUncheckedCreateNestedManyWithoutCostumeInput
-    images?: CostumeImageUncheckedCreateNestedManyWithoutCostumeInput
-  }
-
-  export type CostumeCreateOrConnectWithoutProprietaireInput = {
-    where: CostumeWhereUniqueInput
-    create: XOR<CostumeCreateWithoutProprietaireInput, CostumeUncheckedCreateWithoutProprietaireInput>
-  }
-
-  export type CostumeCreateManyProprietaireInputEnvelope = {
-    data: CostumeCreateManyProprietaireInput | CostumeCreateManyProprietaireInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CostumeUpsertWithWhereUniqueWithoutProprietaireInput = {
-    where: CostumeWhereUniqueInput
-    update: XOR<CostumeUpdateWithoutProprietaireInput, CostumeUncheckedUpdateWithoutProprietaireInput>
-    create: XOR<CostumeCreateWithoutProprietaireInput, CostumeUncheckedCreateWithoutProprietaireInput>
-  }
-
-  export type CostumeUpdateWithWhereUniqueWithoutProprietaireInput = {
-    where: CostumeWhereUniqueInput
-    data: XOR<CostumeUpdateWithoutProprietaireInput, CostumeUncheckedUpdateWithoutProprietaireInput>
-  }
-
-  export type CostumeUpdateManyWithWhereWithoutProprietaireInput = {
-    where: CostumeScalarWhereInput
-    data: XOR<CostumeUpdateManyMutationInput, CostumeUncheckedUpdateManyWithoutProprietaireInput>
-  }
-
-  export type CostumeScalarWhereInput = {
-    AND?: CostumeScalarWhereInput | CostumeScalarWhereInput[]
-    OR?: CostumeScalarWhereInput[]
-    NOT?: CostumeScalarWhereInput | CostumeScalarWhereInput[]
-    id?: StringFilter<"Costume"> | string
-    nom?: StringFilter<"Costume"> | string
-    epoque?: EnumEpoqueFilter<"Costume"> | $Enums.Epoque
-    description?: StringNullableFilter<"Costume"> | string | null
-    taille?: StringFilter<"Costume"> | string
-    couleur?: StringFilter<"Costume"> | string
-    matiere?: StringNullableFilter<"Costume"> | string | null
-    etat?: EnumEtatFilter<"Costume"> | $Enums.Etat
-    quantiteTotal?: IntFilter<"Costume"> | number
-    quantiteDispo?: IntFilter<"Costume"> | number
-    emplacement?: StringNullableFilter<"Costume"> | string | null
-    proprietaireId?: StringFilter<"Costume"> | string
-    createdAt?: DateTimeFilter<"Costume"> | Date | string
-    updatedAt?: DateTimeFilter<"Costume"> | Date | string
   }
 
   export type CostumeCreateWithoutPretsInput = {
@@ -10375,9 +8873,9 @@ export namespace Prisma {
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
+    proprietaire?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    proprietaire: ProprietaireCreateNestedOneWithoutCostumesInput
     images?: CostumeImageCreateNestedManyWithoutCostumeInput
   }
 
@@ -10393,7 +8891,7 @@ export namespace Prisma {
     quantiteTotal?: number
     quantiteDispo?: number
     emplacement?: string | null
-    proprietaireId: string
+    proprietaire?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: CostumeImageUncheckedCreateNestedManyWithoutCostumeInput
@@ -10427,9 +8925,9 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    proprietaire?: ProprietaireUpdateOneRequiredWithoutCostumesNestedInput
     images?: CostumeImageUpdateManyWithoutCostumeNestedInput
   }
 
@@ -10445,7 +8943,7 @@ export namespace Prisma {
     quantiteTotal?: IntFieldUpdateOperationsInput | number
     quantiteDispo?: IntFieldUpdateOperationsInput | number
     emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    proprietaireId?: StringFieldUpdateOperationsInput | string
+    proprietaire?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: CostumeImageUncheckedUpdateManyWithoutCostumeNestedInput
@@ -10517,74 +9015,6 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     ordre?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CostumeCreateManyProprietaireInput = {
-    id?: string
-    nom: string
-    epoque: $Enums.Epoque
-    description?: string | null
-    taille: string
-    couleur: string
-    matiere?: string | null
-    etat?: $Enums.Etat
-    quantiteTotal?: number
-    quantiteDispo?: number
-    emplacement?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type CostumeUpdateWithoutProprietaireInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    epoque?: EnumEpoqueFieldUpdateOperationsInput | $Enums.Epoque
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    taille?: StringFieldUpdateOperationsInput | string
-    couleur?: StringFieldUpdateOperationsInput | string
-    matiere?: NullableStringFieldUpdateOperationsInput | string | null
-    etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
-    quantiteTotal?: IntFieldUpdateOperationsInput | number
-    quantiteDispo?: IntFieldUpdateOperationsInput | number
-    emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    prets?: PretUpdateManyWithoutCostumeNestedInput
-    images?: CostumeImageUpdateManyWithoutCostumeNestedInput
-  }
-
-  export type CostumeUncheckedUpdateWithoutProprietaireInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    epoque?: EnumEpoqueFieldUpdateOperationsInput | $Enums.Epoque
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    taille?: StringFieldUpdateOperationsInput | string
-    couleur?: StringFieldUpdateOperationsInput | string
-    matiere?: NullableStringFieldUpdateOperationsInput | string | null
-    etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
-    quantiteTotal?: IntFieldUpdateOperationsInput | number
-    quantiteDispo?: IntFieldUpdateOperationsInput | number
-    emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    prets?: PretUncheckedUpdateManyWithoutCostumeNestedInput
-    images?: CostumeImageUncheckedUpdateManyWithoutCostumeNestedInput
-  }
-
-  export type CostumeUncheckedUpdateManyWithoutProprietaireInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nom?: StringFieldUpdateOperationsInput | string
-    epoque?: EnumEpoqueFieldUpdateOperationsInput | $Enums.Epoque
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    taille?: StringFieldUpdateOperationsInput | string
-    couleur?: StringFieldUpdateOperationsInput | string
-    matiere?: NullableStringFieldUpdateOperationsInput | string | null
-    etat?: EnumEtatFieldUpdateOperationsInput | $Enums.Etat
-    quantiteTotal?: IntFieldUpdateOperationsInput | number
-    quantiteDispo?: IntFieldUpdateOperationsInput | number
-    emplacement?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

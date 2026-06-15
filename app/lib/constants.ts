@@ -21,6 +21,11 @@ export type EpoqueValue =
   | "E2020_PRESENT"
   | "INCLASSABLE"
 
+// Pour ajouter un propriétaire : ajouter une entrée ici
+export const PROPRIETAIRES: string[] = [
+  "L'équipe costumes",
+]
+
 export type EtatValue = "NEUF" | "BON" | "USE" | "A_REPARER" | "A_NETTOYER" | "A_FABRIQUER"
 
 // Tableau utilisé dans les selects des formulaires et sidebars

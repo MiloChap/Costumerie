@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type ChangeEvent } from "react";
-import { EPOQUES, ETATS } from "@/app/lib/constants";
+import { EPOQUES, ETATS, PROPRIETAIRES } from "@/app/lib/constants";
 
 const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -34,14 +34,12 @@ export interface ModifierCostumeFormProps {
     emplacement?: string;
     description?: string;
     images: ImageExistante[];
-    proprietaireId: string;
+    proprietaire: string;
   };
-  proprietaires: { id: string; nom: string }[];
 }
 
 export default function ModifierCostumeForm({
   costume,
-  proprietaires,
   onSuccess,
   onCancel,
 }: ModifierCostumeFormProps) {
@@ -57,7 +55,7 @@ export default function ModifierCostumeForm({
   const [quantiteDispo, setQuantiteDispo] = useState<number>(costume.quantiteDispo);
   const [emplacement, setEmplacement] = useState<string>(costume.emplacement ?? "");
   const [description, setDescription] = useState<string>(costume.description ?? "");
-  const [proprietaireId, setProprietaireId] = useState<string>(costume.proprietaireId);
+  const [proprietaire, setProprietaire] = useState<string>(costume.proprietaire);
 
   const [imagesExistantes, setImagesExistantes] = useState<ImageExistante[]>(costume.images);
   const [idsASupprimer, setIdsASupprimer] = useState<string[]>([]);
@@ -145,7 +143,7 @@ export default function ModifierCostumeForm({
           etat,
           quantiteTotal,
           quantiteDispo,
-          proprietaireId,
+          proprietaire,
           emplacement: emplacement || undefined,
           description: description || undefined,
           addImageUrls,
@@ -256,11 +254,11 @@ export default function ModifierCostumeForm({
         </p>
 
         <div>
-          <label htmlFor="proprietaireId" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="proprietaire" className="mb-1 block text-sm font-medium text-slate-700">
             Propriétaire <span className="text-red-500">*</span>
           </label>
-          <select id="proprietaireId" required value={proprietaireId} onChange={(e) => setProprietaireId(e.target.value)} className={fieldClass}>
-            {proprietaires.map((p) => <option key={p.id} value={p.id}>{p.nom}</option>)}
+          <select id="proprietaire" required value={proprietaire} onChange={(e) => setProprietaire(e.target.value)} className={fieldClass}>
+            {PROPRIETAIRES.map((nom) => <option key={nom} value={nom}>{nom}</option>)}
           </select>
         </div>
 

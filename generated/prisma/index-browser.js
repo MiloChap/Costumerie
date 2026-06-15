@@ -132,7 +132,7 @@ exports.Prisma.CostumeScalarFieldEnum = {
   quantiteTotal: 'quantiteTotal',
   quantiteDispo: 'quantiteDispo',
   emplacement: 'emplacement',
-  proprietaireId: 'proprietaireId',
+  proprietaire: 'proprietaire',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -143,12 +143,6 @@ exports.Prisma.CostumeImageScalarFieldEnum = {
   url: 'url',
   ordre: 'ordre',
   createdAt: 'createdAt'
-};
-
-exports.Prisma.ProprietaireScalarFieldEnum = {
-  id: 'id',
-  nom: 'nom',
-  email: 'email'
 };
 
 exports.Prisma.PretScalarFieldEnum = {
@@ -243,7 +237,6 @@ exports.Role = exports.$Enums.Role = {
 exports.Prisma.ModelName = {
   Costume: 'Costume',
   CostumeImage: 'CostumeImage',
-  Proprietaire: 'Proprietaire',
   Pret: 'Pret',
   User: 'User',
   PasswordResetToken: 'PasswordResetToken'

@@ -2,10 +2,9 @@
 
 import { useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import { EPOQUES, ETATS, type EpoqueValue, type EtatValue } from "@/app/lib/constants";
+import { EPOQUES, ETATS, PROPRIETAIRES, type EpoqueValue, type EtatValue } from "@/app/lib/constants";
 
 interface AjouterCostumeFormProps {
-  proprietaires: { id: string; nom: string }[];
   onSuccess?: () => void;
   onCancel?: () => void;
 }
@@ -28,7 +27,7 @@ type FieldErrors = Partial<{
   couleur: string;
   etat: string;
   quantite: string;
-  proprietaireId: string;
+  proprietaire: string;
   photo: string;
   submit: string;
 }>;
@@ -44,7 +43,6 @@ const sectionTitleClass =
   "text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-slate-200";
 
 export default function AjouterCostumeForm({
-  proprietaires,
   onSuccess,
   onCancel,
 }: AjouterCostumeFormProps) {
@@ -55,7 +53,7 @@ export default function AjouterCostumeForm({
   const [matiere, setMatiere] = useState("");
   const [etat, setEtat] = useState<Etat | "">("");
   const [quantite, setQuantite] = useState<number>(1);
-  const [proprietaireId, setProprietaireId] = useState("");
+  const [proprietaire, setProprietaire] = useState("");
   const [emplacement, setEmplacement] = useState("");
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState<PhotoEntry[]>([]);
@@ -104,7 +102,7 @@ export default function AjouterCostumeForm({
     if (!etat) e.etat = "L'état est obligatoire";
     if (!Number.isFinite(quantite) || quantite < 1)
       e.quantite = "La quantité doit être au moins 1";
-    if (!proprietaireId) e.proprietaireId = "Le propriétaire est obligatoire";
+    if (!proprietaire) e.proprietaire = "Le propriétaire est obligatoire";
     return e;
   };
 
@@ -144,7 +142,7 @@ export default function AjouterCostumeForm({
           matiere: matiere.trim() || undefined,
           etat,
           quantiteTotal: quantite,
-          proprietaireId,
+          proprietaire,
           emplacement: emplacement.trim() || undefined,
           description: description.trim() || undefined,
           imageUrls,
@@ -330,20 +328,20 @@ export default function AjouterCostumeForm({
             </label>
             <select
               id="proprietaire"
-              value={proprietaireId}
-              onChange={(e) => setProprietaireId(e.target.value)}
+              value={proprietaire}
+              onChange={(e) => setProprietaire(e.target.value)}
               disabled={loading}
               className={inputClass}
             >
               <option value="">Sélectionner un propriétaire</option>
-              {proprietaires.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.nom}
+              {PROPRIETAIRES.map((nom) => (
+                <option key={nom} value={nom}>
+                  {nom}
                 </option>
               ))}
             </select>
-            {errors.proprietaireId && (
-              <p className={errorClass}>{errors.proprietaireId}</p>
+            {errors.proprietaire && (
+              <p className={errorClass}>{errors.proprietaire}</p>
             )}
           </div>
 

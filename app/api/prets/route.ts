@@ -7,7 +7,7 @@ export async function GET() {
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const prets = await prisma.pret.findMany({
-    include: { costume: { include: { proprietaire: true } } },
+    include: { costume: true },
     orderBy: { dateDebut: "desc" },
   })
 

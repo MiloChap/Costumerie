@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         quantiteTotal: Number(body.quantiteTotal),
         quantiteDispo: Number(body.quantiteTotal),
         emplacement: body.emplacement || null,
-        proprietaireId: body.proprietaireId,
+        proprietaire: body.proprietaire ?? "",
         images: imageUrls.length > 0
           ? { createMany: { data: imageUrls.map((url, i) => ({ url, ordre: i })) } }
           : undefined,

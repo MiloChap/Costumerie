@@ -8,23 +8,22 @@ datasource db {
 }
 
 model Costume {
-  id             String         @id @default(cuid())
-  nom            String
-  epoque         Epoque
-  description    String?
-  taille         String
-  couleur        String
-  matiere        String?
-  etat           Etat           @default(BON)
-  quantiteTotal  Int            @default(1)
-  quantiteDispo  Int            @default(1)
-  emplacement    String?
-  proprietaireId String
-  proprietaire   Proprietaire   @relation(fields: [proprietaireId], references: [id])
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  prets          Pret[]
-  images         CostumeImage[]
+  id            String         @id @default(cuid())
+  nom           String
+  epoque        Epoque
+  description   String?
+  taille        String
+  couleur       String
+  matiere       String?
+  etat          Etat           @default(BON)
+  quantiteTotal Int            @default(1)
+  quantiteDispo Int            @default(1)
+  emplacement   String?
+  proprietaire  String         @default("")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  prets         Pret[]
+  images        CostumeImage[]
 }
 
 model CostumeImage {
@@ -34,13 +33,6 @@ model CostumeImage {
   url       String
   ordre     Int      @default(0)
   createdAt DateTime @default(now())
-}
-
-model Proprietaire {
-  id       String    @id @default(cuid())
-  nom      String
-  email    String?
-  costumes Costume[]
 }
 
 model Pret {
