@@ -10,6 +10,7 @@ import FormulaireModal from "./FormulaireModal";
 import AjouterCostumeForm from "./AjouterCostumeForm";
 import Footer from "./Footer";
 import ModifierCostumeForm, { type ModifierCostumeFormProps } from "./ModifierCostumeForm";
+import ProprietairesModal, { type ProprietaireEntry } from "./ProprietairesModal";
 import { useRouter } from "next/navigation";
 
 type Costume = Omit<
@@ -25,6 +26,7 @@ type Costume = Omit<
 
 interface GestionPageProps {
   costumes: Costume[];
+  proprietaires: ProprietaireEntry[];
   totalCostumes: number;
   totalDispo: number;
   pretsEnCours: number;
@@ -34,6 +36,7 @@ interface GestionPageProps {
 
 export default function GestionPage({
   costumes,
+  proprietaires: proprietairesInitiaux,
   totalCostumes,
   totalDispo,
   pretsEnCours,
@@ -42,6 +45,9 @@ export default function GestionPage({
 }: GestionPageProps) {
   const [filtres, setFiltres] = useState<Filtres>({ disponibleSeulement: false, tri: "DATE_DESC" });
   const [costumesLocaux, setCostumesLocaux] = useState(costumes);
+  const [proprietaires, setProprietaires] = useState<ProprietaireEntry[]>(proprietairesInitiaux);
+  const [showProprietaires, setShowProprietaires] = useState(false);
+  const proprietaireNoms = useMemo(() => proprietaires.map((p) => p.nom), [proprietaires]);
   const [supprimantId, setSupprimantId] = useState<string | null>(null);
   const [popupId, setPopupId] = useState<string | null>(null);
   const [showAjouter, setShowAjouter] = useState(false);
@@ -180,6 +186,15 @@ export default function GestionPage({
             >
               Gérer les prêts
             </button>
+            {estAdmin && (
+              <button
+                type="button"
+                onClick={() => setShowProprietaires(true)}
+                className="inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+              >
+                Propriétaires
+              </button>
+            )}
             <button
               type="button"
               onClick={() => setShowAjouter(true)}
@@ -192,7 +207,7 @@ export default function GestionPage({
 
         {/* Sidebar + Grid */}
         <section className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start">
-          <FiltresSidebar onFiltrer={setFiltres} />
+          <FiltresSidebar proprietaires={proprietaireNoms} onFiltrer={setFiltres} />
 
           <div className="flex-1">
             {costumesFiltres.length === 0 ? (
@@ -227,6 +242,7 @@ export default function GestionPage({
       {showAjouter && (
         <FormulaireModal onClose={() => setShowAjouter(false)}>
           <AjouterCostumeForm
+            proprietaires={proprietaireNoms}
             onSuccess={() => { setShowAjouter(false); router.refresh() }}
             onCancel={() => setShowAjouter(false)}
           />
@@ -239,6 +255,7 @@ export default function GestionPage({
           {modifierCostumeData ? (
             <ModifierCostumeForm
               costume={modifierCostumeData}
+              proprietaires={proprietaireNoms}
               onSuccess={() => { setModifierCostumeId(null); router.refresh() }}
               onCancel={() => setModifierCostumeId(null)}
             />
@@ -251,6 +268,14 @@ export default function GestionPage({
       )}
 
       <Footer />
+
+      {showProprietaires && (
+        <ProprietairesModal
+          proprietaires={proprietaires}
+          onClose={() => setShowProprietaires(false)}
+          onUpdate={(newList) => { setProprietaires(newList); router.refresh() }}
+        />
+      )}
 
       {/* Popup centralisé — rendu hors stacking context via Portal dans CostumePopup */}
       {popupCostume && (

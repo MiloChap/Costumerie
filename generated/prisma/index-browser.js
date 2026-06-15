@@ -167,6 +167,11 @@ exports.Prisma.UserScalarFieldEnum = {
   lockedUntil: 'lockedUntil'
 };
 
+exports.Prisma.ProprietaireScalarFieldEnum = {
+  id: 'id',
+  nom: 'nom'
+};
+
 exports.Prisma.PasswordResetTokenScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -239,6 +244,7 @@ exports.Prisma.ModelName = {
   CostumeImage: 'CostumeImage',
   Pret: 'Pret',
   User: 'User',
+  Proprietaire: 'Proprietaire',
   PasswordResetToken: 'PasswordResetToken'
 };
 

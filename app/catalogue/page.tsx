@@ -189,11 +189,6 @@ export default function CataloguePage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {loading && (
-        <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-slate-100">
-          <div className="h-full bg-[#e21713] loading-bar" />
-        </div>
-      )}
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">

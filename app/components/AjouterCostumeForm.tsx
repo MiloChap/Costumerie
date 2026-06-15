@@ -2,9 +2,10 @@
 
 import { useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import { EPOQUES, ETATS, PROPRIETAIRES, type EpoqueValue, type EtatValue } from "@/app/lib/constants";
+import { EPOQUES, ETATS, type EpoqueValue, type EtatValue } from "@/app/lib/constants";
 
 interface AjouterCostumeFormProps {
+  proprietaires: string[];
   onSuccess?: () => void;
   onCancel?: () => void;
 }
@@ -43,6 +44,7 @@ const sectionTitleClass =
   "text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-slate-200";
 
 export default function AjouterCostumeForm({
+  proprietaires,
   onSuccess,
   onCancel,
 }: AjouterCostumeFormProps) {
@@ -334,7 +336,7 @@ export default function AjouterCostumeForm({
               className={inputClass}
             >
               <option value="">Sélectionner un propriétaire</option>
-              {PROPRIETAIRES.map((nom) => (
+              {proprietaires.map((nom) => (
                 <option key={nom} value={nom}>
                   {nom}
                 </option>

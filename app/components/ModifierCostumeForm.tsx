@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type ChangeEvent } from "react";
-import { EPOQUES, ETATS, PROPRIETAIRES } from "@/app/lib/constants";
+import { EPOQUES, ETATS } from "@/app/lib/constants";
 
 const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -21,6 +21,7 @@ interface NouvellePhoto {
 export interface ModifierCostumeFormProps {
   onSuccess?: () => void;
   onCancel?: () => void;
+  proprietaires: string[];
   costume: {
     id: string;
     nom: string;
@@ -40,6 +41,7 @@ export interface ModifierCostumeFormProps {
 
 export default function ModifierCostumeForm({
   costume,
+  proprietaires,
   onSuccess,
   onCancel,
 }: ModifierCostumeFormProps) {
@@ -258,7 +260,7 @@ export default function ModifierCostumeForm({
             Propriétaire <span className="text-red-500">*</span>
           </label>
           <select id="proprietaire" required value={proprietaire} onChange={(e) => setProprietaire(e.target.value)} className={fieldClass}>
-            {PROPRIETAIRES.map((nom) => <option key={nom} value={nom}>{nom}</option>)}
+            {proprietaires.map((nom) => <option key={nom} value={nom}>{nom}</option>)}
           </select>
         </div>
 

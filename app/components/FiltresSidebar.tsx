@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { EPOQUES, ETATS, PROPRIETAIRES } from "@/app/lib/constants"
+import { EPOQUES, ETATS } from "@/app/lib/constants"
 
 export interface Filtres {
   recherche?: string
@@ -16,6 +16,7 @@ export interface Filtres {
 }
 
 export interface FiltresSidebarProps {
+  proprietaires: string[]
   onFiltrer: (filtres: Filtres) => void
 }
 
@@ -35,7 +36,7 @@ const labelClass = "block text-xs font-semibold uppercase tracking-wide text-sla
 const inputClass =
   "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400"
 
-export default function FiltresSidebar({ onFiltrer }: FiltresSidebarProps) {
+export default function FiltresSidebar({ proprietaires, onFiltrer }: FiltresSidebarProps) {
   const [filtres, setFiltres] = useState<Filtres>(initial)
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -173,7 +174,7 @@ export default function FiltresSidebar({ onFiltrer }: FiltresSidebarProps) {
             onChange={(e) => update("proprietaire", e.target.value || undefined)}
           >
             <option value="">Tous</option>
-            {PROPRIETAIRES.map((nom) => (
+            {proprietaires.map((nom) => (
               <option key={nom} value={nom}>{nom}</option>
             ))}
           </select>

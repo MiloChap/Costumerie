@@ -58,6 +58,11 @@ model User {
   lockedUntil    DateTime?
 }
 
+model Proprietaire {
+  id  String @id @default(cuid())
+  nom String @unique
+}
+
 model PasswordResetToken {
   id        String   @id @default(cuid())
   email     String
