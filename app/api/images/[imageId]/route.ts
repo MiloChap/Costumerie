@@ -15,6 +15,13 @@ export async function GET(
 
   if (!image) return NextResponse.json({ error: "Image introuvable" }, { status: 404 })
 
+  // Image déjà migrée vers le VPS : on redirige (les octets viennent du VPS, pas de Vercel)
+  const base = process.env.VPS_IMAGE_BASE
+  if (base && image.url.startsWith(base)) {
+    return NextResponse.redirect(image.url, 307)
+  }
+
+  // Sinon : ancien comportement Blob (le temps de la migration)
   const result = await get(image.url, { access: "private" })
   if (!result) return NextResponse.json({ error: "Image introuvable" }, { status: 404 })
 

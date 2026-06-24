@@ -20,6 +20,13 @@ export async function GET(
 
   if (!firstImage) return NextResponse.json({ error: "Pas d'image" }, { status: 404 })
 
+  // Image déjà migrée vers le VPS : on redirige
+  const base = process.env.VPS_IMAGE_BASE
+  if (base && firstImage.url.startsWith(base)) {
+    return NextResponse.redirect(firstImage.url, 307)
+  }
+
+  // Sinon : ancien comportement Blob (le temps de la migration)
   const result = await get(firstImage.url, { access: "private" })
   if (!result) return NextResponse.json({ error: "Image introuvable" }, { status: 404 })
 
