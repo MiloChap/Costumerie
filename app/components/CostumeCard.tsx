@@ -12,6 +12,7 @@ export interface CostumeCardProps {
   etat: string
   imageUrl?: string
   imageIds: string[]
+  imageUrls: string[]
   description?: string
   quantiteDispo: number
   quantiteTotal: number
@@ -78,7 +79,7 @@ export default function CostumeCard({
               {/* Fond flouté pour uniformiser les formats */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`/api/costumes/${id}/image`}
+                src={imageUrl}
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 h-full w-full scale-110 object-cover blur-md opacity-40"
@@ -86,7 +87,7 @@ export default function CostumeCard({
               {/* Photo principale sans rognage */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`/api/costumes/${id}/image`}
+                src={imageUrl}
                 alt={nom}
                 onError={() => setImgError(true)}
                 className="relative h-full w-full object-contain transition duration-300 group-hover:scale-[1.02]"

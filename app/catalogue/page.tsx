@@ -20,6 +20,7 @@ interface CostumeCatalogue {
   quantiteDispo: number
   quantiteTotal: number
   imageIds: string[]
+  imageUrls: string[]
 }
 
 const etatStyles: Record<string, string> = {
@@ -72,18 +73,18 @@ function CatalogueCard({
         className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-400"
         aria-label={`Voir la fiche de ${costume.nom}`}
       >
-        {costume.imageIds.length > 0 && !imgError ? (
+        {costume.imageUrls.length > 0 && !imgError ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`/api/images/${costume.imageIds[0]}`}
+              src={costume.imageUrls[0]}
               alt=""
               aria-hidden="true"
               className="absolute inset-0 h-full w-full scale-110 object-cover blur-md opacity-40"
             />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`/api/images/${costume.imageIds[0]}`}
+              src={costume.imageUrls[0]}
               alt={costume.nom}
               onError={() => setImgError(true)}
               className="relative h-full w-full object-contain transition duration-300 group-hover:scale-[1.02]"
@@ -238,7 +239,7 @@ export default function CataloguePage() {
           couleur={selected.couleur}
           matiere={selected.matiere}
           etat={selected.etat}
-          imageIds={selected.imageIds}
+          imageUrls={selected.imageUrls}
           description={selected.description}
           quantiteDispo={selected.quantiteDispo}
           quantiteTotal={selected.quantiteTotal}

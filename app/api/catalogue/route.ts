@@ -15,12 +15,16 @@ export async function GET() {
       description: true,
       quantiteDispo: true,
       quantiteTotal: true,
-      images: { select: { id: true }, orderBy: { ordre: "asc" } },
+      images: { select: { id: true, url: true }, orderBy: { ordre: "asc" } },
     },
     orderBy: { nom: "asc" },
   })
 
   return NextResponse.json(
-    costumes.map((c) => ({ ...c, imageIds: c.images.map((img) => img.id) }))
+    costumes.map((c) => ({
+      ...c,
+      imageIds: c.images.map((img) => img.id),
+      imageUrls: c.images.map((img) => img.url),
+    }))
   )
 }

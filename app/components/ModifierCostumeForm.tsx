@@ -289,7 +289,7 @@ export default function ModifierCostumeForm({
                 <div key={img.id} className="relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`/api/images/${img.id}`}
+                    src={img.url}
                     alt="Photo existante"
                     className="h-24 w-24 rounded-lg border border-slate-200 object-cover"
                   />

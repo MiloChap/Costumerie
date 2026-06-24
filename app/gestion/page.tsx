@@ -34,6 +34,7 @@ export default async function Page() {
     etat: ETAT_LABELS[c.etat] ?? c.etat,
     imageUrl: c.images[0]?.url ?? undefined,
     imageIds: c.images.map((img) => img.id),
+    imageUrls: c.images.map((img) => img.url),
     images: c.images.map((img) => ({ id: img.id, url: img.url, ordre: img.ordre })),
     description: c.description ?? undefined,
     quantiteDispo: c.quantiteDispo,

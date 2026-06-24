@@ -30,7 +30,7 @@ export interface CostumePopupProps {
   couleur: string
   matiere?: string
   etat: string
-  imageIds: string[]
+  imageUrls: string[]
   description?: string
   quantiteDispo: number
   quantiteTotal: number
@@ -56,7 +56,7 @@ export default function CostumePopup({
   couleur,
   matiere,
   etat,
-  imageIds,
+  imageUrls,
   description,
   quantiteDispo,
   quantiteTotal,
@@ -113,7 +113,7 @@ export default function CostumePopup({
   const handleImgError = (i: number) =>
     setImgErrors((prev) => { const next = [...prev]; next[i] = true; return next })
 
-  const showImage = imageIds.length > 0 && !imgErrors[imgIndex]
+  const showImage = imageUrls.length > 0 && !imgErrors[imgIndex]
 
   const content = (
     <div
@@ -163,7 +163,7 @@ export default function CostumePopup({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={`${id}-${imgIndex}`}
-              src={`/api/images/${imageIds[imgIndex]}`}
+              src={imageUrls[imgIndex]}
               alt={nom}
               onError={() => handleImgError(imgIndex)}
               className="w-full object-contain"
@@ -196,11 +196,11 @@ export default function CostumePopup({
           )}
 
           {/* Navigation carousel photos */}
-          {imageIds.length > 1 && (
+          {imageUrls.length > 1 && (
             <>
               <button
                 type="button"
-                onClick={() => setImgIndex((i) => (i - 1 + imageIds.length) % imageIds.length)}
+                onClick={() => setImgIndex((i) => (i - 1 + imageUrls.length) % imageUrls.length)}
                 className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow hover:bg-white text-lg"
                 aria-label="Photo précédente"
               >
@@ -208,14 +208,14 @@ export default function CostumePopup({
               </button>
               <button
                 type="button"
-                onClick={() => setImgIndex((i) => (i + 1) % imageIds.length)}
+                onClick={() => setImgIndex((i) => (i + 1) % imageUrls.length)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow hover:bg-white text-lg"
                 aria-label="Photo suivante"
               >
                 ›
               </button>
               <div className="absolute left-1/2 bottom-3 -translate-x-1/2 flex gap-1">
-                {imageIds.map((_, i) => (
+                {imageUrls.map((_, i) => (
                   <button
                     key={i}
                     type="button"
